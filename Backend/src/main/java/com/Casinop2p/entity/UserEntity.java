@@ -1,8 +1,10 @@
 package com.Casinop2p.entity;
 
 
+import com.Casinop2p.util.UserEnum;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.NonNull;
@@ -15,18 +17,21 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NonNull
-    @Size(min = 3,max = 20)
+
+
     private String Name;
 
-    @NonNull
+
+   @Column(nullable = false)
     private String password;
 
     private float balance;
 
-    @NonNull
+
     @Column(unique = true)
-    @Email
     private String email;
+
+    @Enumerated(EnumType.STRING)
+    private UserEnum userEnum;
 
 }

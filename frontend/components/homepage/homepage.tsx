@@ -24,11 +24,11 @@ export default function Homepage({ className, ...rest }: HomepageProps) {
           <Table></Table>
         </section>
 
-        <section className="min-h-dvh flex flex-col items-center justify-center bg-primary">
-          <div className="text-center font-black text-4xl mb-3 text-primary-foreground">
+        <section className="min-h-screen flex flex-col items-center justify-center bg-primary text-primary-foreground py-20">
+          <div className="text-center font-black text-4xl mb-3 text-primary-foreground/80">
             Comienza a jugar con Super Apuestas
           </div>
-          <div className="text-center font-black text-4xl mb-3 ">
+          <div className="text-center font-black text-4xl mb-3">
             Elije un evento
           </div>
           <div className="flex justify-center items-center max-w-5xl mx-auto">
@@ -66,7 +66,7 @@ export default function Homepage({ className, ...rest }: HomepageProps) {
           </div>
         </section>
 
-        <section className="min-h-dvh flex flex-col items-center justify-center bg-muted">
+        <section className="min-h-screen flex flex-col items-center justify-center bg-muted  py-20">
           <div className="text-center font-black text-4xl mb-3">
             ¿Porque Super Apuestas?
           </div>
@@ -88,19 +88,122 @@ export default function Homepage({ className, ...rest }: HomepageProps) {
           </div>
         </section>
 
-        <section className="min-h-dvh flex flex-col items-center justify-center">
+        <section className="min-h-screen flex gap-10 items-center justify-center">
           <Image
             src={"/img-u-phone-credit-card.png"}
             alt=""
-            width={450}
-            height={450}
+            width={500}
+            height={500}
+            className="object-scale-down"
           />
 
-          <div>RETIROS Y DEPÓSITOS</div>
-          <div>Deposita, cobra fácil y rápido</div>
-          <div>
-            Variedad de opciones en nuestro{" "}
-            <span className="font-bold">Cajero en Línea</span>
+          <div className="text-center">
+            <div className="text-primary font-black text-4xl mb-5">
+              RETIROS Y DEPÓSITOS
+            </div>
+            <div className="font-medium">Deposita, cobra fácil y rápido</div>
+            <div className="font-medium">
+              Variedad de opciones en nuestro{" "}
+              <span className="font-bold">Cajero en Línea</span>
+            </div>
+
+            <div className="flex gap-2 mt-10">
+              <Image
+                src={"/logo-payment-visa.svg"}
+                alt=""
+                width={120}
+                height={120}
+                className="object-scale-down"
+              />
+              <Image
+                src={"/logo-payment-mastercard.svg"}
+                alt=""
+                width={70}
+                height={70}
+                className="object-scale-down"
+              />
+              <Image
+                src={"/logo-payment-oxopay.svg"}
+                alt=""
+                width={120}
+                height={120}
+                className="object-scale-down"
+              />
+              <Image
+                src={"/logo-payment-paysafecard.svg"}
+                alt=""
+                width={120}
+                height={120}
+                className="object-scale-down"
+              />
+              <Image
+                src={"/logo-payment-spei.svg"}
+                alt=""
+                width={120}
+                height={120}
+                className="object-scale-down"
+              />
+              <Image
+                src={"/logo-payment-visa.svg"}
+                alt=""
+                width={120}
+                height={120}
+                className="object-scale-down"
+              />
+            </div>
+
+            <div className="flex mt-10 gap-3">
+              <div>
+                <Image
+                  src={"/icon-payment-kiosk.svg"}
+                  alt=""
+                  width={180}
+                  height={180}
+                />
+                <div className="text-center mt-3">
+                  <p className="text-sm">Tiendas de </p>
+                  <p>Conveniencia</p>
+                </div>
+              </div>
+
+              <div>
+                <Image
+                  src={"/icon-payment-credit-cards.svg"}
+                  alt=""
+                  width={180}
+                  height={180}
+                />
+                <div className="text-center mt-3">
+                  <p className="text-sm">Crédito o Débito </p>
+                </div>
+              </div>
+
+              <div>
+                <Image
+                  src={"/icon-payment-bank.svg"}
+                  alt=""
+                  width={180}
+                  height={180}
+                />
+                <div className="text-center mt-3">
+                  <p className="text-sm">Transferencia </p>
+                  <p>Bancaria</p>
+                </div>
+              </div>
+
+              <div>
+                <Image
+                  src={"/icon-payment-card.svg"}
+                  alt=""
+                  width={180}
+                  height={180}
+                />
+                <div className="text-center mt-3">
+                  <p className="text-sm">Tarjetas </p>
+                  <p>Propagadas</p>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
       </div>

@@ -47,6 +47,7 @@ export function TableBets() {
           <TableHead></TableHead>
         </TableRow>
       </TableHeader>
+
       <TableBody>
         {bets.map((bet) => (
           <TableRow key={bet.id}>

@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import React from "react";
-import { Table } from "../ui/table";
+import { TableBets } from "../table-bets/table-bets";
 
 interface HomepageProps extends React.HTMLAttributes<HTMLDivElement> {
   className?: string;
@@ -21,7 +21,7 @@ export default function Homepage({ className, ...rest }: HomepageProps) {
             Apuesta en vivo. Retiros al Momento.
           </div>
 
-          <Table></Table>
+          <TableBets />
         </section>
 
         <section className="min-h-screen flex flex-col items-center justify-center bg-primary text-primary-foreground py-20">
@@ -88,7 +88,7 @@ export default function Homepage({ className, ...rest }: HomepageProps) {
           </div>
         </section>
 
-        <section className="min-h-screen flex gap-10 items-center justify-center">
+        <section className="min-h-screen flex gap-10 items-center justify-center px-10">
           <Image
             src={"/img-u-phone-credit-card.png"}
             alt=""
@@ -107,7 +107,7 @@ export default function Homepage({ className, ...rest }: HomepageProps) {
               <span className="font-bold">Cajero en Línea</span>
             </div>
 
-            <div className="flex gap-2 mt-10">
+            <div className="flex gap-2 mt-10 justify-center">
               <Image
                 src={"/logo-payment-visa.svg"}
                 alt=""
@@ -143,16 +143,9 @@ export default function Homepage({ className, ...rest }: HomepageProps) {
                 height={120}
                 className="object-scale-down"
               />
-              <Image
-                src={"/logo-payment-visa.svg"}
-                alt=""
-                width={120}
-                height={120}
-                className="object-scale-down"
-              />
             </div>
 
-            <div className="flex mt-10 gap-3">
+            <div className="flex mt-10 gap-3 justify-center">
               <div>
                 <Image
                   src={"/icon-payment-kiosk.svg"}

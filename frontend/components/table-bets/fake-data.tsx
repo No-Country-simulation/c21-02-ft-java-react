@@ -1,0 +1,242 @@
+export const bets = [
+  {
+    id: "FDSJ34RJKWDFKNUGHSK48",
+    type: "public",
+    league: "UEFA Champions League",
+    team1: {
+      name: "Barcelona",
+      bid: 213234,
+      goals: 0,
+    },
+    team2: {
+      name: "Arsenal",
+      bid: 120303,
+      goals: 0,
+      logo: "",
+    },
+  },
+  {
+    id: "SDW34DGLKJGD343KHDG77",
+    type: "private",
+    league: "Premier League",
+    team1: {
+      name: "Manchester City",
+      bid: 185000,
+      goals: 1,
+    },
+    team2: {
+      name: "Liverpool",
+      bid: 199000,
+      goals: 2,
+      logo: "",
+    },
+  },
+  {
+    id: "WEE3345RTDSZ3QDFGJ67",
+    type: "public",
+    league: "La Liga",
+    team1: {
+      name: "Real Madrid",
+      bid: 300000,
+      goals: 3,
+    },
+    team2: {
+      name: "Atletico Madrid",
+      bid: 175000,
+      goals: 1,
+      logo: "",
+    },
+  },
+  {
+    id: "DFKJ343JLGJ34KNF34G67",
+    type: "private",
+    league: "Serie A",
+    team1: {
+      name: "Juventus",
+      bid: 220000,
+      goals: 2,
+    },
+    team2: {
+      name: "AC Milan",
+      bid: 210000,
+      goals: 2,
+      logo: "",
+    },
+  },
+  {
+    id: "FJ45LKJ65GJ4G43H5G5H3",
+    type: "public",
+    league: "Bundesliga",
+    team1: {
+      name: "Bayern Munich",
+      bid: 280000,
+      goals: 4,
+    },
+    team2: {
+      name: "Borussia Dortmund",
+      bid: 255000,
+      goals: 3,
+      logo: "",
+    },
+  },
+  {
+    id: "ASD2345HJ34LGJND34J4L",
+    type: "private",
+    league: "Ligue 1",
+    team1: {
+      name: "PSG",
+      bid: 310000,
+      goals: 5,
+    },
+    team2: {
+      name: "Olympique Lyon",
+      bid: 195000,
+      goals: 2,
+      logo: "",
+    },
+  },
+  {
+    id: "QWE1234LKJ34FJHWE43G4",
+    type: "public",
+    league: "Copa Libertadores",
+    team1: {
+      name: "Boca Juniors",
+      bid: 100000,
+      goals: 2,
+    },
+    team2: {
+      name: "River Plate",
+      bid: 130000,
+      goals: 2,
+      logo: "",
+    },
+  },
+  {
+    id: "DSA2334GJ45G3QWERT324",
+    type: "private",
+    league: "Eredivisie",
+    team1: {
+      name: "Ajax",
+      bid: 140000,
+      goals: 3,
+    },
+    team2: {
+      name: "PSV",
+      bid: 135000,
+      goals: 2,
+      logo: "",
+    },
+  },
+  {
+    id: "LKJ3234FJHWE4JHERT234",
+    type: "public",
+    league: "MLS",
+    team1: {
+      name: "LA Galaxy",
+      bid: 95000,
+      goals: 1,
+    },
+    team2: {
+      name: "New York Red Bulls",
+      bid: 87000,
+      goals: 1,
+      logo: "",
+    },
+  },
+  {
+    id: "RTYU1235GJ345KJ45HJ34",
+    type: "private",
+    league: "Campeonato Brasileiro",
+    team1: {
+      name: "Flamengo",
+      bid: 145000,
+      goals: 3,
+    },
+    team2: {
+      name: "Palmeiras",
+      bid: 140000,
+      goals: 2,
+      logo: "",
+    },
+  },
+  {
+    id: "GHJ5645DJK34GLJ3G34JH",
+    type: "public",
+    league: "Liga MX",
+    team1: {
+      name: "Club América",
+      bid: 125000,
+      goals: 1,
+    },
+    team2: {
+      name: "Chivas",
+      bid: 118000,
+      goals: 0,
+      logo: "",
+    },
+  },
+  {
+    id: "JHG2234FJS34LG34KJ234",
+    type: "private",
+    league: "Superliga Argentina",
+    team1: {
+      name: "Independiente",
+      bid: 90000,
+      goals: 1,
+    },
+    team2: {
+      name: "Racing Club",
+      bid: 87000,
+      goals: 1,
+      logo: "",
+    },
+  },
+  {
+    id: "ERTY345LKJHGDFGJSK45J",
+    type: "public",
+    league: "J1 League",
+    team1: {
+      name: "Kawasaki Frontale",
+      bid: 87000,
+      goals: 2,
+    },
+    team2: {
+      name: "Yokohama F. Marinos",
+      bid: 89000,
+      goals: 2,
+      logo: "",
+    },
+  },
+  {
+    id: "UYT2345DKJ43GFJHK2345",
+    type: "private",
+    league: "Chinese Super League",
+    team1: {
+      name: "Guangzhou Evergrande",
+      bid: 92000,
+      goals: 3,
+    },
+    team2: {
+      name: "Shanghai SIPG",
+      bid: 95000,
+      goals: 3,
+      logo: "",
+    },
+  },
+  {
+    id: "QWE5645JHS45KLH3245GJ",
+    type: "public",
+    league: "A-League",
+    team1: {
+      name: "Sydney FC",
+      bid: 80000,
+      goals: 1,
+    },
+    team2: {
+      name: "Melbourne Victory",
+      bid: 77000,
+      goals: 2,
+      logo: "",
+    },
+  },
+];

@@ -40,10 +40,10 @@ export function TableBets() {
           <TableHead>Liga</TableHead>
           <TableHead>Equipo</TableHead>
           <TableHead>Equipo</TableHead>
-          <TableHead>Marcador</TableHead>
-          <TableHead>Bolsa</TableHead>
-          <TableHead>Premio</TableHead>
-          <TableHead>Cierra en</TableHead>
+          <TableHead className="text-center">Marcador</TableHead>
+          <TableHead className="text-end">Bolsa</TableHead>
+          <TableHead className="text-end">Premio</TableHead>
+          <TableHead className="text-end">Cierra en</TableHead>
           <TableHead></TableHead>
         </TableRow>
       </TableHeader>
@@ -56,14 +56,14 @@ export function TableBets() {
             <TableCell>{bet.league}</TableCell>
             <TableCell>{bet.team1.name}</TableCell>
             <TableCell>{bet.team2.name}</TableCell>
-            <TableCell>
+            <TableCell className="text-center">
               {bet.team1.goals} | {bet.team2.goals}
             </TableCell>
-            <TableCell>
-              ${(bet.team1.bid + bet.team2.bid).toLocaleString()}
+            <TableCell className="text-end">
+              ${bet.team1.bid + bet.team2.bid}
             </TableCell>
-            <TableCell>{"1:2"}</TableCell>
-            <TableCell>{formatTime(timeLeft)}</TableCell>
+            <TableCell className="text-end">{"1:2"}</TableCell>
+            <TableCell className="text-end">{formatTime(timeLeft)}</TableCell>
             <TableHead>
               <Button size={"sm"} variant={"link"}>
                 Unirse

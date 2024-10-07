@@ -9,6 +9,9 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.NonNull;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Data
 @Entity
 public class UserEntity {
@@ -33,5 +36,10 @@ public class UserEntity {
 
     @Enumerated(EnumType.STRING)
     private UserEnum userEnum;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "bet_list", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "room_id"))
+    private Set<RoomEntity> betList = new HashSet<>();
+
 
 }

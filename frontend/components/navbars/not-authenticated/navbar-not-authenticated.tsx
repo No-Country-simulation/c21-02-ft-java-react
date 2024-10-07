@@ -1,15 +1,18 @@
+"use client";
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
 
 import { Sheet, SheetTrigger } from "@/components/ui/sheet";
 import LoginSheetContent from "@/components/login-sheet-content/login-sheet-content";
+import { useRouter } from "next/navigation";
+import Logo from "@/components/logo/logo";
 
 export default function NavbarNotAuthenticated() {
+  const router = useRouter();
   return (
     <>
       <div className="flex justify-between p-3">
         <div>
-          <Image src={"/logo.png"} alt="" width={40} height={40} />
+          <Logo />
         </div>
         <div className="flex gap-2 items-center">
           <Sheet>
@@ -20,7 +23,9 @@ export default function NavbarNotAuthenticated() {
             </SheetTrigger>
             <LoginSheetContent />
           </Sheet>
-          <Button size={"sm"}>Registrarse</Button>
+          <Button size={"sm"} onClick={() => router.push("registro")}>
+            Registrarse
+          </Button>
         </div>
       </div>
     </>

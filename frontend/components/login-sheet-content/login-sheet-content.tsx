@@ -2,7 +2,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import Image from "next/image";
 import {
   SheetContent,
   SheetDescription,
@@ -19,6 +18,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import Logo from "../logo/logo";
 
 const formSchema = z.object({
   email: z.string(),
@@ -42,13 +42,7 @@ export default function LoginSheetContent() {
     <>
       <SheetContent>
         <SheetHeader>
-          <Image
-            src={"/logo.png"}
-            alt=""
-            width={40}
-            height={40}
-            className="mx-auto"
-          />
+          <Logo className="mx-auto" />
           <SheetTitle className="text-center">Super Apuestas</SheetTitle>
           <SheetDescription>
             Accede a la plataforma con tu usuario y contraseña.

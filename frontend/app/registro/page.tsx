@@ -56,14 +56,14 @@ export default function Page() {
           className="bg-primary text-5xl text-primary-foreground font-semibold p-3 italic
         "
         >
-          Super Apuestas
+          <Link href={"/"}>Super Apuestas</Link>
         </div>
 
         {/* form */}
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-8 w-8/12 mx-auto mt-10"
+            className="space-y-6 w-8/12 mx-auto mt-10"
           >
             <div className="grid grid-cols-2 gap-3">
               <FormField

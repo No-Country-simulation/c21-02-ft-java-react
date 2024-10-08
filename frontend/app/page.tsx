@@ -14,7 +14,7 @@ export default function Home() {
 
   return (
     <>
-      <div className="min-h-dvh overflow-hidden flex flex-col">
+      <div className="flex flex-col">
         {!session ? <NavbarAuthenticated /> : <NavbarNotAuthenticated />}
 
         {/* last bets */}

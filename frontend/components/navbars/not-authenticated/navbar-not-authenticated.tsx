@@ -10,7 +10,7 @@ export default function NavbarNotAuthenticated() {
   const router = useRouter();
   return (
     <>
-      <div className="flex justify-between p-3">
+      <div className="flex justify-between p-3 sticky top-0 left-0 bg-background/10 z-50 backdrop-blur-sm">
         <div>
           <Logo />
         </div>

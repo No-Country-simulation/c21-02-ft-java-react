@@ -28,6 +28,7 @@ public class UserController {
     // Crear un nuevo usuario
     @PostMapping
     public ResponseEntity<UserDTORes> createUser(@Valid @RequestBody UserDTOReq userDTOReq) {
+        System.out.println(userDTOReq);
         UserDTORes createdUser = userService.createUser(userDTOReq);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
     }

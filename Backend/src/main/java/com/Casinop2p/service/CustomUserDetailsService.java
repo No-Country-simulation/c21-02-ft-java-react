@@ -14,13 +14,12 @@ import org.springframework.stereotype.Service;
 import java.util.Collection;
 import java.util.List;
 
-@Service
-@RequiredArgsConstructor
-public class CustomUserDetailsService implements UserDetailsService {
 
-    private final UserRepository userRepository;
+public class CustomUserDetailsService {
 
-    @Override
+    private  UserRepository userRepository;
+
+
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserEntity userEntity = userRepository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado: " + username));

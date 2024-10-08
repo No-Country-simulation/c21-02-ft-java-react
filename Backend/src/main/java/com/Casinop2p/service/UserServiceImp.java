@@ -3,16 +3,18 @@ package com.Casinop2p.service;
 import com.Casinop2p.Mapper.UserMapper;
 import com.Casinop2p.dto.UserDTOReq;
 import com.Casinop2p.dto.UserDTORes;
-<<<<<<< HEAD
 import com.Casinop2p.entity.UserEntity;
-=======
->>>>>>> fd7e6a9744ab5d895779b5e2a23a78711cf8e19b
+
 import com.Casinop2p.exceptions.NotFoundException;
 import com.Casinop2p.repository.UserRepository;
 import com.Casinop2p.util.UserEnum;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,7 +22,10 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImp  implements UserService{
+public class UserServiceImp  implements UserService {
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     private final UserRepository userRepository;
     @Autowired
@@ -33,16 +38,21 @@ public class UserServiceImp  implements UserService{
     }
 
 
-        public UserDTORes createUser(UserDTOReq userDTOReq) {
-            UserEntity user = modelMapper.map(userDTOReq, UserEntity.class);  // Convierte DTO a entidad
-            user = userRepository.save(user);
-            return modelMapper.map(user, UserDTORes.class);  // Convierte entidad a DTO de respuesta
-        }
+    @Override
+    public UserDTORes createUser(UserDTOReq userDTOReq) {
+        UserEntity user = UserMapper.toUserEntity(userDTOReq);
+
+        // Asegúrate de que estás codificando la contraseña
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        user = userRepository.save(user);
+        return UserMapper.toDTO(user);
+    }
 
         public UserDTORes getUserById(Long id) {
             UserEntity user = userRepository.findById(id)
                     .orElseThrow(() -> new NotFoundException("El usuario con ID: " + id +"no fue encontrado"));
-            return modelMapper.map(user, UserDTORes.class);
+            return UserMapper.toDTO(user);
         }
 
         public UserDTORes updateUser(Long id, UserDTOReq userDTOReq) {
@@ -56,7 +66,7 @@ public class UserServiceImp  implements UserService{
             existingUser.setUserEnum(UserEnum.valueOf(userDTOReq.userEnum()));
 
             existingUser = userRepository.save(existingUser);
-            return modelMapper.map(existingUser, UserDTORes.class);
+            return UserMapper.toDTO(existingUser);
         }
 
         public void deleteUser(Long id) {
@@ -68,9 +78,11 @@ public class UserServiceImp  implements UserService{
         public List<UserDTORes> getAllUsers() {
             List<UserEntity> users = userRepository.findAll();
             return users.stream()
-                    .map(user -> modelMapper.map(user, UserDTORes.class))
+                    .map(UserMapper::toDTO)
                     .collect(Collectors.toList());
         }
-    }
+
+
+}
 
 

@@ -1,9 +1,13 @@
 package com.Casinop2p.controller;
 
-import com.Casinop2p.dto.UserDTOReq;
+import com.Casinop2p.dto.LoginDTO;
+import com.Casinop2p.dto.LoginDTORes;
+import com.Casinop2p.entity.UserEntity;
+import com.Casinop2p.repository.UserRepository;
 import com.Casinop2p.service.CustomUserDetailsService;
 import com.Casinop2p.service.JwtUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,23 +21,27 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/auth")
-@RequiredArgsConstructor
+
 public class AuthController {
 
-    private final AuthenticationManager authenticationManager;
-    private final JwtUtil jwtUtil;
-    private final CustomUserDetailsService userDetailsService;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private  AuthenticationManager authenticationManager;
+    @Autowired
+    private  JwtUtil jwtUtil;
+
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody UserDTOReq userDTOReq) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(userDTOReq.email(), userDTOReq.password()) // Usa los métodos de acceso de los registros
-        );
-
+    public ResponseEntity<LoginDTORes> login(@RequestBody LoginDTO loginDTO) {
+        System.out.println(loginDTO);
+        Authentication authentication =  new UsernamePasswordAuthenticationToken(loginDTO.email(), loginDTO.password());
+        authenticationManager.authenticate(authentication);
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtUtil.generateToken((UserDetails) authentication.getPrincipal());
+        UserEntity user = userRepository.findByEmail(loginDTO.email()).orElseThrow();
+        String jwt = jwtUtil.generateToken(loginDTO.email());
 
-        return ResponseEntity.ok(jwt);
+        return ResponseEntity.ok(LoginDTORes.builder().jwt(jwt).email(loginDTO.email()).role(user.getUserEnum().name()).build());
     }
 
 }

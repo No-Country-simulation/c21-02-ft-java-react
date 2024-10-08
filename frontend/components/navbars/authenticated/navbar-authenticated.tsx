@@ -5,8 +5,6 @@ import {
   BarChartIcon,
   CaretSortIcon,
   Component1Icon,
-  GearIcon,
-  LayoutIcon,
   PinLeftIcon,
   PinRightIcon,
   PlusIcon,
@@ -18,25 +16,23 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { useState } from "react";
-
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import Image from "next/image";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useRouter } from "next/navigation";
 
 export default function NavbarAuthenticated() {
   const [isExpandedMenu, setIsExpandedMenu] = useState(false);
+  const router = useRouter();
   return (
     <>
       <div
         className={`bg-muted/40 relative px-1 py-2 h-screen flex flex-col justify-between transition duration-500 border-r hover:shadow ${
-          isExpandedMenu ? "w-60" : ""
+          isExpandedMenu ? "w-50" : ""
         }`}
       >
         <TooltipProvider delayDuration={300}>
@@ -75,17 +71,28 @@ export default function NavbarAuthenticated() {
             <div className="flex flex-col items-center justify-start gap-2">
               {isExpandedMenu ? (
                 <>
-                  <Button className="flex gap-2 w-full">
+                  <Button
+                    className="flex gap-2 w-full"
+                    onClick={() => router.push("nueva-apuesta")}
+                  >
                     <PlusIcon />
                     Nueva apuesta
                   </Button>
 
-                  <Button className="flex gap-2 w-full" variant={"ghost"}>
+                  <Button
+                    className="flex gap-2 w-full justify-start"
+                    variant={"ghost"}
+                    onClick={() => router.push("apuestas")}
+                  >
                     <Component1Icon />
                     Apuestas online
                   </Button>
 
-                  <Button className="flex gap-2 w-full" variant={"ghost"}>
+                  <Button
+                    className="flex gap-2 w-full justify-start"
+                    variant={"ghost"}
+                    onClick={() => router.push("estadisticas")}
+                  >
                     <BarChartIcon />
                     Estadísticas
                   </Button>
@@ -94,7 +101,10 @@ export default function NavbarAuthenticated() {
                 <>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <Button size={"icon"}>
+                      <Button
+                        size={"icon"}
+                        onClick={() => router.push("nueva-apuesta")}
+                      >
                         <PlusIcon />
                       </Button>
                     </TooltipTrigger>
@@ -104,7 +114,11 @@ export default function NavbarAuthenticated() {
                   </Tooltip>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <Button size={"icon"} variant={"outline"}>
+                      <Button
+                        size={"icon"}
+                        variant={"outline"}
+                        onClick={() => router.push("apuestas")}
+                      >
                         <Component1Icon />
                       </Button>
                     </TooltipTrigger>
@@ -114,7 +128,11 @@ export default function NavbarAuthenticated() {
                   </Tooltip>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <Button size={"icon"} variant={"outline"}>
+                      <Button
+                        size={"icon"}
+                        variant={"outline"}
+                        onClick={() => router.push("estadisticas")}
+                      >
                         <BarChartIcon />
                       </Button>
                     </TooltipTrigger>

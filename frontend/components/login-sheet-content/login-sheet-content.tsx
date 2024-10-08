@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -19,6 +20,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import Logo from "../logo/logo";
+import Link from "next/link";
 
 const formSchema = z.object({
   email: z.string(),
@@ -48,7 +50,7 @@ export default function LoginSheetContent() {
             Accede a la plataforma con tu usuario y contraseña.
           </SheetDescription>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               <FormField
                 control={form.control}
                 name="email"
@@ -72,6 +74,11 @@ export default function LoginSheetContent() {
                     <FormControl>
                       <Input type="password" {...field} />
                     </FormControl>
+                    <FormDescription className="text-end">
+                      <Link className="text-primary hover:underline" href="#">
+                        ¿Olvidaste tu contraseña?
+                      </Link>
+                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}

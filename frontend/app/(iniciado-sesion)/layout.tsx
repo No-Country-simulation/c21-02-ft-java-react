@@ -7,7 +7,7 @@ export default function Layout({
 }>) {
   return (
     <>
-      <div className="flex min-h-screen">
+      <div className="flex min-h-dvh max-h-dvh overflow-hidden">
         <NavbarAuthenticated />
         <div className="grow">{children}</div>
       </div>

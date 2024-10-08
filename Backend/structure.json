@@ -1,0 +1,49 @@
+{
+  "src": {
+    "main": {
+      "java": {
+        "com": {
+          "Casinop2p": {
+            "Casinop2pApplication.java": "package com.Casinop2p;\r\n\r\nimport org.springframework.boot.SpringApplication;\r\nimport org.springframework.boot.autoconfigure.SpringBootApplication;\r\n\r\n@SpringBootApplication\r\npublic class Casinop2pApplication {\r\n\r\n\tpublic static void main(String[] args) {\r\n\t\tSpringApplication.run(Casinop2pApplication.class, args);\r\n\t}\r\n\r\n}\r\n",
+            "controller": {
+              "UserController.java": "package com.Casinop2p.controller;\r\n\r\nimport com.Casinop2p.dto.UserDTORes;\r\nimport com.Casinop2p.entity.UserEntity;\r\nimport com.Casinop2p.repository.UserRepository;\r\nimport com.Casinop2p.service.UserService;\r\nimport lombok.RequiredArgsConstructor;\r\nimport org.springframework.http.ResponseEntity;\r\nimport org.springframework.web.bind.annotation.*;\r\n\r\nimport java.util.Optional;\r\n\r\n@RestController\r\n@RequiredArgsConstructor\r\n@RequestMapping(\"/users\")\r\n@CrossOrigin(\"*\")\r\npublic class UserController {\r\n\r\n    private final UserService userService;\r\n\r\n    // Buscar usuario por ID\r\n    @GetMapping(\"/{id}\")\r\n    public ResponseEntity<UserDTORes> findOneById(@PathVariable Long id) {\r\n        UserDTORes usuario = userService.getUser(id);\r\n\r\n            return ResponseEntity.ok(usuario);\r\n        }\r\n\r\n\r\n}\r\n"
+            },
+            "dto": {
+              "UserDTOReq.java": "package com.Casinop2p.dto;\r\n\r\nimport jakarta.validation.constraints.Email;\r\nimport jakarta.validation.constraints.Pattern;\r\nimport jakarta.validation.constraints.Size;\r\nimport lombok.NonNull;\r\n\r\npublic record UserDTOReq(\r\n                         @NonNull\r\n                              @Size(min = 3, max = 20)\r\n                      String name,\r\n                         @NonNull\r\n                      @Size(min = 8, message = \"La contraseña debe tener al menos 8 caracteres\")\r\n                      @Pattern(regexp = \"^(?=.[0-9])(?=.[a-z])(?=.[A-Z])(?=.[@#$%^&+=])(?=\\\\S+$).{8,}$\",\r\n                              message = \"La contraseña debe contener al menos un dígito, una letra minúscula, una letra mayúscula y un carácter especial.\")\r\n                      String password,\r\n\r\n                         float balance,\r\n                         @NonNull\r\n                              @Email\r\n                      String email,\r\n                         String userEnum) {\r\n\r\n\r\n\r\n}\r\n",
+              "UserDTORes.java": "package com.Casinop2p.dto;\r\n\r\nimport jakarta.validation.constraints.Email;\r\nimport jakarta.validation.constraints.Pattern;\r\nimport jakarta.validation.constraints.Size;\r\nimport lombok.NonNull;\r\n\r\npublic record UserDTORes(Long id,\r\n                      String name,\r\n                         float balance,\r\n                      String email,\r\n                         String userEnum) {\r\n\r\n\r\n\r\n}\r\n"
+            },
+            "entity": {
+              "BetEntity.java": "package com.Casinop2p.entity;\r\n\r\nimport com.Casinop2p.util.BetEnum;\r\nimport jakarta.persistence.*;\r\nimport lombok.Data;\r\n\r\nimport java.util.HashSet;\r\nimport java.util.Set;\r\n\r\n@Entity\r\n@Data\r\npublic class BetEntity {\r\n\r\n    @Id\r\n    @GeneratedValue(strategy = GenerationType.IDENTITY)\r\n    private Long id;\r\n\r\n    UserEntity user;\r\n    private String team;\r\n    BetEnum betEnum;\r\n    RoomEntity room;\r\n    private float totalAmount;\r\n\r\n\r\n\r\n}\r\n",
+              "RoomEntity.java": "package com.Casinop2p.entity;\r\n\r\nimport jakarta.persistence.*;\r\nimport lombok.Data;\r\n\r\nimport java.util.ArrayList;\r\nimport java.util.Date;\r\nimport java.util.HashSet;\r\nimport java.util.Set;\r\n\r\n\r\n@Entity\r\n@Data\r\npublic class RoomEntity {\r\n\r\n\r\n    @Id\r\n    @GeneratedValue(strategy = GenerationType.IDENTITY)\r\n    private Long id;\r\n    private String roomName;\r\n    private boolean enable;\r\n    UserEntity roomOwner;\r\n    private float bet;\r\n    private int maxUsers;\r\n    ArrayList<UserEntity> usersInRoom;\r\n    private boolean privateRoom;\r\n    private String betDescription;\r\n    private Date expirationDate; //esto se obtiene automaticamente\r\n    private Date creationDate; //esto se obtiene automaticamente\r\n\r\n\r\n    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)\r\n    @JoinTable(name = \"bets\", joinColumns = @JoinColumn(name = \"bet_id\"), inverseJoinColumns = @JoinColumn(name = \"room_id\"))\r\n    private Set<BetEntity> betsList = new HashSet<>();\r\n\r\n\r\n}\r\n",
+              "UserEntity.java": "package com.Casinop2p.entity;\r\n\r\n\r\nimport com.Casinop2p.util.UserEnum;\r\nimport jakarta.persistence.*;\r\nimport jakarta.validation.constraints.Email;\r\nimport jakarta.validation.constraints.Pattern;\r\nimport jakarta.validation.constraints.Size;\r\nimport lombok.Data;\r\nimport lombok.NonNull;\r\n\r\nimport java.util.HashSet;\r\nimport java.util.Set;\r\n\r\n@Data\r\n@Entity\r\npublic class UserEntity {\r\n\r\n    @Id\r\n    @GeneratedValue(strategy = GenerationType.IDENTITY)\r\n    private Long id;\r\n\r\n\r\n\r\n    private String Name;\r\n\r\n\r\n   @Column(nullable = false)\r\n    private String password;\r\n\r\n    private float balance;\r\n\r\n\r\n    @Column(unique = true)\r\n    private String email;\r\n\r\n    @Enumerated(EnumType.STRING)\r\n    private UserEnum userEnum;\r\n\r\n    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)\r\n    @JoinTable(name = \"bet_list\", joinColumns = @JoinColumn(name = \"user_id\"), inverseJoinColumns = @JoinColumn(name = \"room_id\"))\r\n    private Set<RoomEntity> betList = new HashSet<>();\r\n\r\n\r\n}\r\n"
+            },
+            "exceptions": {
+              "algo.txt": ""
+            },
+            "Mapper": {
+              "UserMapper.java": "package com.Casinop2p.Mapper;\r\n\r\nimport com.Casinop2p.dto.UserDTORes;\r\nimport com.Casinop2p.entity.UserEntity;\r\n\r\npublic class UserMapper {\r\n\r\n    public static UserDTORes toDTO(UserEntity userEntity){\r\n        return new UserDTORes(userEntity.getId(), userEntity.getName(), userEntity.getBalance(), userEntity.getEmail(),userEntity.getUserEnum().toString());\r\n    }\r\n}\r\n"
+            },
+            "repository": {
+              "BetRepository.java": "package com.Casinop2p.repository;\r\n\r\nimport com.Casinop2p.entity.BetEntity;\r\nimport org.springframework.data.jpa.repository.JpaRepository;\r\n\r\npublic interface BetRepository extends JpaRepository<BetEntity,Long> {\r\n}\r\n",
+              "RoomRepository.java": "package com.Casinop2p.repository;\r\n\r\nimport com.Casinop2p.entity.RoomEntity;\r\nimport org.springframework.data.jpa.repository.JpaRepository;\r\n\r\npublic interface RoomRepository extends JpaRepository<RoomEntity,Long> {\r\n}\r\n\r\n\r\n",
+              "UserRepository.java": "package com.Casinop2p.repository;\r\n\r\nimport com.Casinop2p.entity.UserEntity;\r\nimport org.springframework.data.jpa.repository.JpaRepository;\r\n\r\npublic interface UserRepository extends JpaRepository<UserEntity,Long> {\r\n}\r\n"
+            },
+            "service": {
+              "UserService.java": "package com.Casinop2p.service;\r\n\r\n\r\nimport com.Casinop2p.dto.UserDTOReq;\r\nimport com.Casinop2p.dto.UserDTORes;\r\n\r\npublic interface UserService {\r\n\r\n    public UserDTORes getUser(Long id);\r\n\r\n\r\n}\r\n",
+              "UserServiceImp.java": "package com.Casinop2p.service;\r\n\r\nimport com.Casinop2p.Mapper.UserMapper;\r\nimport com.Casinop2p.dto.UserDTOReq;\r\nimport com.Casinop2p.dto.UserDTORes;\r\nimport com.Casinop2p.repository.UserRepository;\r\nimport lombok.RequiredArgsConstructor;\r\nimport org.springframework.stereotype.Service;\r\n\r\n@Service\r\n@RequiredArgsConstructor\r\npublic class UserServiceImp  implements UserService{\r\n\r\n    private final UserRepository userRepository;\r\n\r\n    @Override\r\n    public UserDTORes getUser(Long id) {\r\n\r\n        return UserMapper.toDTO(userRepository.findById(id).orElseThrow(()->new RuntimeException(\"no se encontro usuario\")));\r\n    }\r\n}\r\n"
+            },
+            "util": {
+              "BetEnum.java": "package com.Casinop2p.util;\r\n\r\npublic enum BetEnum {\r\n\r\n    WIN, LOSS, DRAW\r\n}\r\n",
+              "RoomEnum.java": "package com.Casinop2p.util;\r\n\r\npublic enum RoomEnum {\r\n\r\n    SPORT, ELECTIONS, CASINO, CUSTOM\r\n}\r\n",
+              "SportEnum.java": "package com.Casinop2p.util;\r\n\r\npublic enum SportEnum {\r\n\r\n    COINFLIP, FUTBOL, BASKETBALL, BOXING, MMA\r\n}\r\n",
+              "UserEnum.java": "package com.Casinop2p.util;\r\n\r\npublic enum UserEnum {\r\n\r\n    ADMIN,USER,INVITED\r\n}\r\n"
+            }
+          }
+        }
+      },
+      "resources": {
+        "application.properties": "spring.application.name=Casinop2p\r\nserver.servlet.context-path=/api/v1\r\nspring.config.import=optional:file:.env[.properties]\r\nspring.datasource.url=${SPRING_DATASOURCE_URL}\r\nspring.datasource.username=${SPRING_DATASOURCE_USERNAME}\r\nspring.datasource.password=${SPRING_DATASOURCE_PASSWORD}\r\nspring.jpa.hibernate.ddl-auto=update\r\n\r\n"
+      }
+    }
+  }
+}

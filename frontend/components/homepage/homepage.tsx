@@ -12,13 +12,15 @@ interface HomepageProps extends React.HTMLAttributes<HTMLDivElement> {
 export default function Homepage({ className, ...rest }: HomepageProps) {
   return (
     <>
-      <div {...rest} className={cn(className)}>
+      <div {...rest} className={cn(className, "mt-10")}>
         <section className="min-h-dvh">
-          <Slide direction="down" triggerOnce>
-            <div className="text-center font-black text-5xl mb-3">
-              Super Apuestas
-            </div>
-          </Slide>
+          <Fade>
+            <Slide direction="down" triggerOnce>
+              <div className="text-center font-black text-5xl mb-3">
+                Super Apuestas
+              </div>
+            </Slide>
+          </Fade>
           <Fade triggerOnce>
             <div className="text-center max-w-[500px] mx-auto text-sm px-3">
               Más de 400 Juegos Diferentes y una Gran Variedad de Deportes para

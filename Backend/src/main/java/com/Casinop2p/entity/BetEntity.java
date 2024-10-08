@@ -15,10 +15,11 @@ public class BetEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private UserEntity user;
+    //private UserEntity user;
     private String team;
+    @Enumerated(EnumType.STRING)
     private BetEnum betEnum;
-    private RoomEntity room;
+    //private RoomEntity room;
 
 
 

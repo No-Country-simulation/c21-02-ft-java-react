@@ -20,11 +20,12 @@ public class RoomEntity {
     private Long id;
     private String roomName;
     private boolean enable;
-    private UserEntity roomOwner;
+    //private UserEntity roomOwner;
+    @Enumerated(EnumType.STRING)
     private BetEnum result;
     private float bet;
     private int maxUsers;
-    private ArrayList<UserEntity> usersInRoom;
+    //private ArrayList<UserEntity> usersInRoom;
     private boolean privateRoom;
     private String betDescription;
     private Date expirationDate; //esto se obtiene automaticamente
@@ -32,9 +33,11 @@ public class RoomEntity {
     private float totalAmount;
 
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "bets", joinColumns = @JoinColumn(name = "bet_id"), inverseJoinColumns = @JoinColumn(name = "room_id"))
-    private Set<BetEntity> betsList = new HashSet<>();
+    //@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    //@JoinTable(name = "bets", joinColumns = @JoinColumn(name = "bet_id"), inverseJoinColumns = @JoinColumn(name = "room_id"))
+    //private Set<BetEntity> betsList = new HashSet<>();
+
+
 
 
 }

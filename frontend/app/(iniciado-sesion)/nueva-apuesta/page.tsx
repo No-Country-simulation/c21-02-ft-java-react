@@ -7,7 +7,7 @@ import CreateBetType from "@/components/create-bet/create-bet-type";
 export default function Page() {
   return (
     <>
-      <div className="mx-auto max-w-5xl max-h-screen min-h-screen overflow-auto pt-5">
+      <div className="mx-auto max-h-screen min-h-screen overflow-auto pt-5">
         <BetContextProvider>
           {/* step 1 */}
           <CreateBetType />

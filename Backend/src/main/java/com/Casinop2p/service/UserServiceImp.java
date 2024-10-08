@@ -3,7 +3,10 @@ package com.Casinop2p.service;
 import com.Casinop2p.Mapper.UserMapper;
 import com.Casinop2p.dto.UserDTOReq;
 import com.Casinop2p.dto.UserDTORes;
+<<<<<<< HEAD
 import com.Casinop2p.entity.UserEntity;
+=======
+>>>>>>> fd7e6a9744ab5d895779b5e2a23a78711cf8e19b
 import com.Casinop2p.exceptions.NotFoundException;
 import com.Casinop2p.repository.UserRepository;
 import com.Casinop2p.util.UserEnum;
@@ -26,7 +29,7 @@ public class UserServiceImp  implements UserService{
     @Override
     public UserDTORes getUser(Long id) {
 
-        return UserMapper.toDTO(userRepository.findById(id).orElseThrow(()->new RuntimeException("no se encontro usuario")));
+        return UserMapper.toDTO(userRepository.findById(id).orElseThrow(()->new NotFoundException("no se encontro usuario")));
     }
 
 

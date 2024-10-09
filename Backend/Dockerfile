@@ -1,19 +1,11 @@
-FROM eclipse-temurin:17-jdk-jammy
-
-LABEL authors="c21-02-ft-java-react"
-
-EXPOSE 8080
+FROM openjdk:17-jdk-alpine
 
 WORKDIR /app
 
-# Copy the source code
-COPY src ./src
-COPY .mvn/ .mvn
-COPY mvnw pom.xml ./
+EXPOSE 8080
 
-# Build the application
-RUN chmod +x mvnw
-RUN ./mvnw clean package -DskipTests
+COPY target/Casinop2p-0.0.1-SNAPSHOT.jar /app/Casinop2p-0.0.1-SNAPSHOT.jar
+
 
 # Run the application
-CMD ["java", "-jar", "target/casino.jar"]
+CMD ["java", "-jar", "/app/tu-aplicacion.jar"]

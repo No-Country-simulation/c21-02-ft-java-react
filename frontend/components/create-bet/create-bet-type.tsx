@@ -1,5 +1,5 @@
 "use client";
-import { BetContext } from "@/app/context/create-bet";
+import { BetContext } from "@/context/create-bet";
 import Image from "next/image";
 import { useContext } from "react";
 import { Fade, Slide } from "react-awesome-reveal";

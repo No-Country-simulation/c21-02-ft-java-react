@@ -1,5 +1,5 @@
 "use client";
-import BetContextProvider from "@/app/context/create-bet";
+import BetContextProvider from "@/context/create-bet";
 import BetBet from "@/components/create-bet/bet-bet";
 import BetConfiguration from "@/components/create-bet/bet-configuration";
 import CreateBetType from "@/components/create-bet/create-bet-type";

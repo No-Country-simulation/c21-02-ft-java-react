@@ -1,8 +1,7 @@
 "use client";
-import { BetContext } from "@/app/context/create-bet";
-import Image from "next/image";
+import { BetContext } from "@/context/create-bet";
 import { useContext } from "react";
-import { Fade, Slide } from "react-awesome-reveal";
+import { Fade } from "react-awesome-reveal";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -25,7 +24,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import Link from "next/link";
 
 const formSchema = z.object({
   password: z
@@ -41,7 +39,7 @@ const formSchema = z.object({
 });
 
 export default function BetBet() {
-  const { setBetSettings, setStep, step, betSettings } = useContext(BetContext);
+  const { setStep, step, betSettings } = useContext(BetContext);
   console.log(step, betSettings);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -205,9 +203,7 @@ export default function BetBet() {
                           <SelectItem value="1000">1,000 créditos</SelectItem>
                           <SelectItem value="2000">2,000 créditos</SelectItem>
                           <SelectItem value="5000">5,000 créditos</SelectItem>
-                          <SelectItem value="10000">
-                            10,000 créditos
-                          </SelectItem>
+                          <SelectItem value="10000">10,000 créditos</SelectItem>
                         </SelectContent>
                       </Select>
                       <FormMessage />
@@ -222,7 +218,13 @@ export default function BetBet() {
                 </FormDescription>
                 <div className="flex flex-row justify-between">
                   <Button type="submit">Comenzar</Button>
-                  <Button type="button" onClick={() => setStep(2)} className="bg-neutral-500 dark:text-white">Volver</Button>
+                  <Button
+                    type="button"
+                    onClick={() => setStep(2)}
+                    className="bg-neutral-500 dark:text-white"
+                  >
+                    Volver
+                  </Button>
                 </div>
               </form>
             </Form>

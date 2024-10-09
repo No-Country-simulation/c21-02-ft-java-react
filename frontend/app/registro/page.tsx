@@ -25,7 +25,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import FooterSpecial from "@/components/footer/footer-special";
 
 const formSchema = z.object({
-  gender: z.enum(["male, female"]),
+  gender: z.enum(["male, female, other"]),
   name: z.string().min(3),
   lastName: z.string().min(3),
   secondLastName: z.string().min(3),
@@ -68,7 +68,7 @@ export default function Page() {
             <div className="grid grid-cols-2 gap-3">
               <FormField
                 control={form.control}
-                name="email"
+                name="gender"
                 render={({ field }) => (
                   <FormItem>
                     <Select
@@ -81,14 +81,14 @@ export default function Page() {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="m@example.com">
-                          m@example.com
+                        <SelectItem value="male">
+                          Masculino
                         </SelectItem>
-                        <SelectItem value="m@google.com">
-                          m@google.com
+                        <SelectItem value="female">
+                          Femenino
                         </SelectItem>
-                        <SelectItem value="m@support.com">
-                          m@support.com
+                        <SelectItem value="other">
+                          Otro
                         </SelectItem>
                       </SelectContent>
                     </Select>
@@ -160,7 +160,7 @@ export default function Page() {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input placeholder="Contraseña" {...field} />
+                    <Input type="password" placeholder="Contraseña" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -173,7 +173,7 @@ export default function Page() {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input placeholder="Repetir Contraseña" {...field} />
+                    <Input type="password" placeholder="Repetir Contraseña" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

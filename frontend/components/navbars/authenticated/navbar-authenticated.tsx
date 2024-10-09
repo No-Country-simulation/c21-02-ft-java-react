@@ -31,13 +31,35 @@ export default function NavbarAuthenticated() {
   return (
     <>
       <div
-        className={`bg-muted/40 relative px-1 py-2 h-screen flex flex-col justify-between transition duration-500 border-r hover:shadow ${
-          isExpandedMenu ? "w-50" : ""
-        }`}
+        className={`bg-muted/40 relative px-1 py-2 h-screen flex flex-col justify-between transition duration-500 border-r hover:shadow ${isExpandedMenu ? "w-50" : ""
+          }`}
       >
         <TooltipProvider delayDuration={300}>
-          {isExpandedMenu && (
-            <>
+
+          <div className="flex flex-col gap-3">
+            <Logo className="mx-auto" />
+            {isExpandedMenu ? (
+              <>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      size={"icon"}
+                      variant={"outline"}
+                      onClick={() => {
+                        setIsExpandedMenu((prev) => !prev);
+                      }}
+                      className="absolute top-2 right-2 my-4
+                      "
+                    >
+                      <PinLeftIcon />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent side="right">
+                    <p>Comprimir</p>
+                  </TooltipContent>
+                </Tooltip>
+              </>
+            ) : (
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button
@@ -46,25 +68,19 @@ export default function NavbarAuthenticated() {
                     onClick={() => {
                       setIsExpandedMenu((prev) => !prev);
                     }}
-                    className="absolute top-2 right-2
-                    "
+                    className="my-4"
                   >
-                    <PinLeftIcon />
+                    <PinRightIcon />
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent side="right">
-                  <p>Comprimir</p>
+                  <p>Expandir</p>
                 </TooltipContent>
               </Tooltip>
-            </>
-          )}
-
-          <div className="flex flex-col gap-3">
-            <Logo className="mx-auto" />
+            )}
             <div
-              className={`text-center text-xs ${
-                isExpandedMenu ? "block" : "hidden"
-              }`}
+              className={`text-center text-xs ${isExpandedMenu ? "block" : "hidden"
+                }`}
             >
               Super Apuestas
             </div>
@@ -148,22 +164,6 @@ export default function NavbarAuthenticated() {
           <div className="flex flex-col justify-center items-center gap-2">
             {!isExpandedMenu ? (
               <>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button
-                      size={"icon"}
-                      variant={"outline"}
-                      onClick={() => {
-                        setIsExpandedMenu((prev) => !prev);
-                      }}
-                    >
-                      <PinRightIcon />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent side="right">
-                    <p>Expandir</p>
-                  </TooltipContent>
-                </Tooltip>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Avatar className="hover:cursor-pointer">

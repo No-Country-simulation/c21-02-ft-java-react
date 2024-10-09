@@ -200,12 +200,12 @@ export default function BetBet() {
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value="1">100 créditos</SelectItem>
-                          <SelectItem value="2">500 créditos</SelectItem>
-                          <SelectItem value="12">1,000 créditos</SelectItem>
-                          <SelectItem value="122">2,000 créditos</SelectItem>
-                          <SelectItem value="12122">5,000 créditos</SelectItem>
-                          <SelectItem value="121212">
+                          <SelectItem value="100">100 créditos</SelectItem>
+                          <SelectItem value="500">500 créditos</SelectItem>
+                          <SelectItem value="1000">1,000 créditos</SelectItem>
+                          <SelectItem value="2000">2,000 créditos</SelectItem>
+                          <SelectItem value="5000">5,000 créditos</SelectItem>
+                          <SelectItem value="10000">
                             10,000 créditos
                           </SelectItem>
                         </SelectContent>
@@ -220,8 +220,10 @@ export default function BetBet() {
                   reembolsarán si nadie participa al finalizar la puja. En caso
                   de ganar, los créditos se añadirán automáticamente.
                 </FormDescription>
-
-                <Button type="submit">Comenzar</Button>
+                <div className="flex flex-row justify-between">
+                  <Button type="submit">Comenzar</Button>
+                  <Button type="button" onClick={() => setStep(2)} className="bg-neutral-500 dark:text-white">Volver</Button>
+                </div>
               </form>
             </Form>
           </div>

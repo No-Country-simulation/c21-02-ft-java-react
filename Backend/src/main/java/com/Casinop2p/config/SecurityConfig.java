@@ -1,6 +1,6 @@
 package com.Casinop2p.config;
 
-import com.Casinop2p.service.CustomUserDetailsService;
+
 import com.Casinop2p.util.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

@@ -14,7 +14,6 @@ import java.util.Set;
 @Data
 public class RoomEntity {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -31,7 +30,6 @@ public class RoomEntity {
     private Date expirationDate; //esto se obtiene automaticamente
     private Date creationDate; //esto se obtiene automaticamente
     private float totalAmount;
-
 
     //@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     //@JoinTable(name = "bets", joinColumns = @JoinColumn(name = "bet_id"), inverseJoinColumns = @JoinColumn(name = "room_id"))

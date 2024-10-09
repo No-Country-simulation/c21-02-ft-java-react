@@ -1,5 +1,6 @@
 import Footer from "@/components/footer/footer";
 import Homepage from "@/components/homepage/homepage";
+import HeaderAuthenticated from "@/components/navbars/authenticated/header-authenticated";
 import NavbarAuthenticated from "@/components/navbars/authenticated/navbar-authenticated";
 import NavbarNotAuthenticated from "@/components/navbars/not-authenticated/navbar-not-authenticated";
 
@@ -14,9 +15,8 @@ export default function Home() {
 
   return (
     <>
+      {session ? <HeaderAuthenticated /> : <NavbarNotAuthenticated />}
       <div className="flex flex-col">
-        {!session ? <NavbarAuthenticated /> : <NavbarNotAuthenticated />}
-
         {/* last bets */}
         <Homepage className="grow" />
         <Footer />

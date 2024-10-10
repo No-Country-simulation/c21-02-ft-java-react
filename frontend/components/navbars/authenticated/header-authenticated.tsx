@@ -25,8 +25,8 @@ import { useState, useEffect } from "react";
 
 export default function HeaderAuthenticated() {
 
-    const username:string = "Username"
-    const email:string = "username@email.com"
+    const username: string = "Username"
+    const email: string = "username@email.com"
 
     const router = useRouter();
 
@@ -132,7 +132,10 @@ export default function HeaderAuthenticated() {
                                     </Button>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent>
-                                    <DropdownMenuItem>Mi cuenta</DropdownMenuItem>
+                                    <DropdownMenuItem
+                                        onClick={() => router.push("mi-cuenta")}>
+                                        Mi cuenta
+                                    </DropdownMenuItem>
                                     <DropdownMenuItem>Métodos de pago</DropdownMenuItem>
                                     <DropdownMenuItem>Preferencias</DropdownMenuItem>
                                 </DropdownMenuContent>

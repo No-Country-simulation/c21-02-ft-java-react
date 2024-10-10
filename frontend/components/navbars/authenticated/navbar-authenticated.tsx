@@ -31,13 +31,13 @@ export default function NavbarAuthenticated() {
   return (
     <>
       <div
-        className={`bg-muted/40 relative px-1 py-2 h-screen flex flex-col justify-between transition duration-500 border-r hover:shadow ${isExpandedMenu ? "w-50" : ""
+        className={`bg-muted/40 relative px-1 py-2 h-screen flex flex-col justify-between transition duration-500 border-r hover:shadow ${isExpandedMenu ? 'w-50' : ""
           }`}
       >
         <TooltipProvider delayDuration={300}>
 
           <div className="flex flex-col gap-3">
-            <Logo className="mx-auto" />
+            <Logo onClick={() => router.push("/")} className="mx-auto cursor-pointer" />
             {isExpandedMenu ? (
               <>
                 <Tooltip>
@@ -172,7 +172,10 @@ export default function NavbarAuthenticated() {
                     </Avatar>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent>
-                    <DropdownMenuItem>Mi cuenta</DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() => router.push("mi-cuenta")}>
+                      Mi cuenta
+                    </DropdownMenuItem>
                     <DropdownMenuItem>Métodos de pago</DropdownMenuItem>
                     <DropdownMenuItem>Preferencias</DropdownMenuItem>
                   </DropdownMenuContent>
@@ -199,7 +202,9 @@ export default function NavbarAuthenticated() {
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent>
-                    <DropdownMenuItem>Mi cuenta</DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() => router.push("mi-cuenta")}>
+                      Mi cuenta</DropdownMenuItem>
                     <DropdownMenuItem>Métodos de pago</DropdownMenuItem>
                     <DropdownMenuItem>Preferencias</DropdownMenuItem>
                   </DropdownMenuContent>

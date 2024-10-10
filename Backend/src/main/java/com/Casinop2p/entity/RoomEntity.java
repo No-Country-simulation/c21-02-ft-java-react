@@ -34,6 +34,7 @@ public class RoomEntity {
         private int maxUsers;  // Máximo número de usuarios permitidos en la sala
 
         @ManyToOne
+        @JoinColumn(name="room_owner_id",nullable = false)
         private UserEntity roomOwner;  // El creador de la sala
 
         @ManyToMany

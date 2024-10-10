@@ -3,11 +3,15 @@ package com.Casinop2p.controller;
 import com.Casinop2p.dto.BetDTO;
 import com.Casinop2p.entity.BetEntity;
 import com.Casinop2p.entity.RoomEntity;
+import com.Casinop2p.entity.UserEntity;
 import com.Casinop2p.service.RoomService;
 import com.Casinop2p.util.BetEnum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,10 +25,17 @@ public class RoomController {
     private final RoomService roomService;
 
     @PostMapping
-    public ResponseEntity<RoomEntity> createRoom(@RequestBody RoomEntity room) {
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<RoomEntity> createRoom(@AuthenticationPrincipal UserDetails userDetails, @RequestBody RoomEntity room) {
+        UserEntity user = ((UserEntity) userDetails);
+
+        room.setRoomOwner(user);
+        user.getListRooms().add(room);
         RoomEntity createdRoom = roomService.createRoom(room);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdRoom);
     }
+
+
 
     @GetMapping("/{id}")
     public ResponseEntity<RoomEntity> getRoomById(@PathVariable Long id) {

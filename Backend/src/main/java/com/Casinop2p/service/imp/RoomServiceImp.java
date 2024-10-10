@@ -8,6 +8,7 @@ import com.Casinop2p.repository.RoomRepository;
 import com.Casinop2p.repository.UserRepository;
 import com.Casinop2p.service.RoomService;
 import com.Casinop2p.util.BetEnum;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +22,8 @@ public class RoomServiceImp implements RoomService {
     private final UserRepository userRepository; // Necesitamos acceder a los usuarios.
     private final BetRepository betRepository;    // Acceso a la base de datos de apuestas
 
-    @Override  // Crear una nueva sala
+    @Override
+    @Transactional// Crear una nueva sala
     public RoomEntity createRoom(RoomEntity room) {
         return roomRepository.save(room);
     }

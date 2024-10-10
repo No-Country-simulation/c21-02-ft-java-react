@@ -34,6 +34,9 @@ public class UserEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     private UserEnum userEnum;
 
+    @OneToMany(mappedBy = "roomOwner", cascade = CascadeType.ALL)
+    private List<RoomEntity> listRooms;
+
     //@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     //@JoinTable(name = "bet_list", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "room_id"))
     //private Set<RoomEntity> betList = new HashSet<>();

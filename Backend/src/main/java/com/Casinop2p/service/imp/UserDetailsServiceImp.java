@@ -1,4 +1,4 @@
-package com.Casinop2p.service;
+package com.Casinop2p.service.imp;
 
 import com.Casinop2p.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

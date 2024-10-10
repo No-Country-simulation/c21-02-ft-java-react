@@ -1,4 +1,4 @@
-package com.Casinop2p.service;
+package com.Casinop2p.service.imp;
 
 import com.Casinop2p.Mapper.UserMapper;
 import com.Casinop2p.dto.UserDTOReq;
@@ -6,6 +6,7 @@ import com.Casinop2p.dto.UserDTORes;
 import com.Casinop2p.entity.UserEntity;
 import com.Casinop2p.exceptions.NotFoundException;
 import com.Casinop2p.repository.UserRepository;
+import com.Casinop2p.service.UserService;
 import com.Casinop2p.util.UserEnum;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;

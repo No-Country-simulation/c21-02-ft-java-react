@@ -1,6 +1,8 @@
 package com.Casinop2p.controller;
 
+import com.Casinop2p.Mapper.EntityMapper;
 import com.Casinop2p.dto.BetDTO;
+import com.Casinop2p.dto.RoomResponseDTO;
 import com.Casinop2p.entity.BetEntity;
 import com.Casinop2p.entity.RoomEntity;
 import com.Casinop2p.entity.UserEntity;
@@ -25,14 +27,14 @@ public class RoomController {
     private final RoomService roomService;
 
     @PostMapping
-    @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<RoomEntity> createRoom(@AuthenticationPrincipal UserDetails userDetails, @RequestBody RoomEntity room) {
-        UserEntity user = ((UserEntity) userDetails);
-
+    public ResponseEntity<RoomResponseDTO> createRoom(@AuthenticationPrincipal UserDetails userDetails, @RequestBody RoomEntity room) {
+        UserEntity user = (UserEntity) userDetails;
         room.setRoomOwner(user);
-        user.getListRooms().add(room);
         RoomEntity createdRoom = roomService.createRoom(room);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdRoom);
+
+        // Aquí convertimos la entidad a un DTO antes de devolverla
+        RoomResponseDTO response = EntityMapper.toRoomResponseDTO(createdRoom);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
 

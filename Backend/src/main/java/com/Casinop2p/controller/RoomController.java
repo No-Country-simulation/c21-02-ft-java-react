@@ -94,5 +94,17 @@ public class RoomController {
         return ResponseEntity.noContent().build();
     }
 
+    @PostMapping("/{roomId}/join")
+    public ResponseEntity<RoomResponseDTO> joinRoom(@PathVariable Long roomId, @AuthenticationPrincipal UserDetails userDetails) {
+        UserEntity user = (UserEntity) userDetails;
+
+        // Llamamos al servicio para agregar el usuario a la sala
+        RoomEntity updatedRoom = roomService.addUserToRoom(roomId, user);
+
+        // Convertimos la entidad de la sala actualizada a DTO para devolverla en la respuesta
+        RoomResponseDTO response = EntityMapper.toRoomResponseDTO(updatedRoom);
+        return ResponseEntity.ok(response);
+    }
+
 }
 

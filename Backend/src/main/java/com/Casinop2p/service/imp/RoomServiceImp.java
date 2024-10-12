@@ -135,5 +135,27 @@ public class RoomServiceImp implements RoomService {
         room.getInvitedUsers().add(user);
         return roomRepository.save(room); // Guardamos los cambios en la sala
     }
+
+    @Transactional
+    @Override
+    public RoomEntity addUserToRoom(Long roomId, UserEntity user) {
+        // Buscamos la sala por ID
+        RoomEntity room = getRoomById(roomId);
+
+        // Verificamos si la sala está habilitada y si hay espacio
+        if (!room.isEnable()) {
+            throw new RuntimeException("La sala está cerrada para nuevas apuestas.");
+        }
+
+        if (room.getUsersInRoom().size() >= room.getMaxUsers()) {
+            throw new RuntimeException("La sala ha alcanzado el número máximo de usuarios.");
+        }
+
+        // Agregamos al usuario a la sala
+        room.getUsersInRoom().add(user);
+
+        // Guardamos los cambios
+        return roomRepository.save(room);
+    }
 }
 

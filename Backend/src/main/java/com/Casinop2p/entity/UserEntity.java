@@ -2,6 +2,7 @@ package com.Casinop2p.entity;
 
 
 import com.Casinop2p.util.UserEnum;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -34,7 +35,8 @@ public class UserEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     private UserEnum userEnum;
 
-    @OneToMany(mappedBy = "roomOwner", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "roomOwner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<RoomEntity> listRooms;
 
     //@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

@@ -14,7 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/auth")
 @CrossOrigin("*")
 public class AuthController {
 
@@ -27,13 +27,20 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<LoginDTORes> login(@RequestBody LoginDTO loginDTO) {
-        System.out.println(loginDTO);
-        Authentication authentication = new UsernamePasswordAuthenticationToken(loginDTO.email(), loginDTO.password());
-        authenticationManager.authenticate(authentication);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        UserEntity user = userRepository.findByEmail(loginDTO.email()).orElseThrow();
-        String jwt = jwtUtil.generateToken(loginDTO.email());
 
+        Authentication authentication = new UsernamePasswordAuthenticationToken(loginDTO.email(), loginDTO.password());
+
+        authenticationManager.authenticate(authentication);
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        UserEntity user = userRepository.findByEmail(loginDTO.email()).orElseThrow();
+
+        String jwt = jwtUtil.generateToken(loginDTO.email());
+        //para mostrar mi id obtenido del jwt token =============
+        Long userId = jwtUtil.getUserIdFromToken(jwt);
+        System.out.println(userId); //imprime 2 lo saca del token
+        //borrar comentario==============
         return ResponseEntity.ok(LoginDTORes.builder().jwt(jwt).email(loginDTO.email()).role(user.getUserEnum().name()).build());
     }
 

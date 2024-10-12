@@ -16,16 +16,16 @@ import java.util.List;
 @RequiredArgsConstructor
 @CrossOrigin("*")
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/users")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
     // Crear un nuevo usuario
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<UserDTORes> createUser(@Valid @RequestBody UserDTOReq userDTOReq) {
-        System.out.println(userDTOReq);
+
         UserDTORes createdUser = userService.createUser(userDTOReq);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
     }

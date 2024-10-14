@@ -24,5 +24,7 @@ public interface UserService {
     // Firma del método para obtener todos los usuarios
     List<UserDTORes> getAllUsers();
 
+    UserDTORes updateProfileImage(Long id, String imageUrl);
+
 
 }

@@ -2,6 +2,7 @@ package com.Casinop2p.controller;
 
 import com.Casinop2p.dto.UserDTOReq;
 import com.Casinop2p.dto.UserDTORes;
+import com.Casinop2p.service.CloudinaryService;
 import com.Casinop2p.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 import java.util.List;
 
 
@@ -21,6 +25,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private CloudinaryService cloudinaryService;
 
     // Crear un nuevo usuario
     @PostMapping
@@ -56,6 +63,24 @@ public class UserController {
     public ResponseEntity<List<UserDTORes>> getAllUsers() {
         List<UserDTORes> users = userService.getAllUsers();
         return ResponseEntity.ok(users);
+    }
+
+    @PostMapping("/{id}/upload-image")
+    public ResponseEntity<UserDTORes> uploadProfileImage(
+            @PathVariable Long id,
+            @RequestParam("file") MultipartFile file) throws IOException {
+        String imageUrl = cloudinaryService.uploadImage(file);
+        UserDTORes updatedUser = userService.updateProfileImage(id, imageUrl);
+        return ResponseEntity.ok(updatedUser);
+    }
+
+    @PostMapping("/{id}/upload-image-url")
+    public ResponseEntity<UserDTORes> uploadProfileImageByUrl(
+            @PathVariable Long id,
+            @RequestParam("imageUrl") String imageUrl) throws IOException {
+        String uploadedUrl = cloudinaryService.uploadImageByUrl(imageUrl);
+        UserDTORes updatedUser = userService.updateProfileImage(id, uploadedUrl);
+        return ResponseEntity.ok(updatedUser);
     }
 }
 

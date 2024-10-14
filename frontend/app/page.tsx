@@ -1,21 +1,26 @@
+"use client"
+
 import Footer from "@/components/footer/footer";
 import Homepage from "@/components/homepage/homepage";
 import HeaderAuthenticated from "@/components/navbars/authenticated/header-authenticated";
-import NavbarAuthenticated from "@/components/navbars/authenticated/navbar-authenticated";
 import NavbarNotAuthenticated from "@/components/navbars/not-authenticated/navbar-not-authenticated";
+import { useAppSelector } from "@/hooks/hooks";
 
 export default function Home() {
+
+  const user = useAppSelector(store => store.user)
+
   // Fake session - Pending backend
   const session = {
-    id: "cdba0713854c4a3db6afb",
-    name: "fake-username",
-    token: "4943af0c-694b-4145-86eb",
-    img: "/profile-icon.svg",
+    id: user.id,
+    name: user.name,
+    token: user.token,
+    image: "/profile-icon.svg",
   };
 
   return (
     <>
-      {session ? <HeaderAuthenticated /> : <NavbarNotAuthenticated />}
+      {session.id ? <HeaderAuthenticated /> : <NavbarNotAuthenticated />}
       <div className="flex flex-col">
         {/* last bets */}
         <Homepage className="grow" />

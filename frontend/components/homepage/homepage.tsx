@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 import React from "react";
 import { TableBets } from "../table-bets/table-bets";
-import { Fade, Bounce, Hinge, Slide, Zoom } from "react-awesome-reveal";
+import { Fade, Slide, Zoom } from "react-awesome-reveal";
 
 interface HomepageProps extends React.HTMLAttributes<HTMLDivElement> {
   className?: string;

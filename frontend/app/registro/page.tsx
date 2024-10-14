@@ -24,6 +24,9 @@ import Link from "next/link";
 import { Checkbox } from "@/components/ui/checkbox";
 import FooterSpecial from "@/components/footer/footer-special";
 
+import { useAppDispatch } from "@/hooks/hooks";
+import { userRegister } from "@/store/actions/userActions";
+
 const formSchema = z.object({
   gender: z.enum(["male, female, other"]),
   name: z.string().min(3),
@@ -37,6 +40,9 @@ const formSchema = z.object({
 });
 
 export default function Page() {
+
+  const dispatch = useAppDispatch();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -46,7 +52,7 @@ export default function Page() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    // dispatch(userRegister(values))
   }
   return (
     <>

@@ -5,8 +5,11 @@ import com.Casinop2p.dto.BetDTO;
 import com.Casinop2p.dto.RoomResponseDTO;
 import com.Casinop2p.entity.BetEntity;
 import com.Casinop2p.entity.RoomEntity;
+import com.Casinop2p.entity.SportEventEntity;
 import com.Casinop2p.entity.UserEntity;
+import com.Casinop2p.repository.SportEventRepository;
 import com.Casinop2p.service.RoomService;
+import com.Casinop2p.service.SportEventService;
 import com.Casinop2p.util.BetEnum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -25,11 +28,15 @@ import java.util.List;
 public class RoomController {
 
     private final RoomService roomService;
+    private final SportEventRepository sportEventRepository;
 
     @PostMapping
-    public ResponseEntity<RoomResponseDTO> createRoom(@AuthenticationPrincipal UserDetails userDetails, @RequestBody RoomEntity room) {
+    public ResponseEntity<RoomResponseDTO> createRoom(@AuthenticationPrincipal UserDetails userDetails, @RequestBody RoomEntity room, @RequestParam Long eventId) {
         UserEntity user = (UserEntity) userDetails;
+        SportEventEntity sportEventEntity = sportEventRepository.findById(eventId)
+                .orElseThrow(() -> new RuntimeException("Evento no encontrado"));
         room.setRoomOwner(user);
+        room.setSportEvent(sportEventEntity);
         RoomEntity createdRoom = roomService.createRoom(room);
 
         // Aquí convertimos la entidad a un DTO antes de devolverla

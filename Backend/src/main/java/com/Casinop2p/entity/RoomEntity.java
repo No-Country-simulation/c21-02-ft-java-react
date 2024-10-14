@@ -24,7 +24,7 @@ public class RoomEntity {
 
         private String roomName;  // Nombre de la sala
 
-        private boolean enable;  // Si la sala está habilitada o no para apuestas
+        private boolean enable = true;  // Si la sala está habilitada o no para apuestas
 
         @Enumerated(EnumType.STRING)  // Resultado de la apuesta: WIN, LOSS o DRAW
         private BetEnum result;
@@ -58,11 +58,20 @@ public class RoomEntity {
         @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
         private List<BetEntity> bets = new ArrayList<>();  // Lista de todas las apuestas realizadas en la sala
 
+        @ManyToOne
+        @JoinColumn(name = "sport_event_id", nullable = false)
+        private SportEventEntity sportEvent;  // Relación con el evento deportivo
+
         @PrePersist
         protected void onCreate() {
             creationDate = new Date();  // Fecha de creación se asigna automáticamente
-            expirationDate = Date.from(creationDate.toInstant().plusSeconds(3600));  // Sala expira en una hora
+            //expirationDate = Date.from(creationDate.toInstant().plusSeconds(3600));  // Sala expira en una hora
+                if (sportEvent != null) {
+                        expirationDate = sportEvent.getEventDate();  // Expiración según la fecha del evento
+                }
         }
+
+        // TRAER EL SPORTEVENT A LA ENTIDAD ROOM
 
         // Método para calcular el total de dinero apostado en la sala
         public void calculateTotalAmount() {

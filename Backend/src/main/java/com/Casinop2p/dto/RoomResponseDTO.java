@@ -24,4 +24,5 @@ public class RoomResponseDTO {
     private Date expirationDate;
     private Date creationDate;
     private float totalAmount;
+    private Long event;
 }

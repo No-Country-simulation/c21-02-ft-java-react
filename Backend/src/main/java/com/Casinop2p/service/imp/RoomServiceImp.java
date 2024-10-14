@@ -10,8 +10,10 @@ import com.Casinop2p.service.RoomService;
 import com.Casinop2p.util.BetEnum;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -156,6 +158,20 @@ public class RoomServiceImp implements RoomService {
 
         // Guardamos los cambios
         return roomRepository.save(room);
+    }
+
+    @Scheduled(fixedRate = 60000) // Se ejecuta cada 60 segundos (1 minuto)
+    public void checkRoomExpiration() {
+        List<RoomEntity> rooms = roomRepository.findAll();
+        Date currentDate = new Date();
+
+        for (RoomEntity room : rooms) {
+            // Verifica si la fecha de expiración o event_date ha pasado y la sala aún está habilitada
+            if (room.isEnable() && room.getExpirationDate() != null && room.getExpirationDate().before(currentDate)) {
+                room.setEnable(false); // Deshabilitar la sala
+                roomRepository.save(room); // Actualizar en la base de datos
+            }
+        }
     }
 }
 

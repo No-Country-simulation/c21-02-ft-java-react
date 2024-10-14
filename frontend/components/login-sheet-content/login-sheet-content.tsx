@@ -22,12 +22,18 @@ import { Input } from "@/components/ui/input";
 import Logo from "../logo/logo";
 import Link from "next/link";
 
-const formSchema = z.object({
-  email: z.string(),
-  password: z.string(),
-});
+import { useAppDispatch } from "@/hooks/hooks";
+import { userLogin } from "@/store/actions/userActions";
 
 export default function LoginSheetContent() {
+
+  const dispatch = useAppDispatch();
+
+  const formSchema = z.object({
+    email: z.string(),
+    password: z.string(),
+  });
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -37,7 +43,7 @@ export default function LoginSheetContent() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    dispatch(userLogin(values))
   }
 
   return (

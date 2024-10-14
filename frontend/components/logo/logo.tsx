@@ -13,6 +13,7 @@ export default function Logo({ className, ...rest }: LogoProps) {
         alt=""
         width={40}
         height={40}
+        priority={true}
         {...rest}
         className={cn(className)}
       />

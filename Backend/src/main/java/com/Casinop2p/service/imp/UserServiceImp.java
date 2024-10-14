@@ -39,6 +39,10 @@ public class UserServiceImp implements UserService {
     public UserDTORes createUser(UserDTOReq userDTOReq) {
         UserEntity user = UserMapper.toUserEntity(userDTOReq);
 
+        if (user.getProfileImage() == null || user.getProfileImage().isEmpty()) {
+            user.setProfileImage("https://res.cloudinary.com/dmwsuzs94/image/upload/v1728906889/user_n1laeq.jpg");
+        }
+
         // Asegúrate de que estás codificando la contraseña
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
@@ -77,6 +81,14 @@ public class UserServiceImp implements UserService {
         return users.stream()
                 .map(UserMapper::toDTO)
                 .collect(Collectors.toList());
+    }
+
+    public UserDTORes updateProfileImage(Long id, String imageUrl) {
+        UserEntity user = userRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Usuario no encontrado"));
+        user.setProfileImage(imageUrl);
+        userRepository.save(user);
+        return UserMapper.toDTO(user);
     }
 
 

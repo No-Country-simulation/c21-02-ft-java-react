@@ -31,6 +31,8 @@ public interface RoomService {
 
     @Transactional
     RoomEntity addUserToRoom(Long roomId, UserEntity user);
+
+
 }
 
 

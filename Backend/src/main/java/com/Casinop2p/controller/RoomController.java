@@ -105,6 +105,8 @@ public class RoomController {
     public ResponseEntity<RoomResponseDTO> joinRoom(@PathVariable Long roomId, @AuthenticationPrincipal UserDetails userDetails) {
         UserEntity user = (UserEntity) userDetails;
 
+
+
         // Llamamos al servicio para agregar el usuario a la sala
         RoomEntity updatedRoom = roomService.addUserToRoom(roomId, user);
 

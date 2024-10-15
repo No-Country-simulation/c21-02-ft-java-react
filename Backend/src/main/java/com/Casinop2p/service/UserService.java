@@ -3,6 +3,7 @@ package com.Casinop2p.service;
 
 import com.Casinop2p.dto.UserDTOReq;
 import com.Casinop2p.dto.UserDTORes;
+import com.Casinop2p.entity.RoomEntity;
 
 import java.util.List;
 
@@ -25,6 +26,8 @@ public interface UserService {
     List<UserDTORes> getAllUsers();
 
     UserDTORes updateProfileImage(Long id, String imageUrl);
+
+    List<RoomEntity> getAllRooms();
 
 
 }

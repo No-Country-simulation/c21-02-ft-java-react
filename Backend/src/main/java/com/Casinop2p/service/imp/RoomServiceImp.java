@@ -11,6 +11,7 @@ import com.Casinop2p.util.BetEnum;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -144,6 +145,12 @@ public class RoomServiceImp implements RoomService {
         // Buscamos la sala por ID
         RoomEntity room = getRoomById(roomId);
 
+
+
+        if (room.getUsersInRoom().stream().anyMatch(e -> e.getId().equals(user.getId()))) {
+            throw new RuntimeException("El usuario ya es parte de la sala.");
+        }
+
         // Verificamos si la sala está habilitada y si hay espacio
         if (!room.isEnable()) {
             throw new RuntimeException("La sala está cerrada para nuevas apuestas.");
@@ -153,12 +160,15 @@ public class RoomServiceImp implements RoomService {
             throw new RuntimeException("La sala ha alcanzado el número máximo de usuarios.");
         }
 
+
         // Agregamos al usuario a la sala
         room.getUsersInRoom().add(user);
 
         // Guardamos los cambios
         return roomRepository.save(room);
     }
+
+
 
     @Scheduled(fixedRate = 60000) // Se ejecuta cada 60 segundos (1 minuto)
     public void checkRoomExpiration() {

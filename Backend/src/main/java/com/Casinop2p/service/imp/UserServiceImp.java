@@ -3,6 +3,7 @@ package com.Casinop2p.service.imp;
 import com.Casinop2p.Mapper.UserMapper;
 import com.Casinop2p.dto.UserDTOReq;
 import com.Casinop2p.dto.UserDTORes;
+import com.Casinop2p.entity.RoomEntity;
 import com.Casinop2p.entity.UserEntity;
 import com.Casinop2p.exceptions.NotFoundException;
 import com.Casinop2p.repository.UserRepository;
@@ -89,6 +90,11 @@ public class UserServiceImp implements UserService {
         user.setProfileImage(imageUrl);
         userRepository.save(user);
         return UserMapper.toDTO(user);
+    }
+
+    @Override
+    public List<RoomEntity> getAllRooms() {
+        return List.of();
     }
 
 

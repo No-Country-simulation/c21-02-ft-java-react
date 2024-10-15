@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export default function HeaderAuthenticated() {
 
@@ -31,17 +31,17 @@ export default function HeaderAuthenticated() {
     const router = useRouter();
 
     const [isHidden, setIsHidden] = useState(false);
-    let lastScrollTop = 0;
+    const lastScrollTopRef = useRef(0);
 
     const handleScroll = () => {
         const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
 
-        if (scrollTop > lastScrollTop) {
-            setIsHidden(true); // Ocultar header al hacer scroll hacia abajo
+        if (scrollTop > lastScrollTopRef.current) {
+            setIsHidden(true);
         } else {
-            setIsHidden(false); // Mostrar header al hacer scroll hacia arriba
+            setIsHidden(false);
         }
-        lastScrollTop = scrollTop;
+        lastScrollTopRef.current = scrollTop;
     };
 
     useEffect(() => {

@@ -5,12 +5,51 @@ import { Sheet, SheetTrigger } from "@/components/ui/sheet";
 import LoginSheetContent from "@/components/login-sheet-content/login-sheet-content";
 import { useRouter } from "next/navigation";
 import Logo from "@/components/logo/logo";
+import { useState, useEffect, useRef } from "react";
 
 export default function NavbarNotAuthenticated() {
   const router = useRouter();
+
+  const [isHidden, setIsHidden] = useState(false);
+  const lastScrollTopRef = useRef(0);
+
+  const handleScroll = () => {
+    const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+
+    if (scrollTop > lastScrollTopRef.current) {
+      setIsHidden(true);
+    } else {
+      setIsHidden(false);
+    }
+    lastScrollTopRef.current = scrollTop;
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   return (
     <>
-      <div className="flex justify-between p-3 sticky top-0 left-0 bg-background/10 z-50 backdrop-blur-sm">
+      <div
+        className={`bg-neutral-100/45
+                    dark:bg-neutral-950/45
+                    sticky top-0 
+                    backdrop-blur-xl
+                    max-md:flex-wrap
+                    max-md:flex-col
+                    md:w-full 
+                    px-1 py-2 
+                    flex flex-row 
+                    md:justify-between 
+                    max-md:gap-4
+                    border-r 
+                    hover:shadow-lg
+                    transition duration-500 
+                    z-10
+                    ${isHidden ? '-translate-y-full' : ''}`}>
         <div>
           <Logo />
         </div>

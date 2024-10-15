@@ -48,57 +48,13 @@ public class RoomServiceImp implements RoomService {
 
     // Método para que un usuario apueste en una sala
     public BetEntity placeBet(Long roomId, Long userId, BetEnum betEnum, float amount) {
-        RoomEntity room = getRoomById(roomId);  // Buscar la sala
-        UserEntity user = userRepository.findById(userId)  // Buscar el usuario
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + userId));
-
-        // Verificar si el usuario tiene suficiente saldo
-        if (user.getBalance() < amount) {
-            throw new RuntimeException("Saldo insuficiente para realizar la apuesta");
-        }
-
-        // 5. Crear una nueva entidad de apuesta
-        BetEntity bet = new BetEntity();
-        bet.setBetEnum(betEnum); // El tipo de apuesta (WIN, LOSS, DRAW)
-        bet.setAmount(amount);   // El monto apostado
-        bet.setRoom(room);       // La sala donde se realiza la apuesta
-        bet.setUser(user);       // El usuario que realiza la apuesta
-
-
-        // Descontar el dinero del saldo del usuario
-        user.setBalance(user.getBalance() - amount);
-        userRepository.save(user);
-
-        // Guardar la apuesta en la base de datos
-        BetEntity savedBet = betRepository.save(bet);
-
-        // Añadir la apuesta a la sala
-        room.getBets().add(savedBet);
-        room.calculateTotalAmount();  // Recalcular el monto total de la sala
-        roomRepository.save(room);
-
-        return savedBet;
+       return null;
     }
 
 
     // Método para cerrar la sala y calcular los resultados
     public void closeRoom(Long roomId, BetEnum result) {
-        RoomEntity room = getRoomById(roomId);
-        room.setResult(result);  // Establecer el resultado de la sala (quién ganó)
 
-        // Repartir el dinero a los ganadores
-        room.getBets().forEach(bet -> {
-            if (bet.getBetEnum() == result) {
-                UserEntity user = bet.getUser();
-                float winnings = bet.getAmount() * 2;  // Ganancia es el doble de la apuesta
-                user.setBalance(user.getBalance() + winnings);  // Añadir la ganancia al usuario
-                userRepository.save(user);  // Guardar el nuevo balance
-            }
-        });
-
-        // Desactivar la sala después de que se haya repartido el dinero
-        room.setEnable(false);
-        roomRepository.save(room);
     }
 
 
@@ -144,7 +100,6 @@ public class RoomServiceImp implements RoomService {
     public RoomEntity addUserToRoom(Long roomId, UserEntity user) {
         // Buscamos la sala por ID
         RoomEntity room = getRoomById(roomId);
-
 
 
         if (room.getUsersInRoom().stream().anyMatch(e -> e.getId().equals(user.getId()))) {

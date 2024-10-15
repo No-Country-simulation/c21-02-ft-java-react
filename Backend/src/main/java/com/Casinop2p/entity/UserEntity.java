@@ -41,9 +41,7 @@ public class UserEntity implements UserDetails {
     @JsonIgnore
     private List<RoomEntity> listRooms;
 
-    //@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    //@JoinTable(name = "bet_list", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "room_id"))
-    //private Set<RoomEntity> betList = new HashSet<>();
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -29,6 +29,7 @@ public class UserEntity implements UserDetails {
 
     private float balance;
 
+
     private String profileImage;
 
     @Column(unique = true)

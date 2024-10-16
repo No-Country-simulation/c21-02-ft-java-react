@@ -3,17 +3,20 @@ package com.Casinop2p.controller;
 import com.Casinop2p.dto.UserDTOReq;
 import com.Casinop2p.dto.UserDTORes;
 import com.Casinop2p.entity.UserEntity;
-import com.Casinop2p.repository.UserRepository;
+import com.Casinop2p.service.CloudinaryService;
 import com.Casinop2p.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
+
 
 
 @RequiredArgsConstructor
@@ -25,9 +28,13 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private CloudinaryService cloudinaryService;
+
     // Crear un nuevo usuario
     @PostMapping
     public ResponseEntity<UserDTORes> createUser(@Valid @RequestBody UserDTOReq userDTOReq) {
+        System.out.println(userDTOReq);
         UserDTORes createdUser = userService.createUser(userDTOReq);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
     }
@@ -58,6 +65,24 @@ public class UserController {
     public ResponseEntity<List<UserDTORes>> getAllUsers() {
         List<UserDTORes> users = userService.getAllUsers();
         return ResponseEntity.ok(users);
+    }
+
+    @PostMapping("/{id}/upload-image")
+    public ResponseEntity<UserDTORes> uploadProfileImage(
+            @PathVariable Long id,
+            @RequestParam("file") MultipartFile file) throws IOException {
+        String imageUrl = cloudinaryService.uploadImage(file);
+        UserDTORes updatedUser = userService.updateProfileImage(id, imageUrl);
+        return ResponseEntity.ok(updatedUser);
+    }
+
+    @PostMapping("/upload-image-url")
+    public ResponseEntity<UserDTORes> uploadProfileImageByUrl(
+            @AuthenticationPrincipal UserEntity loggedInUser,
+            @RequestBody String imageUrl) throws IOException {
+        String uploadedUrl = cloudinaryService.uploadImageByUrl(imageUrl);
+        UserDTORes updatedUser = userService.updateProfileImage(loggedInUser.getId(), uploadedUrl);
+        return ResponseEntity.ok(updatedUser);
     }
 }
 

@@ -1,6 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchData } from "@/lib/utils";
 
+import axios from "axios"
+
 const loginURL = process.env.NEXT_PUBLIC_USER_LOGIN ? process.env.NEXT_PUBLIC_USER_LOGIN : ""
 const registerURL = process.env.NEXT_PUBLIC_USER_ENDPOINT ? process.env.NEXT_PUBLIC_USER_ENDPOINT : ""
 
@@ -8,10 +10,11 @@ export const userLogin = createAsyncThunk(
     'user/login',
     async ({ email, password }: { email: string; password: string },) => {
         try {
-            const data = fetchData(loginURL,
+            {/*const data = fetchData(loginURL,
                 "An error has occurred when trying to log in.",
                 "POST",
-                { email, password })
+                { email, password })*/}
+            const { ...data } = axios.post(loginURL, { email, password })
             return console.log(data);
         } catch (error) {
             return console.error(error); // Esto se pasará como payload a rejected

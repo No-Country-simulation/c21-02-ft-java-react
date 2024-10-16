@@ -65,8 +65,8 @@ public class SecurityConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration corsConfig = new CorsConfiguration();
         corsConfig.setAllowedOrigins(List.of("https://c21-02-ft-java-react-frontend-qw2s.onrender.com", "http://localhost:3000")); // Origen permitido
-        corsConfig.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE")); // Métodos permitidos
-        corsConfig.setAllowedHeaders(List.of("Authorization", "Content-Type")); // Cabeceras permitidas
+        corsConfig.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE","OPTIONS")); // Métodos permitidos
+        corsConfig.setAllowedHeaders(List.of("Authorization", "Content-Type","Access-Control-Allow-Origin", "Access-Control-Allow-Credentials")); // Cabeceras permitidas
         corsConfig.setAllowCredentials(true); // Permitir credenciales (si es necesario)
         source.registerCorsConfiguration("/**", corsConfig);
         return new CorsFilter(source);

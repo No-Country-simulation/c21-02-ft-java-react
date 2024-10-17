@@ -47,11 +47,18 @@ export default function NavbarNotAuthenticated() {
                     max-md:gap-4
                     border-r 
                     hover:shadow-lg
-                    transition duration-500 
+                    transition duration-500 ease-in-out
                     z-10
                     ${isHidden ? '-translate-y-full' : ''}`}>
         <div>
-          <Logo />
+          <div className="flex flex-row lg:gap-4 justify-between max-md:justify-around max-md:items-center">
+            <Logo className="md:mx-auto" />
+            <div
+              className="text-3xl text-primary font-semibold italic md:max-lg:hidden"
+            >
+              Super Apuestas
+            </div>
+          </div>
         </div>
         <div className="flex gap-2 items-center">
           <Sheet>

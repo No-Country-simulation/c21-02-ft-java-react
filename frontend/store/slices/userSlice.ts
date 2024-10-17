@@ -1,10 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { userLogin, userRegister } from "../actions/userActions";
+import { userLogin, userRegister, userSessionPersistence } from "../actions/userActions";
 
 const userSlice = createSlice({
     name: "user",
     initialState: {
-        id: "",
+        id: 0,
         name: "",
         email: "",
         image: "",
@@ -23,15 +23,21 @@ const userSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(userLogin.fulfilled, (state, action) => {
-                {/* state = {
-                    ...state,
-                    email: action.payload.email,
-                    token: action.payload.jwt,
-                    userEnum: action.payload.role
-                }*/}
+                state.id = action.payload.id;
+                state.email = action.payload.email;
+                state.token = action.payload.token;
+                state.userEnum = action.payload.role;
             })
-            .addCase(userRegister.fulfilled, (state, action) => {
-                return
+            .addCase(userRegister.fulfilled, () => {
+                return console.log("Registro realizado con éxito.");
+
+            })
+            .addCase(userSessionPersistence.fulfilled, (state, action) => {
+                state.id = action.payload.id;
+                state.email = action.payload.email;
+                state.name = action.payload.name;
+                state.userEnum = action.payload.role;
+                state.token = action.payload.token;
             })
     }
 })

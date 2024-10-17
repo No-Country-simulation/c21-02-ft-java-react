@@ -22,11 +22,14 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
+import { useAppSelector } from "@/hooks/hooks";
 
 export default function HeaderAuthenticated() {
 
-    const username: string = "Username"
-    const email: string = "username@email.com"
+    const user = useAppSelector(store => store.user)
+
+    const username: string = user.name
+    const email: string = user.email
 
     const router = useRouter();
 

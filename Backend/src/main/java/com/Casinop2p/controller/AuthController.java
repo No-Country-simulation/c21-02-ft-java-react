@@ -61,8 +61,6 @@ public class AuthController {
         Optional<UserEntity> userTemp=userRepository.findByEmail(jwtUtil.decodeJWT(jwt).getSubject()); //obtener a partir de getSubjetc el usuario
 
 
-
-
         return ResponseEntity.ok(
                 UserDTORes.builder()
 

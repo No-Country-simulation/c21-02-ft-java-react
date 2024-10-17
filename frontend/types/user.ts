@@ -3,6 +3,14 @@ export interface UserLogin {
     password: string;
 }
 
+export interface UserRegister {
+    name: string;
+    email: string;
+    password: string;
+    balance: number;
+    userEnum: "ADMIN" | "USER" | "INVITED";
+}
+
 export interface UserRegisterResponse {
     id: number,
     name: string,

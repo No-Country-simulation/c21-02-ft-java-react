@@ -19,6 +19,10 @@ public class BetEntity {
     private String team;  // Equipo por el cual el usuario está apostando
 
 
+    @Enumerated(EnumType.STRING)
+    private BetEnum betType;  // Tipo de apuesta (WIN, LOSS, DRAW)
+
+
     @ManyToOne
     private UserEntity user;  // El usuario que hizo la apuesta
 

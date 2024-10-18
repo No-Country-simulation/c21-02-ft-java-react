@@ -2,5 +2,5 @@ package com.Casinop2p.util;
 
 public enum BetEnum {
 
-    WIN, LOSS, DRAW
+    TEAM1_WIN, TEAM2_WIN, DRAW
 }

@@ -54,6 +54,14 @@
 			<version>2.4.4</version>
 		</dependency>
 
+		<!-- Swagger-->
+
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>2.6.0</version>
+		</dependency>
+
 		<!-- JWT -->
 
 			<dependency>
@@ -76,6 +84,10 @@
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
+
+
+
+
 
 		<!-- BD -->
 		<dependency>

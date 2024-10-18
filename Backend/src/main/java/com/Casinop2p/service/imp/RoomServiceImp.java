@@ -47,14 +47,95 @@ public class RoomServiceImp implements RoomService {
 
 
     // Método para que un usuario apueste en una sala
+    @Override
+    @Transactional
     public BetEntity placeBet(Long roomId, Long userId, BetEnum betEnum, float amount) {
-       return null;
+        RoomEntity room = roomRepository.findById(roomId)
+                .orElseThrow(() -> new RuntimeException("Sala no encontrada con ID: " + roomId));
+
+        UserEntity user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + userId));
+
+        // Verificar que la sala está habilitada y que el evento aún no ha ocurrido
+        if (!room.isEnable() || room.getExpirationDate().before(new Date())) {
+            throw new RuntimeException("No se pueden hacer apuestas en esta sala.");
+        }
+
+        // Verificar que el usuario tiene suficiente balance
+        if (user.getBalance() < amount) {
+            throw new RuntimeException("Saldo insuficiente.");
+        }
+
+        // Crear la apuesta
+        BetEntity bet = new BetEntity();
+        bet.setUser(user);
+        bet.setRoom(room);
+        bet.setAmount(amount);
+        bet.setBetType(betEnum);
+        // Establecer el equipo por el que apuesta (opcional)
+        // bet.setTeam(betEnum.name());
+
+        // Reducir el balance del usuario
+        user.setBalance(user.getBalance() - amount);
+        userRepository.save(user);
+
+        // Agregar la apuesta a la sala
+        room.getBets().add(bet);
+        room.calculateTotalAmount();
+        roomRepository.save(room);
+
+        // Guardar la apuesta
+        return betRepository.save(bet);
     }
 
 
     // Método para cerrar la sala y calcular los resultados
+    @Override
+    @Transactional
     public void closeRoom(Long roomId, BetEnum result) {
+        RoomEntity room = roomRepository.findById(roomId)
+                .orElseThrow(() -> new RuntimeException("Sala no encontrada con ID: " + roomId));
 
+        // Establecer el resultado del evento
+        room.setResult(result);
+
+        // Deshabilitar la sala para nuevas apuestas
+        room.setEnable(false);
+
+        // Calcular y distribuir ganancias
+        List<BetEntity> bets = room.getBets();
+
+        // Sumar total de apuestas ganadoras
+        float totalWinningAmount = bets.stream()
+                .filter(bet -> bet.getBetType() == result)
+                .map(BetEntity::getAmount)
+                .reduce(0f, Float::sum);
+
+        // Si nadie ganó, el dinero podría quedarse en la casa o ser distribuido de otra manera
+        if (totalWinningAmount == 0) {
+            // Manejar caso donde nadie ganó
+            // Por ejemplo, el dinero se queda en la casa
+            return;
+        }
+
+        // Distribuir ganancias a los ganadores
+        for (BetEntity bet : bets) {
+            if (bet.getBetType() == result) {
+                // Calcular proporción de la apuesta del usuario sobre el total de apuestas ganadoras
+                float userProportion = bet.getAmount() / totalWinningAmount;
+
+                // Calcular ganancia del usuario
+                float userWinning = room.getTotalAmount() * userProportion;
+
+                // Actualizar balance del usuario
+                UserEntity user = bet.getUser();
+                user.setBalance(user.getBalance() + userWinning);
+                userRepository.save(user);
+            }
+        }
+
+        // Guardar cambios en la sala
+        roomRepository.save(room);
     }
 
 

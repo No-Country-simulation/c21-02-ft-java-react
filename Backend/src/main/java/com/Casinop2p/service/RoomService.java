@@ -33,6 +33,8 @@ public interface RoomService {
     RoomEntity addUserToRoom(Long roomId, UserEntity user);
 
 
+
+
 }
 
 

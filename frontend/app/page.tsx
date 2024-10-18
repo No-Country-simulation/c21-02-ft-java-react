@@ -25,11 +25,6 @@ export default function Home() {
 
     if (token) dispatch(userSessionPersistence(token))
 
-    console.log(process.env.NEXT_PUBLIC_USER_LOGIN);
-    console.log(process.env.NEXT_PUBLIC_USER_ENDPOINT);
-    console.log(process.env.NEXT_PUBLIC_USER_GET_INFO_WITH_TOKEN);
-    console.log(process.env.PORT);
-
   }, [dispatch])
 
   return (

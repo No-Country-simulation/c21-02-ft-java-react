@@ -24,6 +24,7 @@ const userSlice = createSlice({
         builder
             .addCase(userLogin.fulfilled, (state, action) => {
                 state.id = action.payload.id;
+                state.name = action.payload.name;
                 state.email = action.payload.email;
                 state.token = action.payload.token;
                 state.userEnum = action.payload.role;

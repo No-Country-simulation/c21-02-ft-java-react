@@ -24,6 +24,7 @@ export default function Home() {
     const token = localStorage.getItem("token");
 
     if (token) dispatch(userSessionPersistence(token))
+
   }, [dispatch])
 
   return (

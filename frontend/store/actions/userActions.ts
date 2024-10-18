@@ -18,6 +18,8 @@ export const userLogin = createAsyncThunk(
                 "An error has occurred when trying to log in.",
                 "POST",
                 { email, password })
+                console.log(loginURL);
+                
             console.log(data);
             localStorage.setItem("token", data.jwt)
             return {

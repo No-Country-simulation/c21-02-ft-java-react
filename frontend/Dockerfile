@@ -19,5 +19,7 @@ RUN npm run build
 # Expone el puerto 3000 para que Next.js pueda ser accesible.
 EXPOSE 3000
 
+RUN env
+
 # Comando para ejecutar la aplicación en modo producción.
 CMD ["npm", "start"]

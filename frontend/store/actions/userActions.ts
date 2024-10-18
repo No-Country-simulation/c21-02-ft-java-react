@@ -23,6 +23,7 @@ export const userLogin = createAsyncThunk(
             console.log(data);
             localStorage.setItem("token", data.jwt)
             return {
+                name: data.name,
                 email: data.email,
                 id: data.id,
                 token: data.jwt,

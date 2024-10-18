@@ -12,4 +12,5 @@ public class Casinop2pApplication {
 		SpringApplication.run(Casinop2pApplication.class, args);
 	}
 
+
 }

@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class BetDTO {
     private Long userId;        // ID del usuario que realiza la apuesta
-    private BetEnum betEnum;    // Tipo de apuesta (WIN, LOSS, DRAW)
+    private BetEnum betEnum;   // Tipo de apuesta (WIN, LOSS, DRAW)
     private float amount;       // Cantidad apostada
 }
 

@@ -1,5 +1,6 @@
 package com.Casinop2p.entity;
 
+import com.Casinop2p.util.BetEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -36,5 +37,6 @@ public class SportEventEntity {
     private String team2;
 
     @Column(name="result")
-    private String result;
+    @Enumerated(EnumType.STRING)
+    private BetEnum result;
 }

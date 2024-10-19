@@ -50,6 +50,8 @@ public class AuthController {
                 .email(loginDTO.email())
                 .role(user.getUserEnum().toString())
                 .name(user.getName())
+                        .profileImage(user.getProfileImage())
+                        .balance(user.getBalance())
                 .build()
                 )
                 ;

@@ -91,11 +91,8 @@ public class RoomController {
     @PostMapping("/{roomId}/bet")
     public ResponseEntity<BetEntity> placeBet(
             @PathVariable Long roomId,
-            @RequestBody BetDTO betDTO) {  // @RequestBody para recibir un DTO con los detalles de la apuesta
-
-        // Realizamos la apuesta usando los datos del DTO
+            @RequestBody BetDTO betDTO) {
         BetEntity bet = roomService.placeBet(roomId, betDTO.getUserId(), betDTO.getBetEnum(), betDTO.getAmount());
-
         return ResponseEntity.ok(bet);
     }
 
@@ -103,11 +100,8 @@ public class RoomController {
     @PostMapping("/{roomId}/close")
     public ResponseEntity<Void> closeRoom(
             @PathVariable Long roomId,
-            @RequestParam BetEnum result) {  // Recibimos el resultado de la apuesta como RequestParam
-
-        // Cerramos la sala y calculamos el resultado
+            @RequestParam BetEnum result) {
         roomService.closeRoom(roomId, result);
-
         return ResponseEntity.noContent().build();
     }
 
@@ -129,6 +123,7 @@ public class RoomController {
         RoomResponseDTO response = EntityMapper.toRoomResponseDTO(updatedRoom);
         return ResponseEntity.ok(response);
     }
+
 
 }
 

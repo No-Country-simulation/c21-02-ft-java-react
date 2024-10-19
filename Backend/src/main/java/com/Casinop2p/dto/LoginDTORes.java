@@ -15,6 +15,8 @@ public class LoginDTORes {
     private String email;
     private Long id;
     private String name;
+    private String profileImage;
+    private float balance;
 }
 
 

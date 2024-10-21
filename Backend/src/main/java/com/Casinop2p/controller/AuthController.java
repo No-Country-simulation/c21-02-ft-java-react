@@ -67,6 +67,7 @@ public class AuthController {
         return ResponseEntity.ok(
                 UserDTORes.builder()
 
+
                         .id(userTemp.get().getId())
                         .name(userTemp.get().getName())
                         .balance(userTemp.get().getBalance())

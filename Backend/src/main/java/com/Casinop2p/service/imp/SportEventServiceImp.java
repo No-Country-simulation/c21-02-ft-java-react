@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class SportEventServiceImp implements SportEventService {
 
+
     private final SportEventRepository sportEventRepository;
 
     @Override
@@ -21,5 +22,6 @@ public class SportEventServiceImp implements SportEventService {
         event.setResult(result);
         sportEventRepository.save(event);
     }
+
 
 }

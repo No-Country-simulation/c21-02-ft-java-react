@@ -45,22 +45,23 @@ public class AuthController {
 
         return ResponseEntity.ok(
                 LoginDTORes.builder()
-                .jwt(jwt)
-                .id(user.getId())
-                .email(loginDTO.email())
-                .role(user.getUserEnum().toString())
-                .name(user.getName())
+                        .jwt(jwt)
+                        .id(user.getId())
+                        .email(loginDTO.email())
+                        .role(user.getUserEnum().toString())
+                        .name(user.getName())
                         .profileImage(user.getProfileImage())
                         .balance(user.getBalance())
-                .build()
-                )
-                ;
+                        .build()
+        );
+
     }
-    @GetMapping ("/user-session")
+
+    @GetMapping("/user-session")
     public ResponseEntity<UserDTORes> userSession(@RequestHeader("Authorization") String jwtToken) {
 
-        String jwt=jwtToken.substring(7);
-        Optional<UserEntity> userTemp=userRepository.findByEmail(jwtUtil.decodeJWT(jwt).getSubject()); //obtener a partir de getSubjetc el usuario
+        String jwt = jwtToken.substring(7);
+        Optional<UserEntity> userTemp = userRepository.findByEmail(jwtUtil.decodeJWT(jwt).getSubject()); //obtener a partir de getSubjetc el usuario
 
 
         return ResponseEntity.ok(
@@ -71,6 +72,7 @@ public class AuthController {
                         .balance(userTemp.get().getBalance())
                         .email(userTemp.get().getEmail())
                         .userEnum(userTemp.get().getUserEnum().toString())
+                        .profileImage(userTemp.get().getProfileImage())
                         .build());
 /*
         Authentication authentication = new UsernamePasswordAuthenticationToken(loginDTO.email(), loginDTO.password());

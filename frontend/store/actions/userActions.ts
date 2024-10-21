@@ -23,6 +23,7 @@ export const userLogin = createAsyncThunk(
                 name: data.name,
                 email: data.email,
                 id: data.id,
+                image: data.profileImage,
                 token: data.jwt,
                 role: data.role
             }
@@ -82,11 +83,13 @@ export const userSessionPersistence = createAsyncThunk(
                 "An error has occurred when trying to fetch the information.",
                 "GET",
                 null, token)
+            console.log(data);
 
             return {
                 id: data.id,
                 email: data.email,
                 name: data.name,
+                image: data.profileImage,
                 role: data.role,
                 token: token
             }

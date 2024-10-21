@@ -26,17 +26,18 @@ const userSlice = createSlice({
                 state.id = action.payload.id;
                 state.name = action.payload.name;
                 state.email = action.payload.email;
+                state.image = action.payload.image;
                 state.token = action.payload.token;
                 state.userEnum = action.payload.role;
             })
             .addCase(userRegister.fulfilled, () => {
-                return console.log("Registro realizado con éxito.");
-
+                return alert("Registro realizado con éxito.");
             })
             .addCase(userSessionPersistence.fulfilled, (state, action) => {
                 state.id = action.payload.id;
                 state.email = action.payload.email;
                 state.name = action.payload.name;
+                state.image = action.payload.image;
                 state.userEnum = action.payload.role;
                 state.token = action.payload.token;
             })

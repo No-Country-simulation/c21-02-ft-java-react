@@ -24,8 +24,16 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useRouter } from "next/navigation";
+import { useAppSelector } from "@/hooks/hooks";
 
 export default function NavbarAuthenticated() {
+
+  const user = useAppSelector(store => store.user);
+
+  const email: string = user.email;
+  const name: string = user.name;
+  const image: string = user.image
+
   const [isExpandedMenu, setIsExpandedMenu] = useState(false);
   const router = useRouter();
   return (
@@ -167,8 +175,8 @@ export default function NavbarAuthenticated() {
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Avatar className="hover:cursor-pointer">
-                      <AvatarImage src="https://avatars.githubusercontent.com/u/119996547?s=96&v=4" />
-                      <AvatarFallback>CN</AvatarFallback>
+                      <AvatarImage src={image} />
+                      <AvatarFallback>PFP</AvatarFallback>
                     </Avatar>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent>
@@ -188,13 +196,13 @@ export default function NavbarAuthenticated() {
                     <Button variant={"ghost"} className="p-1">
                       <div className="flex gap-2 items-center justify-between">
                         <Avatar className="hover:cursor-pointer">
-                          <AvatarImage src="https://avatars.githubusercontent.com/u/119996547?s=96&v=4" />
-                          <AvatarFallback>CN</AvatarFallback>
+                          <AvatarImage src={image} />
+                          <AvatarFallback>PFP</AvatarFallback>
                         </Avatar>
                         <div className="text-xs grow text-start">
-                          <p className="font-bold">Rednaxela</p>
+                          <p className="font-bold">{name}</p>
                           <p className="text-muted-foreground">
-                            mi-cuenta@email.com
+                            {email}
                           </p>
                         </div>
                         <CaretSortIcon />

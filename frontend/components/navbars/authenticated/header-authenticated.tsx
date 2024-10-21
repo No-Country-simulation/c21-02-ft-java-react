@@ -30,6 +30,7 @@ export default function HeaderAuthenticated() {
 
     const username: string = user.name
     const email: string = user.email
+    const image: string = user.image
 
     const router = useRouter();
 
@@ -121,8 +122,8 @@ export default function HeaderAuthenticated() {
                                     <Button variant={"ghost"} className="p-1">
                                         <div className="flex gap-2 items-center justify-between">
                                             <Avatar className="hover:cursor-pointer">
-                                                <AvatarImage src="https://avatars.githubusercontent.com/u/119996547?s=96&v=4" />
-                                                <AvatarFallback>CN</AvatarFallback>
+                                                <AvatarImage src={image} />
+                                                <AvatarFallback>PFP</AvatarFallback>
                                             </Avatar>
                                             <div className="text-xs grow text-start">
                                                 <p className="font-bold">{username}</p>

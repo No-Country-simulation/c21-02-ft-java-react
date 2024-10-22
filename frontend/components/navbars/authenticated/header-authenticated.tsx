@@ -24,6 +24,8 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import { useAppSelector } from "@/hooks/hooks";
 
+import Link from 'next/link'
+
 export default function HeaderAuthenticated() {
 
     const user = useAppSelector(store => store.user)
@@ -34,6 +36,7 @@ export default function HeaderAuthenticated() {
 
     const router = useRouter();
 
+    const [pageLocation, setPageLocation] = useState(typeof window ? window.location.pathname : "")
     const [isHidden, setIsHidden] = useState(false);
     const lastScrollTopRef = useRef(0);
 
@@ -76,20 +79,25 @@ export default function HeaderAuthenticated() {
                     ${isHidden ? '-translate-y-full' : ''}`}
             >
                 <TooltipProvider delayDuration={300}>
-                    <div className="flex flex-row lg:gap-4 justify-between max-md:justify-around max-md:items-center">
-                        <Logo className="md:mx-auto" />
-                        <div
-                            className="text-3xl text-primary font-semibold italic md:max-lg:hidden"
-                        >
-                            Super Apuestas
+                    <Link href={'/'}>
+                        <div className="flex flex-row lg:gap-4 justify-between max-md:justify-around max-md:items-center">
+                            <Logo className="md:mx-auto" />
+                            <div
+                                className="text-3xl text-primary font-semibold italic md:max-lg:hidden"
+                            >
+                                Super Apuestas
+                            </div>
                         </div>
-                    </div>
-
+                    </Link>
                     <div className="flex flex-row max-md:flex-wrap items-center justify-start md:gap-2 max-md:gap-4">
                         <>
                             <Button
                                 className="flex gap-2 w-full"
-                                onClick={() => router.push("nueva-apuesta")}
+                                variant={(pageLocation === "/nueva-apuesta") ? "default" : "ghost"}
+                                onClick={() => {
+                                    router.push("nueva-apuesta")
+                                    setPageLocation("/nueva-apuesta")
+                                }}
                             >
                                 <PlusIcon />
                                 Nueva apuesta
@@ -97,8 +105,11 @@ export default function HeaderAuthenticated() {
 
                             <Button
                                 className="flex gap-2 w-full md:justify-start"
-                                variant={"ghost"}
-                                onClick={() => router.push("apuestas")}
+                                variant={(pageLocation === "/apuestas") ? "default" : "ghost"}
+                                onClick={() => {
+                                    router.push("apuestas")
+                                    setPageLocation("/apuestas")
+                                }}
                             >
                                 <Component1Icon />
                                 Apuestas online
@@ -106,8 +117,11 @@ export default function HeaderAuthenticated() {
 
                             <Button
                                 className="flex gap-2 w-full md:justify-start"
-                                variant={"ghost"}
-                                onClick={() => router.push("estadisticas")}
+                                variant={(pageLocation === "/estadisticas") ? "default" : "ghost"}
+                                onClick={() => {
+                                    router.push("estadisticas")
+                                    setPageLocation("/estadisticas")
+                                }}
                             >
                                 <BarChartIcon />
                                 Estadísticas

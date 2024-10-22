@@ -13,7 +13,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import Link from "next/link";
 import { Checkbox } from "@/components/ui/checkbox";
 import FooterSpecial from "@/components/footer/footer-special";
 
@@ -64,14 +63,6 @@ export default function Page() {
   return (
     <>
       <div>
-        {/* header */}
-        <div
-          className="bg-primary text-5xl text-primary-foreground font-semibold p-3 italic
-        "
-        >
-          <Link href={"/"}>Super Apuestas</Link>
-        </div>
-
         {/* form */}
         <Form {...form}>
           <form

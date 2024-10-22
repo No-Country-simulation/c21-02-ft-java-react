@@ -53,14 +53,21 @@ export default function CreateBetType() {
                   width={450}
                   height={450}
                   className="object-scale-down size-80 hover:-translate-y-2 animation duration-200 hover:cursor-pointer mx-auto"
+                  onClick={() => {
+                    setBetSettings((prev: any) => ({
+                      ...prev,
+                      type: "coinflip",
+                    }));
+                    setStep(2);
+                  }}
                 />
 
                 <p className="text-3xl text-end">
-                  Juegos de mesa espeluznantes
+                  Juegos de azar
                 </p>
-                <p className="text-6xl font-bold text-end">BLACKJACK</p>
+                <p className="text-6xl font-bold text-end">COINFLIP</p>
                 <p className="text-xl text-end">
-                  <span className="font-bold">¿Te atreves a jugar? </span>
+                  <span className="font-bold">¿Te sientes con suerte?</span>
                 </p>
               </div>
             </Slide>

@@ -27,7 +27,7 @@ public interface RoomService {
     BetEntity placeBet(Long roomId, Long userId, BetEnum betEnum, float amount);
 
 
-    void closeRoom(Long roomId, BetEnum result);
+   // void closeRoom(Long roomId, BetEnum result);
 
     @Transactional
     RoomEntity addUserToRoom(Long roomId, UserEntity user);

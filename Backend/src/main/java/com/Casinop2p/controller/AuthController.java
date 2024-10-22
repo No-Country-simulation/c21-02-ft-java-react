@@ -31,7 +31,7 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<LoginDTORes> login(@RequestBody LoginDTO loginDTO) {
 
-        System.out.println(loginDTO);
+
 
         Authentication authentication = new UsernamePasswordAuthenticationToken(loginDTO.email(), loginDTO.password());
         authenticationManager.authenticate(authentication);

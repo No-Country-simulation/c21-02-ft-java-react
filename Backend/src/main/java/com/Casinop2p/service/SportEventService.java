@@ -4,5 +4,5 @@ import com.Casinop2p.util.BetEnum;
 
 public interface SportEventService {
 
-    void updateEventResult(Long eventId, BetEnum result);
+  //  void updateEventResult(Long eventId, BetEnum result);
 }

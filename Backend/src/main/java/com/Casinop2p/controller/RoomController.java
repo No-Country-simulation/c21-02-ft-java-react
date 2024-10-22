@@ -10,6 +10,7 @@ import com.Casinop2p.entity.SportEventEntity;
 import com.Casinop2p.entity.UserEntity;
 import com.Casinop2p.repository.RoomRepository;
 import com.Casinop2p.repository.SportEventRepository;
+import com.Casinop2p.repository.UserRepository;
 import com.Casinop2p.service.RoomService;
 import com.Casinop2p.service.SportEventService;
 import com.Casinop2p.util.BetEnum;
@@ -37,6 +38,7 @@ public class RoomController {
     private final RoomService roomService;
     private final SportEventRepository sportEventRepository;
     private final RoomRepository roomRepository;
+    private final UserRepository userRepository;
 
     @PostMapping
     @Transactional
@@ -50,6 +52,9 @@ public class RoomController {
             throw new RuntimeException("You don't have enough balance");
         }
 
+
+        user.setBalance(user.getBalance()- room.bet());
+        userRepository.save(user);
         listOfUsers.add(user);
 
 

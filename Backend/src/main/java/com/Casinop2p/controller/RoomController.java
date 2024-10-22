@@ -135,10 +135,14 @@ public class RoomController {
         UserEntity user = (UserEntity) userDetails;
 
 
+
+
         if(user.getBalance() < roomRepository.getReferenceById(roomId).getBet()){
             throw new RuntimeException("you dont have enough balance");
         }
         // Llamamos al servicio para agregar el usuario a la sala
+        user.setBalance(user.getBalance()- roomRepository.getReferenceById(roomId).getBet());
+        userRepository.save(user);
         RoomEntity updatedRoom = roomService.addUserToRoom(roomId, user);
 
 

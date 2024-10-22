@@ -83,7 +83,6 @@ export const userSessionPersistence = createAsyncThunk(
                 "An error has occurred when trying to fetch the information.",
                 "GET",
                 null, token)
-            console.log(data);
 
             return {
                 id: data.id,

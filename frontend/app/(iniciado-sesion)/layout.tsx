@@ -1,5 +1,3 @@
-import NavbarAuthenticated from "@/components/navbars/authenticated/navbar-authenticated";
-
 export default function Layout({
   children,
 }: Readonly<{
@@ -8,7 +6,6 @@ export default function Layout({
   return (
     <>
       <div className="flex min-h-dvh max-h-dvh overflow-hidden">
-        <NavbarAuthenticated />
         <div className="grow">{children}</div>
       </div>
     </>

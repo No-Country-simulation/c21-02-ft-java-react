@@ -34,13 +34,11 @@ const formSchema = z.object({
     .optional(),
   bet: z.enum(["100", "500", "1000", "2000", "5000", "10000"]),
   league: z.string(),
-  winner: z.string(),
-  loser: z.string(),
+  winner: z.string()
 });
 
 export default function BetBet() {
   const { setStep, step, betSettings } = useContext(BetContext);
-  console.log(step, betSettings);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -52,6 +50,10 @@ export default function BetBet() {
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
   }
+
+  const onError = (errors: any) => {
+    console.log("Form errors:", errors);
+  };
 
   if (step !== 3) return null;
 
@@ -68,7 +70,7 @@ export default function BetBet() {
           <div className="flex justify-center items-center max-w-xl mx-auto w-full overflow-auto px-3">
             <Form {...form}>
               <form
-                onSubmit={form.handleSubmit(onSubmit)}
+                onSubmit={form.handleSubmit(onSubmit, onError)}
                 className="space-y-4"
               >
                 <FormField

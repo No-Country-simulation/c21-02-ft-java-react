@@ -37,6 +37,6 @@ public class SportEventEntity {
     private String team2;
 
     @Column(name="result")
-    @Enumerated(EnumType.STRING)
-    private BetEnum result;
+
+    private String result;
 }

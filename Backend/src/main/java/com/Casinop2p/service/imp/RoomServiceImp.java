@@ -81,7 +81,7 @@ public class RoomServiceImp implements RoomService {
 
         // Agregar la apuesta a la sala
         room.getBets().add(bet);
-        room.calculateTotalAmount();
+
         roomRepository.save(room);
 
         // Guardar la apuesta
@@ -89,7 +89,7 @@ public class RoomServiceImp implements RoomService {
     }
 
 
-    // Método para cerrar la sala y calcular los resultados
+    /*// Método para cerrar la sala y calcular los resultados
     @Override
     @Transactional
     public void closeRoom(Long roomId, BetEnum result) {
@@ -138,7 +138,7 @@ public class RoomServiceImp implements RoomService {
         roomRepository.save(room);
     }
 
-
+*/
     @Override// listar toda las salas
     public List<RoomEntity> getAllRooms() {
         return roomRepository.findAll();
@@ -171,8 +171,8 @@ public class RoomServiceImp implements RoomService {
         UserEntity user = userRepository.findByName(username) // Buscamos el usuario por su nombre
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado: " + username));
 
-        // Añadimos el usuario a la lista de invitados
-        room.getInvitedUsers().add(user);
+        /*// Añadimos el usuario a la lista de invitados
+        room.getInvitedUsers().add(user);*/
         return roomRepository.save(room); // Guardamos los cambios en la sala
     }
 

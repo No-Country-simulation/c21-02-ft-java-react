@@ -33,7 +33,6 @@ public class SecurityConfig {
     //private final CustomUserDetailsService userDetailsService;
 
 
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
@@ -41,7 +40,7 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(request -> {
                     CorsConfiguration corsConfig = new CorsConfiguration();
                     corsConfig.setAllowedOrigins(List.of("http://localhost:3000", "https://c21-02-ft-java-react-frontend-qw2s.onrender.com"));
-                    corsConfig.setAllowedOrigins(List.of("http://localhost:3000","http://localhost:8080", "https://c21-02-ft-java-react-frontend-qw2s.onrender.com"));
+                    corsConfig.setAllowedOrigins(List.of("http://localhost:3000", "http://localhost:8080", "https://c21-02-ft-java-react-frontend-qw2s.onrender.com"));
                     corsConfig.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
                     corsConfig.setAllowedHeaders(List.of("Authorization", "Content-Type"));
                     corsConfig.setAllowCredentials(true);
@@ -51,13 +50,14 @@ public class SecurityConfig {
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers(HttpMethod.POST,"/api/auth/login",
+                                .requestMatchers(HttpMethod.POST, "/api/auth/login",
                                         "/api/users").permitAll()
-                                .requestMatchers(HttpMethod.GET,"/api-docs/**", "/swagger-ui/**", "/swagger-ui.html" ).permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/api/v1/api/rooms/**").authenticated()
                                 .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
 
-        .build();
+                .build();
     }
 
     @Bean
@@ -66,7 +66,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -74,9 +74,9 @@ public class SecurityConfig {
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration corsConfig = new CorsConfiguration();
-        corsConfig.setAllowedOrigins(List.of("https://c21-02-ft-java-react-frontend-qw2s.onrender.com", "http://localhost:3000","http://127.0.0.1:3000")); // Origen permitido
-        corsConfig.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE","OPTIONS")); // Métodos permitidos
-        corsConfig.setAllowedHeaders(List.of("Authorization", "Content-Type","Access-Control-Allow-Origin", "Access-Control-Allow-Credentials")); // Cabeceras permitidas
+        corsConfig.setAllowedOrigins(List.of("https://c21-02-ft-java-react-frontend-qw2s.onrender.com", "http://localhost:3000", "http://127.0.0.1:3000")); // Origen permitido
+        corsConfig.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS")); // Métodos permitidos
+        corsConfig.setAllowedHeaders(List.of("Authorization", "Content-Type", "Access-Control-Allow-Origin", "Access-Control-Allow-Credentials")); // Cabeceras permitidas
         corsConfig.setAllowCredentials(true); // Permitir credenciales (si es necesario)
         source.registerCorsConfiguration("/**", corsConfig);
         return new CorsFilter(source);

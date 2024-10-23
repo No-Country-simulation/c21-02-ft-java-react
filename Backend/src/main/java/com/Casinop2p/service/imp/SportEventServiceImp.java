@@ -14,14 +14,14 @@ public class SportEventServiceImp implements SportEventService {
 
     private final SportEventRepository sportEventRepository;
 
-    @Override
-    public void updateEventResult(Long eventId, BetEnum result) {
+    /*@Override
+    public void updateEventResult(Long eventId, String result) {
         SportEventEntity event = sportEventRepository.findById(eventId)
                 .orElseThrow(() -> new RuntimeException("Evento no encontrado con ID: " + eventId));
 
         event.setResult(result);
         sportEventRepository.save(event);
     }
-
+*/
 
 }

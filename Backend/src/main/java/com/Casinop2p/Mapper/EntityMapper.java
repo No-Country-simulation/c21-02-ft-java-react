@@ -18,7 +18,7 @@ public class EntityMapper {
         dto.setBetDescription(roomEntity.getBetDescription());
         dto.setExpirationDate(roomEntity.getExpirationDate());
         dto.setCreationDate(roomEntity.getCreationDate());
-        dto.setTotalAmount(roomEntity.getTotalAmount());
+
         return dto;
     }
 }

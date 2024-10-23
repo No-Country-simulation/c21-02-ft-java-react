@@ -23,6 +23,6 @@ public class RoomResponseDTO {
     private String betDescription;
     private Date expirationDate;
     private Date creationDate;
-    private float totalAmount;
-    private Long event;
+
+
 }

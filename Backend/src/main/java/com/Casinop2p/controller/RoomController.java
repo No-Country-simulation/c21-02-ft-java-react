@@ -42,7 +42,7 @@ public class RoomController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<RoomEntity> createRoom(@AuthenticationPrincipal UserDetails userDetails, @RequestBody RoomRequestDTO room, @RequestParam Long eventId) {
+    public ResponseEntity<RoomResponseDTO> createRoom(@AuthenticationPrincipal UserDetails userDetails, @RequestBody RoomRequestDTO room, @RequestParam Long eventId) {
 
         UserEntity user = (UserEntity) userDetails; //tenemos una entidad usuario
         List<UserEntity> listOfUsers = new ArrayList<>();//lista vacia de usuarios para luego mandarlo a "usuarios d la sala"
@@ -75,8 +75,9 @@ public class RoomController {
                 .build();
          roomRepository.save(roomEntity);
 
+        RoomResponseDTO roomResponseDTO = EntityMapper.toRoomResponseDTO(roomEntity);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(roomEntity);
+        return ResponseEntity.status(HttpStatus.CREATED).body(roomResponseDTO);
     }
 
 

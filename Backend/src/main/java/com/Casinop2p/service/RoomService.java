@@ -2,7 +2,9 @@ package com.Casinop2p.service;
 
 import com.Casinop2p.entity.BetEntity;
 import com.Casinop2p.entity.RoomEntity;
+import com.Casinop2p.entity.UserEntity;
 import com.Casinop2p.util.BetEnum;
+import jakarta.transaction.Transactional;
 
 import java.util.List;
 
@@ -25,7 +27,14 @@ public interface RoomService {
     BetEntity placeBet(Long roomId, Long userId, BetEnum betEnum, float amount);
 
 
-    void closeRoom(Long roomId, BetEnum result);
+   // void closeRoom(Long roomId, BetEnum result);
+
+    @Transactional
+    RoomEntity addUserToRoom(Long roomId, UserEntity user);
+
+
+
+
 }
 
 

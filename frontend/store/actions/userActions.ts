@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchData } from "@/lib/utils";
 
+
 import { UserLoginResponse, UserSessionPersistenceResponse } from "@/types/user";
 
 const loginURL = process.env.NEXT_PUBLIC_USER_LOGIN ?
@@ -31,10 +32,13 @@ export const userLogin = createAsyncThunk(
             console.error(error);
             throw error
         }
+
     }
+  }
 );
 
 export const userRegister = createAsyncThunk(
+
     'user/register',
     async ({
         name,
@@ -73,6 +77,7 @@ export const userRegister = createAsyncThunk(
             throw error
         }
     }
+  }
 );
 
 export const userSessionPersistence = createAsyncThunk(

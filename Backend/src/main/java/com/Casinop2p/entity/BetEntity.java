@@ -29,6 +29,18 @@ public class BetEntity {
 
     private float amount;  // La cantidad de dinero apostada por el usuario
 
+    @Enumerated(EnumType.STRING)
+    private BetEnum betType;  // Tipo de apuesta (WIN, LOSS, DRAW)
+
+
+    @ManyToOne
+    private UserEntity user;  // El usuario que hizo la apuesta
+
+    @ManyToOne
+    private RoomEntity room;  // La sala en la que se hizo la apuesta
+
+    private float amount;  // La cantidad de dinero apostada por el usuario
+
 
 
 }

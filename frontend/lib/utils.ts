@@ -17,7 +17,7 @@ export const fetchData = async <T>(
 ): Promise<T> => {
   try {
     const options: RequestInit = {
-      method,
+      method: method,
       headers: {
         'Content-Type': 'application/json',
         ...(token && { 'Authorization': `Bearer ${token}` })

@@ -2,13 +2,17 @@
 import { Button } from "@/components/ui/button";
 import { DatePickerDemo } from "@/components/ui/date-picker";
 import { Input } from "@/components/ui/input";
+import { useAppSelector } from "@/hooks/hooks";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 export default function Page() {
 
-  const email: string = "E-mail"
+  const user = useAppSelector(store => store.user)
+
+  const email = user.email
   const router = useRouter();
+
   return (
     <div className="flex justify-around">
       <div className="flex flex-col gap-16 mt-16">
@@ -17,7 +21,7 @@ export default function Page() {
           <div
             className="flex relative items-center justify-center w-56 aspect-square bg-transparent rounded-full outline outline-1 outline-neutral-300 dark:outline-neutral-900 p-2">
             <Image
-              src="https://avatars.githubusercontent.com/u/119996547?s=96&v=4"
+              src={user.image}
               alt="User photo"
               width={100}
               height={100} />
@@ -42,8 +46,7 @@ export default function Page() {
           <Input disabled placeholder="E-mail" type="email" value={email} />
         </div>
         <div className="flex flex-row gap-16 items-center">
-          <Input disabled placeholder="Nombres" type="text" />
-          <Input disabled placeholder="Apellidos" type="text" />
+          <Input disabled placeholder="Nombre" type="text" value={user.name} />
         </div>
         <div className="flex flex-row gap-4 items-center">
           <p className="text-sm text-slate-400">Fecha de nacimiento</p>

@@ -1,16 +1,52 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchData } from "@/lib/utils";
 
-const createLobbyURL = process.env.NEXT_PUBLIC_CREATE_LOBBY ? process.env.NEXT_PUBLIC_CREATE_LOBBY : ""
+const baseLobbyURL = process.env.NEXT_PUBLIC_LOBBIES_BASE ?
+    process.env.NEXT_PUBLIC_LOBBIES_BASE : ""
+
+export const getLobbies = createAsyncThunk(
+    'lobby/get',
+    async (token: string) => {
+        try {
+            const data = await fetchData<any>(baseLobbyURL,
+                "An error has occurred while trying to retrieve the lobbies.",
+                "GET", null, token)
+
+            return {
+                lobbies: data
+            }
+        } catch (error) {
+            console.error(error);
+            throw error
+        }
+    }
+);
+
+export const getLobbyById = createAsyncThunk(
+    'lobby/getById',
+    async ({ token, id }: { token: string, id: string }) => {
+        try {
+            const data = await fetchData<any>(baseLobbyURL + '/' + id,
+                "An error has occurred while trying to retrieve the lobby.",
+                "GET", null, token)
+            return {
+                data: data
+            }
+        } catch (error) {
+            console.error(error);
+            throw error
+        }
+    }
+);
 
 export const createLobby = createAsyncThunk(
-    'user/login',
+    'lobby/create',
     async () => {
         try {
-            const data = await fetchData<any>(createLobbyURL,
-                "An error has occurred when trying to log in.",
+            const data = await fetchData<any>(baseLobbyURL,
+                "An error has occurred while trying to create the lobby.",
                 "POST")
-            localStorage.setItem("token", data.jwt)
+
             return {
                 name: data.name,
                 email: data.email,

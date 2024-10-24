@@ -95,7 +95,7 @@ export default function HeaderAuthenticated() {
                                 className="flex gap-2 w-full"
                                 variant={(pageLocation === "/nueva-apuesta") ? "default" : "ghost"}
                                 onClick={() => {
-                                    router.push("nueva-apuesta")
+                                    router.push("/nueva-apuesta")
                                     setPageLocation("/nueva-apuesta")
                                 }}
                             >
@@ -105,10 +105,10 @@ export default function HeaderAuthenticated() {
 
                             <Button
                                 className="flex gap-2 w-full md:justify-start"
-                                variant={(pageLocation === "/apuestas") ? "default" : "ghost"}
+                                variant={(pageLocation === "/salas") ? "default" : "ghost"}
                                 onClick={() => {
-                                    router.push("apuestas")
-                                    setPageLocation("/apuestas")
+                                    router.push("/salas")
+                                    setPageLocation("/salas")
                                 }}
                             >
                                 <Component1Icon />
@@ -119,7 +119,7 @@ export default function HeaderAuthenticated() {
                                 className="flex gap-2 w-full md:justify-start"
                                 variant={(pageLocation === "/estadisticas") ? "default" : "ghost"}
                                 onClick={() => {
-                                    router.push("estadisticas")
+                                    router.push("/estadisticas")
                                     setPageLocation("/estadisticas")
                                 }}
                             >
@@ -151,7 +151,7 @@ export default function HeaderAuthenticated() {
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent>
                                     <DropdownMenuItem
-                                        onClick={() => router.push("mi-cuenta")}>
+                                        onClick={() => router.push("/mi-cuenta")}>
                                         Mi cuenta
                                     </DropdownMenuItem>
                                     <DropdownMenuItem>Métodos de pago</DropdownMenuItem>

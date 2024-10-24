@@ -12,7 +12,7 @@ const getInfoWithTokenURL = process.env.NEXT_PUBLIC_USER_GET_INFO_WITH_TOKEN ?
 
 export const userLogin = createAsyncThunk(
     'user/login',
-    async ({ email, password }: { email: string; password: string },) => {
+    async ({ email, password }: { email: string; password: string }) => {
         try {
             const data = await fetchData<UserLoginResponse>(loginURL,
                 "An error has occurred when trying to log in.",

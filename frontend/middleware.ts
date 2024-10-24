@@ -2,7 +2,8 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 export function middleware(request: NextRequest) {
-
+    console.log('Request Method:', request.method);
+    console.log('Request URL:', request.url);
     // const isAuthenticated = request.cookies.get('auth-token');
 
     // Acceso provisional a todas las rutas hasta configurar cookies.

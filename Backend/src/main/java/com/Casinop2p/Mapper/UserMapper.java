@@ -9,7 +9,10 @@ public class UserMapper {
 
 
     public static UserDTORes toDTO(UserEntity userEntity) {
+
         return new UserDTORes(userEntity.getId(), userEntity.getName(), userEntity.getBalance(), userEntity.getEmail(), userEntity.getUserEnum().toString(), userEntity.getProfileImage());
+
+       
     }
 
     public static UserEntity toUserEntity(UserDTOReq request) {

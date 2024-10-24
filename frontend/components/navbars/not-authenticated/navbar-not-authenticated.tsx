@@ -7,7 +7,10 @@ import { useRouter } from "next/navigation";
 import Logo from "@/components/logo/logo";
 import { useState, useEffect, useRef } from "react";
 
+import Link from 'next/link';
+
 export default function NavbarNotAuthenticated() {
+
   const router = useRouter();
 
   const [isHidden, setIsHidden] = useState(false);
@@ -47,11 +50,20 @@ export default function NavbarNotAuthenticated() {
                     max-md:gap-4
                     border-r 
                     hover:shadow-lg
-                    transition duration-500 
+                    transition duration-500 ease-in-out
                     z-10
                     ${isHidden ? '-translate-y-full' : ''}`}>
         <div>
-          <Logo />
+          <Link href={'/'}>
+            <div className="flex flex-row lg:gap-4 justify-between max-md:justify-around max-md:items-center">
+              <Logo className="md:mx-auto" />
+              <div
+                className="text-3xl text-primary font-semibold italic md:max-lg:hidden"
+              >
+                Super Apuestas
+              </div>
+            </div>
+          </Link>
         </div>
         <div className="flex gap-2 items-center">
           <Sheet>

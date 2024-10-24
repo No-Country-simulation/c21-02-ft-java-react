@@ -95,11 +95,21 @@ public class RoomServiceImp implements RoomService {
         RoomEntity room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new RuntimeException("Sala no encontrada con ID: " + roomId));
 
+        // Verificar si la sala ya ha sido cerrada y pagada
+        if (room.isPaidOut()) {
+            throw new RuntimeException("La sala ya ha sido cerrada o las ganancias ya han sido distribuidas.");
+        }
+
         // Cerrar la sala
         room.setResult(result.name());
         room.setEnable(false);
 
         List<BetEntity> bets = room.getBets();
+
+        // Sumar todas las apuestas en la sala
+        float totalBetAmount = bets.stream()
+                .map(BetEntity::getAmount)
+                .reduce(0f, Float::sum);
 
         // Sumar las apuestas ganadoras
         float totalWinningAmount = bets.stream()
@@ -109,8 +119,8 @@ public class RoomServiceImp implements RoomService {
 
         // Si no hay ganadores, el dinero va a "la casa"
         if (totalWinningAmount == 0) {
-            // Lógica para enviar el saldo total a "la casa"
-            // Esto puede ser un usuario "house" o simplemente no se distribuyen ganancias
+            room.setPaidOut(true);  // Marcamos la sala como pagada
+            roomRepository.save(room);
             return;
         }
 
@@ -120,8 +130,8 @@ public class RoomServiceImp implements RoomService {
                 // Calcular la proporción de la apuesta del usuario en relación al total de apuestas ganadoras
                 float userProportion = bet.getAmount() / totalWinningAmount;
 
-                // Calcular la ganancia del usuario
-                float userWinning = room.getBet() * room.getMaxUsers() * userProportion;
+                // Calcular la ganancia del usuario basada en el total de apuestas en la sala
+                float userWinning = totalBetAmount * userProportion;
 
                 // Actualizar el balance del usuario
                 UserEntity user = bet.getUser();
@@ -130,6 +140,8 @@ public class RoomServiceImp implements RoomService {
             }
         }
 
+        // Marcar la sala como pagada
+        room.setPaidOut(true);
         roomRepository.save(room);
     }
     @Override// listar toda las salas
@@ -191,6 +203,8 @@ public class RoomServiceImp implements RoomService {
 
         // Añadir al usuario a la lista de usuarios de la sala
         room.getUsersInRoom().add(user);
+        user.setBalance(user.getBalance() - room.getBet());
+        userRepository.save(user);
 
         // Crear la apuesta y asignarla al usuario
         BetEntity bet = new BetEntity();
@@ -199,7 +213,7 @@ public class RoomServiceImp implements RoomService {
         bet.setBetType(betEnum);
         bet.setAmount(room.getBet()); // La cantidad ya fue descontada al unirse
 
-        room.getBets().add(bet);
+        //room.getBets().add(bet);
 
         // Guardar los cambios en la sala y en las apuestas
         roomRepository.save(room);
@@ -225,7 +239,7 @@ public class RoomServiceImp implements RoomService {
     }
 
     @Transactional
-    @Scheduled(fixedRate = 60000) // Se ejecuta cada 60 segundos (1 minuto)
+    @Scheduled(fixedRate = 1000) // Se ejecuta cada 60 segundos (1 minuto)
     public void checkRoomResult() {
         List<RoomEntity> rooms = roomRepository.findAll();
 

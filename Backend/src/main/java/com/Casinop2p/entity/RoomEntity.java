@@ -36,6 +36,7 @@ public class RoomEntity {
         private float bet;  // Monto estándar de la apuesta en la sala (opcional)
 
         private int maxUsers;  // Máximo número de usuarios permitidos en la sala
+        private boolean isPaidOut = false;
 
         @ManyToOne
         @JoinColumn(name="room_owner_id",nullable = false)

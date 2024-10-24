@@ -28,9 +28,6 @@ export const fetchData = async <T>(
       options.body = JSON.stringify(body);
     }
 
-    if (body && method !== 'GET') {
-      options.body = JSON.stringify(body);
-    }
     const response = await fetch(url, options);
 
     if (!response.ok) {

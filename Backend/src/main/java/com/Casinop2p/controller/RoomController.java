@@ -8,6 +8,7 @@ import com.Casinop2p.entity.BetEntity;
 import com.Casinop2p.entity.RoomEntity;
 import com.Casinop2p.entity.SportEventEntity;
 import com.Casinop2p.entity.UserEntity;
+import com.Casinop2p.repository.BetRepository;
 import com.Casinop2p.repository.RoomRepository;
 import com.Casinop2p.repository.SportEventRepository;
 import com.Casinop2p.repository.UserRepository;
@@ -39,6 +40,7 @@ public class RoomController {
     private final SportEventRepository sportEventRepository;
     private final RoomRepository roomRepository;
     private final UserRepository userRepository;
+    private final BetRepository betRepository;
 
     @PostMapping
     @Transactional
@@ -72,11 +74,22 @@ public class RoomController {
                 .expirationDate(sportEventEntity.getEventDate())
                 .creationDate(Date.valueOf(LocalDate.now()))
                 .sportEvent(sportEventEntity)
+                .bets(new ArrayList<>())
                 .build();
          roomRepository.save(roomEntity);
 
-        RoomResponseDTO roomResponseDTO = EntityMapper.toRoomResponseDTO(roomEntity);
+        // El owner realiza la apuesta
+        BetEntity ownerBet = new BetEntity();
+        ownerBet.setUser(user);
+        ownerBet.setRoom(roomEntity);
+        ownerBet.setAmount(room.bet());  // Monto de la apuesta del owner
+        ownerBet.setBetType(room.ownerBet());  // El tipo de apuesta del owner
+        betRepository.save(ownerBet);
 
+        roomEntity.getBets().add(ownerBet);
+        roomRepository.save(roomEntity);
+
+        RoomResponseDTO roomResponseDTO = EntityMapper.toRoomResponseDTO(roomEntity);
         return ResponseEntity.status(HttpStatus.CREATED).body(roomResponseDTO);
     }
 
@@ -132,24 +145,12 @@ public class RoomController {
     }
 
     @PostMapping("/{roomId}/join")
-    public ResponseEntity<RoomResponseDTO> joinRoom(@PathVariable Long roomId, @AuthenticationPrincipal UserDetails userDetails) {
-        UserEntity user = (UserEntity) userDetails;
+    public ResponseEntity<RoomResponseDTO> joinRoom(
+            @PathVariable Long roomId,
+            @AuthenticationPrincipal UserEntity user,
+            @RequestBody BetDTO betDTO) {
 
-
-
-
-        if(user.getBalance() < roomRepository.getReferenceById(roomId).getBet()){
-            throw new RuntimeException("you dont have enough balance");
-        }
-        // Llamamos al servicio para agregar el usuario a la sala
-        user.setBalance(user.getBalance()- roomRepository.getReferenceById(roomId).getBet());
-        userRepository.save(user);
-        RoomEntity updatedRoom = roomService.addUserToRoom(roomId, user);
-
-
-
-
-        // Convertimos la entidad de la sala actualizada a DTO para devolverla en la respuesta
+        RoomEntity updatedRoom = roomService.addUserToRoom(roomId, user, betDTO.getBetEnum());
         RoomResponseDTO response = EntityMapper.toRoomResponseDTO(updatedRoom);
         return ResponseEntity.ok(response);
     }

@@ -28,17 +28,7 @@ export const fetchData = async <T>(
       options.body = JSON.stringify(body);
     }
 
-    console.log('Fetching URL:', url);
-    console.log('HTTP Method:', method);
-    console.log('Request Options:', options);
-    if (body && method !== 'GET') {
-      console.log('Request Body:', body);
-      options.body = JSON.stringify(body);
-    }
     const response = await fetch(url, options);
-
-    console.log('Response Status:', response.status);
-    console.log('Response Headers:', response.headers);
 
     if (!response.ok) {
       throw new Error(`${errorMessage} (HTTP status: ${response.status})`);

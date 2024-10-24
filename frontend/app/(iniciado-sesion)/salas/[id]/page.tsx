@@ -34,6 +34,9 @@ const Page = () => {
                         <h1 className='text-5xl'>{lobby.roomName}</h1>
                         <h2 className='text-neutral-500'>ID: {lobby.id}</h2>
                     </div>
+                    <div>
+                        <p className='text-4xl'>Bote total: {lobby.bet * lobby.usersInRoom.length} créditos</p>
+                    </div>
                     <div className='flex flex-col justify-center items-center gap-4'>
                         <h1 className='text-3xl'>Lista de jugadores</h1>
                         {lobby.usersInRoom.length > 0 ? lobby.usersInRoom.map(user =>

@@ -53,7 +53,7 @@ const lobbySlice = createSlice({
             roomName: null,
             enable: null,
             result: null,
-            bet: null,
+            bet: 0,
             maxUsers: null,
             roomOwner: {
                 id: null,

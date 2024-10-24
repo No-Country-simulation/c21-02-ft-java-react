@@ -239,7 +239,7 @@ public class RoomServiceImp implements RoomService {
     }
 
     @Transactional
-    @Scheduled(fixedRate = 60000) // Se ejecuta cada 60 segundos (1 minuto)
+    @Scheduled(fixedRate = 1000) // Se ejecuta cada 60 segundos (1 minuto)
     public void checkRoomResult() {
         List<RoomEntity> rooms = roomRepository.findAll();
 
@@ -251,7 +251,7 @@ public class RoomServiceImp implements RoomService {
                 closeRoom(room.getId(), resultEnum);  // Cerrar la sala y distribuir balances
             }
 
-           
+
         }
     }
 

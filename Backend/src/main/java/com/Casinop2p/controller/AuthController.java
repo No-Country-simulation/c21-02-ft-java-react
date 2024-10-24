@@ -75,30 +75,7 @@ public class AuthController {
                         .userEnum(userTemp.get().getUserEnum().toString())
                         .profileImage(userTemp.get().getProfileImage())
                         .build());
-/*
-        Authentication authentication = new UsernamePasswordAuthenticationToken(loginDTO.email(), loginDTO.password());
-        authenticationManager.authenticate(authentication);
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-
-        UserEntity user = userRepository.findByEmail(loginDTO.email()).orElseThrow();
-
-        String jwt = jwtUtil.generateToken(user.getEmail());
-
-        return ResponseEntity.ok(
-                LoginDTORes.builder()
-                        .jwt(jwt)
-                        .id(user.getId())
-                        .email(loginDTO.email())
-                        .role(user.getUserEnum().toString())
-                        .name(user.getName())
-                        .build()
-        )
-                ;
-
-
-    }    */
 
     }
 

@@ -22,14 +22,21 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
+import { useAppSelector } from "@/hooks/hooks";
+
+import Link from 'next/link'
 
 export default function HeaderAuthenticated() {
 
-    const username: string = "Username"
-    const email: string = "username@email.com"
+    const user = useAppSelector(store => store.user)
+
+    const username: string = user.name
+    const email: string = user.email
+    const image: string = user.image
 
     const router = useRouter();
 
+    const [pageLocation, setPageLocation] = useState(typeof window ? window.location.pathname : "")
     const [isHidden, setIsHidden] = useState(false);
     const lastScrollTopRef = useRef(0);
 
@@ -72,20 +79,25 @@ export default function HeaderAuthenticated() {
                     ${isHidden ? '-translate-y-full' : ''}`}
             >
                 <TooltipProvider delayDuration={300}>
-                    <div className="flex flex-row lg:gap-4 justify-between max-md:justify-around max-md:items-center">
-                        <Logo className="md:mx-auto" />
-                        <div
-                            className="text-3xl text-primary font-semibold italic md:max-lg:hidden"
-                        >
-                            Super Apuestas
+                    <Link href={'/'}>
+                        <div className="flex flex-row lg:gap-4 justify-between max-md:justify-around max-md:items-center">
+                            <Logo className="md:mx-auto" />
+                            <div
+                                className="text-3xl text-primary font-semibold italic md:max-lg:hidden"
+                            >
+                                Super Apuestas
+                            </div>
                         </div>
-                    </div>
-
+                    </Link>
                     <div className="flex flex-row max-md:flex-wrap items-center justify-start md:gap-2 max-md:gap-4">
                         <>
                             <Button
                                 className="flex gap-2 w-full"
-                                onClick={() => router.push("nueva-apuesta")}
+                                variant={(pageLocation === "/nueva-apuesta") ? "default" : "ghost"}
+                                onClick={() => {
+                                    router.push("/nueva-apuesta")
+                                    setPageLocation("/nueva-apuesta")
+                                }}
                             >
                                 <PlusIcon />
                                 Nueva apuesta
@@ -93,8 +105,11 @@ export default function HeaderAuthenticated() {
 
                             <Button
                                 className="flex gap-2 w-full md:justify-start"
-                                variant={"ghost"}
-                                onClick={() => router.push("apuestas")}
+                                variant={(pageLocation === "/salas") ? "default" : "ghost"}
+                                onClick={() => {
+                                    router.push("/salas")
+                                    setPageLocation("/salas")
+                                }}
                             >
                                 <Component1Icon />
                                 Apuestas online
@@ -102,8 +117,11 @@ export default function HeaderAuthenticated() {
 
                             <Button
                                 className="flex gap-2 w-full md:justify-start"
-                                variant={"ghost"}
-                                onClick={() => router.push("estadisticas")}
+                                variant={(pageLocation === "/estadisticas") ? "default" : "ghost"}
+                                onClick={() => {
+                                    router.push("/estadisticas")
+                                    setPageLocation("/estadisticas")
+                                }}
                             >
                                 <BarChartIcon />
                                 Estadísticas
@@ -118,8 +136,8 @@ export default function HeaderAuthenticated() {
                                     <Button variant={"ghost"} className="p-1">
                                         <div className="flex gap-2 items-center justify-between">
                                             <Avatar className="hover:cursor-pointer">
-                                                <AvatarImage src="https://avatars.githubusercontent.com/u/119996547?s=96&v=4" />
-                                                <AvatarFallback>CN</AvatarFallback>
+                                                <AvatarImage src={image} />
+                                                <AvatarFallback>PFP</AvatarFallback>
                                             </Avatar>
                                             <div className="text-xs grow text-start">
                                                 <p className="font-bold">{username}</p>
@@ -133,7 +151,7 @@ export default function HeaderAuthenticated() {
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent>
                                     <DropdownMenuItem
-                                        onClick={() => router.push("mi-cuenta")}>
+                                        onClick={() => router.push("/mi-cuenta")}>
                                         Mi cuenta
                                     </DropdownMenuItem>
                                     <DropdownMenuItem>Métodos de pago</DropdownMenuItem>

@@ -54,6 +54,7 @@
 			<version>2.4.4</version>
 		</dependency>
 
+
 		<!-- Swagger-->
 
 		<dependency>
@@ -69,6 +70,8 @@
 				<artifactId>java-jwt</artifactId>
 				<version>4.4.0</version>
 			</dependency>
+
+
 
 
 		<dependency>
@@ -115,12 +118,6 @@
 			<artifactId>mockito-core</artifactId>
 			<version>3.6.0</version>
 			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>com.stripe</groupId>
-			<artifactId>stripe-java</artifactId>
-			<version>21.0.0</version>
 		</dependency>
 
 

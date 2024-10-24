@@ -13,14 +13,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import Link from "next/link";
 import { Checkbox } from "@/components/ui/checkbox";
 import FooterSpecial from "@/components/footer/footer-special";
 
@@ -28,43 +20,49 @@ import { useAppDispatch } from "@/hooks/hooks";
 import { userRegister } from "@/store/actions/userActions";
 
 const formSchema = z.object({
-  gender: z.enum(["male, female, other"]),
   name: z.string().min(3),
-  lastName: z.string().min(3),
-  secondLastName: z.string().min(3),
   email: z.string(),
   password: z.string().min(8),
   repeatPassword: z.string(),
-  phone: z.string(),
   terms: z.boolean(),
+  balance: z.number()
 });
 
 export default function Page() {
 
   const dispatch = useAppDispatch();
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<z.infer<typeof formSchema> & { userEnum: "USER" | "ADMIN" | "INVITED" }>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      name: "",
       email: "",
       password: "",
+      repeatPassword: "",
+      balance: 1000,
+      userEnum: "USER"
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // dispatch(userRegister(values))
+  function onSubmit(values: z.infer<typeof formSchema> & { userEnum: "USER" | "ADMIN" | "INVITED" }) {
+    const name = values.name
+    const email = values.email
+    const password = values.password
+    const balance = values.balance
+    const userEnum = "USER"
+
+    if (values.password === values.repeatPassword) dispatch(userRegister({
+      name,
+      email,
+      password,
+      balance,
+      userEnum
+    }))
+    else alert("Las contraseñas no coinciden.")
   }
   return (
     <>
       <div>
-        {/* header */}
-        <div
-          className="bg-primary text-5xl text-primary-foreground font-semibold p-3 italic
-        "
-        >
-          <Link href={"/"}>Super Apuestas</Link>
-        </div>
-
         {/* form */}
         <Form {...form}>
           <form
@@ -74,68 +72,11 @@ export default function Page() {
             <div className="grid grid-cols-2 gap-3">
               <FormField
                 control={form.control}
-                name="gender"
-                render={({ field }) => (
-                  <FormItem>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Selecciona tu genero" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="male">
-                          Masculino
-                        </SelectItem>
-                        <SelectItem value="female">
-                          Femenino
-                        </SelectItem>
-                        <SelectItem value="other">
-                          Otro
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
                 name="name"
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
                       <Input placeholder="Nombre" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            <div className="grid grid-cols-2 gap-3">
-              <FormField
-                control={form.control}
-                name="lastName"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input placeholder="Primer Apellido" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="secondLastName"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input placeholder="Segundo Apellido" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -180,23 +121,6 @@ export default function Page() {
                 <FormItem>
                   <FormControl>
                     <Input type="password" placeholder="Repetir Contraseña" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="phone"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input
-                      type="number"
-                      placeholder="Numero telefónico"
-                      {...field}
-                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

@@ -60,7 +60,7 @@ export default function BetBet() {
   return (
     <>
       <Fade triggerOnce>
-        <section className="flex flex-col items-center justify-center py-20">
+        <section className="flex flex-col items-center justify-center">
           <div className="text-center font-black text-4xl mb-3 text-primary">
             Comienza a jugar con Super Apuestas
           </div>

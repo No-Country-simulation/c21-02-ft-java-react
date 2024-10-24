@@ -1,5 +1,5 @@
 package com.Casinop2p.Api;
-
+/*
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
@@ -11,3 +11,6 @@ public class ApiConfig {
         return new RestTemplate();
     }
 }
+
+
+ */

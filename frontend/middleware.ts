@@ -23,5 +23,5 @@ export function middleware(request: NextRequest) {
 
 // Aplicar el middleware a todas las rutas.
 export const config = {
-    matcher: ['/:path*'],
+    matcher: ['/salas/:path*', '/apuestas/:path*', '/estadisticas/:path*', '/mi-cuenta/:path*'],
 };

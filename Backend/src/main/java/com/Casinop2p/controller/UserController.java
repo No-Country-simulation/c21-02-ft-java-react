@@ -2,8 +2,6 @@ package com.Casinop2p.controller;
 
 import com.Casinop2p.dto.UserDTOReq;
 import com.Casinop2p.dto.UserDTORes;
-import com.Casinop2p.entity.UserEntity;
-import com.Casinop2p.repository.UserRepository;
 import com.Casinop2p.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -11,9 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-import java.util.Optional;
+
 
 
 @RequiredArgsConstructor
@@ -28,6 +25,7 @@ public class UserController {
     // Crear un nuevo usuario
     @PostMapping
     public ResponseEntity<UserDTORes> createUser(@Valid @RequestBody UserDTOReq userDTOReq) {
+        System.out.println(userDTOReq);
         UserDTORes createdUser = userService.createUser(userDTOReq);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
     }

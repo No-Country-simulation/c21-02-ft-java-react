@@ -199,23 +199,6 @@ public class GlobalExceptionController {
     return ResponseEntity.status(httpStatus).body(apiErrorResponse);
   }
 
-  @ExceptionHandler(Exception.class)
-  public ResponseEntity<ErrorDtoRes> handleAllExceptions(Exception exception,
-      HttpServletRequest request) {
-
-    int httpStatus = HttpStatus.INTERNAL_SERVER_ERROR.value();
-    ErrorDtoRes apiErrorResponse = new ErrorDtoRes(
-        httpStatus,
-        request.getMethod(),
-        "Ocurrio un error inesperado.",
-        exception.getMessage(),
-        timestamp,
-        null
-    );
-
-    return ResponseEntity.status(httpStatus).body(apiErrorResponse);
-  }
-
 
 
 

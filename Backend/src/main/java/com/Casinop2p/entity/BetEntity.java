@@ -4,6 +4,7 @@ import com.Casinop2p.util.BetEnum;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.sql.ConnectionBuilder;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,15 +13,21 @@ import java.util.Set;
 public class BetEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)  // Genera el ID de la apuesta automáticamente
     private Long id;
 
-    //private UserEntity user;
-    private String team;
-    @Enumerated(EnumType.STRING)
-    private BetEnum betEnum;
-    //private RoomEntity room;
+    private String team;  // Equipo por el cual el usuario está apostando
 
+    @Enumerated(EnumType.STRING)  // El tipo de apuesta: WIN, LOSS o DRAW
+    private BetEnum betEnum;
+
+    @ManyToOne
+    private UserEntity user;  // El usuario que hizo la apuesta
+
+    @ManyToOne
+    private RoomEntity room;  // La sala en la que se hizo la apuesta
+
+    private float amount;  // La cantidad de dinero apostada por el usuario
 
 
 

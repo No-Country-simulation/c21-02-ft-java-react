@@ -9,35 +9,64 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import jakarta.persistence.*;
+import lombok.Data;
+import java.util.Date;
+import java.util.List;
 
 @Entity
 @Data
 public class RoomEntity {
 
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)  // ID único de la sala
+        private Long id;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String roomName;
-    private boolean enable;
-    //private UserEntity roomOwner;
-    @Enumerated(EnumType.STRING)
-    private BetEnum result;
-    private float bet;
-    private int maxUsers;
-    //private ArrayList<UserEntity> usersInRoom;
-    private boolean privateRoom;
-    private String betDescription;
-    private Date expirationDate; //esto se obtiene automaticamente
-    private Date creationDate; //esto se obtiene automaticamente
-    private float totalAmount;
+        private String roomName;  // Nombre de la sala
 
+        private boolean enable;  // Si la sala está habilitada o no para apuestas
 
-    //@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    //@JoinTable(name = "bets", joinColumns = @JoinColumn(name = "bet_id"), inverseJoinColumns = @JoinColumn(name = "room_id"))
-    //private Set<BetEntity> betsList = new HashSet<>();
+        @Enumerated(EnumType.STRING)  // Resultado de la apuesta: WIN, LOSS o DRAW
+        private BetEnum result;
 
+        private float bet;  // Monto estándar de la apuesta en la sala (opcional)
 
+        private int maxUsers;  // Máximo número de usuarios permitidos en la sala
 
+        @ManyToOne
+        private UserEntity roomOwner;  // El creador de la sala
 
+        @ManyToMany
+        private List<UserEntity> usersInRoom = new ArrayList<>();  // Usuarios que se han unido a la sala
+
+        private boolean privateRoom;  // Si la sala es privada o no
+
+        @ManyToMany
+        private List<UserEntity> invitedUsers = new ArrayList<>();  // Usuarios invitados si es sala privada
+
+        private String betDescription;  // Descripción general de la apuesta
+
+        @Temporal(TemporalType.TIMESTAMP)
+        private Date expirationDate;  // Fecha en la que expira la sala
+
+        @Temporal(TemporalType.TIMESTAMP)
+        private Date creationDate;  // Fecha de creación de la sala
+
+        private float totalAmount;  // Cantidad total acumulada en apuestas dentro de la sala
+
+        @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
+        private List<BetEntity> bets = new ArrayList<>();  // Lista de todas las apuestas realizadas en la sala
+
+        @PrePersist
+        protected void onCreate() {
+            creationDate = new Date();  // Fecha de creación se asigna automáticamente
+            expirationDate = Date.from(creationDate.toInstant().plusSeconds(3600));  // Sala expira en una hora
+        }
+
+        // Método para calcular el total de dinero apostado en la sala
+        public void calculateTotalAmount() {
+            totalAmount = bets.stream().map(BetEntity::getAmount).reduce(0f, Float::sum);
+        }
 }
+
+

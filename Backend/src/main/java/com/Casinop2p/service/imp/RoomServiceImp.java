@@ -239,17 +239,19 @@ public class RoomServiceImp implements RoomService {
     }
 
     @Transactional
-    @Scheduled(fixedRate = 1000) // Se ejecuta cada 60 segundos (1 minuto)
+    @Scheduled(fixedRate = 60000) // Se ejecuta cada 60 segundos (1 minuto)
     public void checkRoomResult() {
         List<RoomEntity> rooms = roomRepository.findAll();
 
         for (RoomEntity room : rooms) {
             // Verifica si la sala está habilitada y ya tiene un resultado
-            if (room.getResult() != null) {
+            if (room.getResult()  != null && !room.isPaidOut()) {
                 // Llama al método para cerrar la sala y distribuir balances
                 BetEnum resultEnum = BetEnum.valueOf(room.getResult());
                 closeRoom(room.getId(), resultEnum);  // Cerrar la sala y distribuir balances
             }
+
+           
         }
     }
 

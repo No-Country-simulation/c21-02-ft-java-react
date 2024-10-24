@@ -7,12 +7,20 @@ import com.Casinop2p.util.BetEnum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class SportEventServiceImp implements SportEventService {
 
 
+
     private final SportEventRepository sportEventRepository;
+
+    @Override
+    public List<SportEventEntity> getAllEvents() {
+        return sportEventRepository.findAll();
+    }
 
     /*@Override
     public void updateEventResult(Long eventId, String result) {

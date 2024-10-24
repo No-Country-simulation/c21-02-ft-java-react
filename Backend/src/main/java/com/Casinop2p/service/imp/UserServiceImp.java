@@ -92,10 +92,7 @@ public class UserServiceImp implements UserService {
         return UserMapper.toDTO(user);
     }
 
-    @Override
-    public List<RoomEntity> getAllRooms() {
-        return List.of();
-    }
+
 
 
 }

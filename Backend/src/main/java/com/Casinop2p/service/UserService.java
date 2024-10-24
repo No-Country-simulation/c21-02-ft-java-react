@@ -27,7 +27,7 @@ public interface UserService {
 
     UserDTORes updateProfileImage(Long id, String imageUrl);
 
-    List<RoomEntity> getAllRooms();
+
 
 
 }

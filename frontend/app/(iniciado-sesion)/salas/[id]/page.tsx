@@ -20,7 +20,7 @@ const Page = () => {
         token ?
             dispatch(getLobbyById({ token, id })) :
             alert("You are not authorized.")
-    }, [])
+    }, [dispatch, id, user.token])
 
     return (
         <div className="flex flex-col justify-center items-center mt-16">

@@ -24,7 +24,7 @@ const Page = () => {
         token ?
             dispatch(getLobbies(token)) :
             alert("You are not authorized.")
-    }, [])
+    }, [dispatch, user.token])
 
     return (
         <div className="flex flex-col justify-center items-center gap-8 mt-16">

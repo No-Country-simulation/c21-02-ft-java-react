@@ -84,6 +84,15 @@ public class RoomController {
         ownerBet.setRoom(roomEntity);
         ownerBet.setAmount(room.bet());  // Monto de la apuesta del owner
         ownerBet.setBetType(room.ownerBet());  // El tipo de apuesta del owner
+        // Asignar el equipo según el tipo de apuesta del owner
+        if (room.ownerBet() == BetEnum.TEAM1_WIN) {
+            ownerBet.setTeam(sportEventEntity.getTeam1());  // Asociar con team1 del evento
+        } else if (room.ownerBet() == BetEnum.TEAM2_WIN) {
+            ownerBet.setTeam(sportEventEntity.getTeam2());  // Asociar con team2 del evento
+        } else if (room.ownerBet() == BetEnum.DRAW) {
+            ownerBet.setTeam(null);  // No asociar ningún equipo, ya que es un empate
+        }
+
         betRepository.save(ownerBet);
 
         roomEntity.getBets().add(ownerBet);

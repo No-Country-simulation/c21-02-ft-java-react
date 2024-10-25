@@ -72,6 +72,13 @@ public class RoomServiceImp implements RoomService {
         bet.setRoom(room);
         bet.setAmount(amount);
         bet.setBetType(betEnum);
+        if (betEnum == BetEnum.TEAM1_WIN) {
+            bet.setTeam(room.getSportEvent().getTeam1());  // Asociar con team1 del evento
+        } else if (betEnum == BetEnum.TEAM2_WIN) {
+            bet.setTeam(room.getSportEvent().getTeam2());  // Asociar con team2 del evento
+        } else if (betEnum == BetEnum.DRAW) {
+            bet.setTeam(null);  // No asociar ningún equipo, ya que es un empate
+        }
         // Establecer el equipo por el que apuesta (opcional)
         // bet.setTeam(betEnum.name());
 

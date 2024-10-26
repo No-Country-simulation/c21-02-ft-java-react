@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
 
 @Setter
 @Getter
@@ -23,6 +24,7 @@ public class RoomResponseDTO {
     private String betDescription;
     private Date expirationDate;
     private Date creationDate;
+    private List<UserDTORes> usersInRoom;
 
 
 }

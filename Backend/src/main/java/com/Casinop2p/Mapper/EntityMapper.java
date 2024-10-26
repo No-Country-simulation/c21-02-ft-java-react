@@ -3,6 +3,8 @@ package com.Casinop2p.Mapper;
 import com.Casinop2p.dto.RoomResponseDTO;
 import com.Casinop2p.entity.RoomEntity;
 
+import java.util.stream.Collectors;
+
 public class EntityMapper {
 
     // Método para convertir RoomEntity a RoomResponseDTO
@@ -18,6 +20,10 @@ public class EntityMapper {
         dto.setBetDescription(roomEntity.getBetDescription());
         dto.setExpirationDate(roomEntity.getExpirationDate());
         dto.setCreationDate(roomEntity.getCreationDate());
+
+        dto.setUsersInRoom(roomEntity.getUsersInRoom().stream()
+                .map(UserMapper::toDTO)
+                .collect(Collectors.toList()));
 
         return dto;
     }

@@ -70,7 +70,7 @@ export default function HeaderAuthenticated() {
                     md:w-full 
                     px-1 py-2 
                     flex flex-row 
-                    md:justify-between 
+                    md:justify-between items-center
                     max-md:gap-4
                     border-r 
                     hover:shadow-lg
@@ -80,7 +80,7 @@ export default function HeaderAuthenticated() {
             >
                 <TooltipProvider delayDuration={300}>
                     <Link href={'/'}>
-                        <div className="flex flex-row lg:gap-4 justify-between max-md:justify-around max-md:items-center">
+                        <div className="flex flex-row lg:gap-4 justify-between max-md:justify-around items-center">
                             <Logo className="md:mx-auto" />
                             <div
                                 className="text-3xl text-primary font-semibold italic md:max-lg:hidden"
@@ -129,6 +129,7 @@ export default function HeaderAuthenticated() {
                         </>
                     </div>
 
+                    <p>Balance: {user.balance}</p>
                     <div className="flex flex-col justify-center items-center gap-2 max-md:w-full">
                         <>
                             <DropdownMenu>

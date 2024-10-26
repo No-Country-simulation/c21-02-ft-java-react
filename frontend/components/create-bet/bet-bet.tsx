@@ -1,6 +1,6 @@
 "use client";
 import { BetContext } from "@/context/create-bet";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Fade } from "react-awesome-reveal";
 import { Button } from "@/components/ui/button";
 import {
@@ -24,36 +24,93 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import * as SelectPrimitive from "@radix-ui/react-select"
+import {
+  CaretSortIcon,
+  CheckIcon,
+  ChevronDownIcon,
+  ChevronUpIcon,
+} from "@radix-ui/react-icons"
+
+import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
+import { createLobby, getEvents } from "@/store/actions/lobbyActions";
+import { SportEvent } from "@/types/lobby";
 
 const formSchema = z.object({
   password: z
     .string()
-    .min(3, {
-      message: "La contraseña debe contener al menos 3 caracteres",
+    .min(8, {
+      message: "La contraseña debe contener al menos 8 caracteres",
     })
     .optional(),
   bet: z.enum(["100", "500", "1000", "2000", "5000", "10000"]),
-  league: z.string(),
-  winner: z.string()
+  eventId: z.string(),
+  ownerBet: z.string(),
+  roomName: z.string().min(3, {
+    message: "El nombre de la sala debe contener al menos 3 caracteres."
+  }).max(32, {
+    message: "El nombre de la sala debe contener máximo 32 caracteres."
+  }),
+  maxUsers: z.number(),
+  privateRoom: z.boolean()
 });
 
 export default function BetBet() {
+
+  const [event, setEvent] = useState<SportEvent>();
+  const [token, setToken] = useState<string>();
+
+  const dispatch = useAppDispatch();
+  const user = useAppSelector(store => store.user)
+  const events = useAppSelector(store => store.lobby.events)
+
   const { setStep, step, betSettings } = useContext(BetContext);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      roomName: "",
       password: "",
+      maxUsers: 4,
+      privateRoom: false
     },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    const roomName = values.roomName
+    const bet = values.bet
+    const maxUsers = values.maxUsers
+    const privateRoom = betSettings.room === "private"
+    const ownerBet = values.ownerBet
+    const eventId = values.eventId
+
+    dispatch(createLobby({
+      roomName,
+      bet,
+      maxUsers,
+      privateRoom,
+      ownerBet,
+      eventId,
+      token: token ? token : ""
+    }))
   }
 
   const onError = (errors: any) => {
     console.log("Form errors:", errors);
   };
+
+  useEffect(() => {
+    const token = user.token ?
+      user.token : localStorage.getItem('token') ?
+        localStorage.getItem('token') : null;
+
+    if (token) {
+      dispatch(getEvents(token))
+      setToken(token)
+      return
+    }
+    alert("No estás autorizado.");
+  }, [dispatch, user.token, event])
 
   if (step !== 3) return null;
 
@@ -75,6 +132,19 @@ export default function BetBet() {
               >
                 <FormField
                   control={form.control}
+                  name="roomName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Nombre de la sala</FormLabel>
+                      <FormControl>
+                        <Input {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
                   name="password"
                   render={({ field }) => (
                     <FormItem hidden={betSettings.room === "public"}>
@@ -94,29 +164,35 @@ export default function BetBet() {
 
                 <FormField
                   control={form.control}
-                  name="league"
+                  name="eventId"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Liga</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
+                      <FormLabel>Evento</FormLabel>
+                      <SelectPrimitive.Root
+                        value={field.value}
+                        onValueChange={(value: string) => {
+                          field.onChange(value);
+                          const selectedEvent = events.find(event => event.id.toString() === value);
+                          if (selectedEvent) {
+                            setEvent(selectedEvent);
+                          }
+                        }}
                       >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Selecciona una liga" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value="1">
-                            UEFA Champions League
-                          </SelectItem>
-                          <SelectItem value="2">Premier League</SelectItem>
-                          <SelectItem value="3">Serie A</SelectItem>
-                          <SelectItem value="4">Superliga Argentina</SelectItem>
-                          <SelectItem value="5">Copa Libertadores</SelectItem>
+                        <SelectPrimitive.Trigger className="flex h-9 w-full items-center justify-between whitespace-nowrap rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1">
+                          <SelectPrimitive.Value placeholder="Selecciona un evento" />
+                          <SelectPrimitive.Icon asChild>
+                            <CaretSortIcon className="h-4 w-4 opacity-50" />
+                          </SelectPrimitive.Icon>
+                        </SelectPrimitive.Trigger>
+
+                        <SelectContent position="popper">
+                          {events.map((event) => (
+                            <SelectItem key={event.id} value={event.id.toString()}>
+                              {event.eventName} - {event.description}
+                            </SelectItem>
+                          ))}
                         </SelectContent>
-                      </Select>
+                      </SelectPrimitive.Root>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -126,58 +202,27 @@ export default function BetBet() {
 
                 <FormField
                   control={form.control}
-                  name="league"
+                  name="ownerBet"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Partido</FormLabel>
+                      <FormLabel>El ganador será:</FormLabel>
                       <Select
                         onValueChange={field.onChange}
                         defaultValue={field.value}
                       >
                         <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Selecciona un partido" />
+                          <SelectTrigger className={event?.id ? "" : "text-neutral-500"}>
+                            <SelectValue placeholder={event?.id ? "Tu apuesta es para" : "Selecciona un evento primero."} />
                           </SelectTrigger>
                         </FormControl>
-                        <SelectContent>
-                          <SelectItem value="1">
-                            Real Madrid vs Atletico Madrid
-                          </SelectItem>
-                          <SelectItem value="2">
-                            Juventus vs AC Milan
-                          </SelectItem>
-                          <SelectItem value="3">
-                            Boca Juniors vs River Plate
-                          </SelectItem>
-                          <SelectItem value="4">Ajax vs PSV</SelectItem>
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <Separator />
-
-                <FormField
-                  control={form.control}
-                  name="winner"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>El ganador será</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Tu apuesta es para" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value="1">AC Milan</SelectItem>
-                          <SelectItem value="2">Juventus</SelectItem>
-                        </SelectContent>
+                        {
+                          event ?
+                            <SelectContent>
+                              <SelectItem value="TEAM1_WIN">{event.team1}</SelectItem>
+                              <SelectItem value="TEAM2_WIN">{event.team2}</SelectItem>
+                            </SelectContent>
+                            : null
+                        }
                       </Select>
                       <FormMessage />
                     </FormItem>

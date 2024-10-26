@@ -29,6 +29,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin("*")
@@ -111,9 +112,12 @@ public class RoomController {
     }
 
     @GetMapping
-    public ResponseEntity<List<RoomEntity>> getAllRooms() {
+    public ResponseEntity<List<RoomResponseDTO>> getAllRooms() {
         List<RoomEntity> rooms = roomService.getAllRooms();
-        return ResponseEntity.ok(rooms);
+        List<RoomResponseDTO> roomDTOs = rooms.stream()
+                .map(EntityMapper::toRoomResponseDTO)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(roomDTOs);
     }
 
     @PutMapping("/{id}")

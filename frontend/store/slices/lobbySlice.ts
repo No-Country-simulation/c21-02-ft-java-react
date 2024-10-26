@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createLobby, getLobbies, getLobbyById } from "@/store/actions/lobbyActions";
+import { createLobby, getEvents, getLobbies, getLobbyById } from "@/store/actions/lobbyActions";
 
 const lobbySlice = createSlice({
     name: "lobby",
@@ -108,7 +108,18 @@ const lobbySlice = createSlice({
                 result: null
             },
 
-        }
+        },
+        events: [
+            {
+                id: 0,
+                eventName: "",
+                description: "",
+                eventDate: "",
+                team1: "",
+                team2: "",
+                result: ""
+            }
+        ]
     },
     reducers: {},
     extraReducers: (builder) => {
@@ -121,6 +132,9 @@ const lobbySlice = createSlice({
             })
             .addCase(getLobbyById.fulfilled, (state, action) => {
                 state.lobby = action.payload.data
+            })
+            .addCase(getEvents.fulfilled, (state, action) => {
+                state.events = action.payload.events
             })
     }
 })

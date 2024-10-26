@@ -23,7 +23,7 @@ const Page = () => {
                 localStorage.getItem('token') : null;
         token ?
             dispatch(getLobbies(token)) :
-            alert("You are not authorized.")
+            alert("No estás autorizado.")
     }, [dispatch, user.token])
 
     return (
@@ -51,8 +51,8 @@ const Page = () => {
                             Cantidad requerida:
                             <span className={(user.balance >= lobby.bet) ? "" : "text-red-500"}> {lobby.bet} créditos
                             </span></p>
-                        <p className={lobby.usersInRoom.length === lobby.maxUsers ? "text-red-500" : ""}>
-                            {lobby.usersInRoom.length} / {lobby.maxUsers} Usuarios unidos
+                        <p className={lobby.usersInRoom?.length === lobby.maxUsers ? "text-red-500" : ""}>
+                            {lobby.usersInRoom?.length} / {lobby.maxUsers} Usuarios unidos
                         </p>
                         <Button onClick={() => router.push("/salas/" + lobby.id)} className="">Entrar</Button>
                     </div> : null

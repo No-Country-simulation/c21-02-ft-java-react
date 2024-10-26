@@ -33,3 +33,4 @@ build/
 .vscode/
 .env
 env
+structure.json

@@ -5,6 +5,17 @@ import { getLobbyById } from '@/store/actions/lobbyActions';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import { useEffect } from 'react';
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog"
+import { Button } from '@/components/ui/button';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 const Page = () => {
     const dispatch = useAppDispatch();
@@ -37,6 +48,39 @@ const Page = () => {
                     <div>
                         <p className='text-4xl'>Bote total: {lobby.bet * lobby.usersInRoom.length} créditos</p>
                     </div>
+                    <Dialog>
+                        <DialogTrigger asChild>
+                            <Button variant="default">Colocar apuesta</Button>
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-[425px]">
+                            <DialogHeader>
+                                <DialogTitle>Apostar al ganador</DialogTitle>
+                                <DialogDescription>
+                                    Ganarás si el equipo que eliges ahora también gana.
+                                </DialogDescription>
+                            </DialogHeader>
+                            <div className="grid gap-4 py-4">
+                                <div className="grid grid-cols-4 items-center gap-4">
+                                    <Select>
+                                        <SelectTrigger className='w-max'>
+                                            <SelectValue placeholder="Selecciona un evento primero." />
+                                        </SelectTrigger>
+                                        {
+                                            lobby ?
+                                                <SelectContent className='w-full'>
+                                                    <SelectItem value="TEAM1_WIN">{lobby.sportEvent?.team1}</SelectItem>
+                                                    <SelectItem value="TEAM2_WIN">{lobby.sportEvent?.team1}</SelectItem>
+                                                </SelectContent>
+                                                : null
+                                        }
+                                    </Select>
+                                </div>
+                            </div>
+                            <DialogFooter>
+                                <Button type="submit">Confirmar</Button>
+                            </DialogFooter>
+                        </DialogContent>
+                    </Dialog>
                     <div className='flex flex-col justify-center items-center gap-4'>
                         <h1 className='text-3xl'>Lista de jugadores</h1>
                         {lobby.usersInRoom.length > 0 ? lobby.usersInRoom.map(user =>

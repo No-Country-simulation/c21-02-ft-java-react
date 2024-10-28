@@ -18,9 +18,12 @@ public class EntityMapper {
         RoomResponseDTO dto = new RoomResponseDTO();
         dto.setId(roomEntity.getId());
         dto.setRoomName(roomEntity.getRoomName());
+
+        System.out.println("Room Owner: " + roomEntity.getRoomOwner());
         dto.setRoomOwnerName(
                 roomEntity.getRoomOwner() != null ? roomEntity.getRoomOwner().getName() : "Unknown"
         );
+
         dto.setEnable(roomEntity.isEnable());
         dto.setBet(roomEntity.getBet());
         dto.setMaxUsers(roomEntity.getMaxUsers());
@@ -29,18 +32,22 @@ public class EntityMapper {
         dto.setExpirationDate(roomEntity.getExpirationDate());
         dto.setCreationDate(roomEntity.getCreationDate());
 
-        // Verifica que usersInRoom no sea nulo antes de procesarlo
+        System.out.println("Users in Room: " + roomEntity.getUsersInRoom());
         dto.setUsersInRoom(
                 Optional.ofNullable(roomEntity.getUsersInRoom())
                         .orElse(new ArrayList<>())
                         .stream()
                         .map(user -> {
                             String betTeam = "No Bet";
+                            System.out.println("User: " + user);
                             if (roomEntity.getBets() != null) {
                                 betTeam = Optional.ofNullable(roomEntity.getBets())
                                         .orElse(new ArrayList<>())
                                         .stream()
-                                        .filter(bet -> bet.getUser() != null && bet.getUser().getId() != null && bet.getUser().getId().equals(user.getId()))
+                                        .filter(bet -> {
+                                            System.out.println("Bet User: " + (bet.getUser() != null ? bet.getUser().getId() : "null"));
+                                            return bet.getUser() != null && bet.getUser().getId() != null && bet.getUser().getId().equals(user.getId());
+                                        })
                                         .map(BetEntity::getTeam)
                                         .findFirst()
                                         .orElse("No Bet");
@@ -50,7 +57,7 @@ public class EntityMapper {
                         .collect(Collectors.toList())
         );
 
-        // Verificación de SportEventEntity para evitar NPE
+        System.out.println("Sport Event: " + roomEntity.getSportEvent());
         if (roomEntity.getSportEvent() != null) {
             SportEventEntity sportEvent = roomEntity.getSportEvent();
             SportEventDTO sportEventDTO = new SportEventDTO(

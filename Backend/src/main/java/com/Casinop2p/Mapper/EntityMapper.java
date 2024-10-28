@@ -5,6 +5,7 @@ import com.Casinop2p.dto.SportEventDTO;
 import com.Casinop2p.dto.UserDTORes;
 import com.Casinop2p.entity.BetEntity;
 import com.Casinop2p.entity.RoomEntity;
+import com.Casinop2p.entity.SportEventEntity;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -17,7 +18,9 @@ public class EntityMapper {
         RoomResponseDTO dto = new RoomResponseDTO();
         dto.setId(roomEntity.getId());
         dto.setRoomName(roomEntity.getRoomName());
-        dto.setRoomOwnerName(roomEntity.getRoomOwner() != null ? roomEntity.getRoomOwner().getName() : "Unknown");
+        dto.setRoomOwnerName(
+                roomEntity.getRoomOwner() != null ? roomEntity.getRoomOwner().getName() : "Unknown"
+        );
         dto.setEnable(roomEntity.isEnable());
         dto.setBet(roomEntity.getBet());
         dto.setMaxUsers(roomEntity.getMaxUsers());
@@ -26,31 +29,36 @@ public class EntityMapper {
         dto.setExpirationDate(roomEntity.getExpirationDate());
         dto.setCreationDate(roomEntity.getCreationDate());
 
-        // Manejo seguro de usersInRoom y apuestas
-        dto.setUsersInRoom(Optional.ofNullable(roomEntity.getUsersInRoom())
-                .orElse(new ArrayList<>())
-                .stream()
-                .map(user -> {
-                    String betTeam = roomEntity.getBets() != null
-                            ? roomEntity.getBets().stream()
-                            .filter(bet -> bet.getUser() != null && bet.getUser().getId().equals(user.getId()))
-                            .map(BetEntity::getTeam)
-                            .findFirst()
-                            .orElse("No Bet")
-                            : "No Bet";
-                    return UserMapper.toDTOWithoutBalance(user, betTeam);
-                }).collect(Collectors.toList()));
+        // Verifica que usersInRoom no sea nulo antes de procesarlo
+        dto.setUsersInRoom(
+                Optional.ofNullable(roomEntity.getUsersInRoom())
+                        .orElse(new ArrayList<>())
+                        .stream()
+                        .map(user -> {
+                            String betTeam = "No Bet";
+                            if (roomEntity.getBets() != null) {
+                                betTeam = roomEntity.getBets().stream()
+                                        .filter(bet -> bet.getUser() != null && bet.getUser().getId().equals(user.getId()))
+                                        .map(BetEntity::getTeam)
+                                        .findFirst()
+                                        .orElse("No Bet");
+                            }
+                            return UserMapper.toDTOWithoutBalance(user, betTeam);
+                        })
+                        .collect(Collectors.toList())
+        );
 
-        // Mapear SportEventEntity a SportEventDTO
+        // Verificación de SportEventEntity para evitar NPE
         if (roomEntity.getSportEvent() != null) {
+            SportEventEntity sportEvent = roomEntity.getSportEvent();
             SportEventDTO sportEventDTO = new SportEventDTO(
-                    roomEntity.getSportEvent().getId(),
-                    roomEntity.getSportEvent().getEventName(),
-                    roomEntity.getSportEvent().getDescription(),
-                    roomEntity.getSportEvent().getEventDate(),
-                    roomEntity.getSportEvent().getTeam1(),
-                    roomEntity.getSportEvent().getTeam2(),
-                    roomEntity.getSportEvent().getResult()
+                    sportEvent.getId(),
+                    sportEvent.getEventName(),
+                    sportEvent.getDescription(),
+                    sportEvent.getEventDate(),
+                    sportEvent.getTeam1() != null ? sportEvent.getTeam1() : "Unknown",
+                    sportEvent.getTeam2() != null ? sportEvent.getTeam2() : "Unknown",
+                    sportEvent.getResult()
             );
             dto.setSportEvent(sportEventDTO);
         }

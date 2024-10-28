@@ -6,6 +6,8 @@ import com.Casinop2p.dto.UserDTORes;
 import com.Casinop2p.entity.BetEntity;
 import com.Casinop2p.entity.RoomEntity;
 
+import java.util.ArrayList;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class EntityMapper {
@@ -25,17 +27,19 @@ public class EntityMapper {
         dto.setCreationDate(roomEntity.getCreationDate());
 
         // Manejo seguro de usersInRoom y apuestas
-        dto.setUsersInRoom(roomEntity.getUsersInRoom().stream()
+        dto.setUsersInRoom(Optional.ofNullable(roomEntity.getUsersInRoom())
+                .orElse(new ArrayList<>())
+                .stream()
                 .map(user -> {
-                    String betTeam = roomEntity.getBets() != null ? roomEntity.getBets().stream()
+                    String betTeam = roomEntity.getBets() != null
+                            ? roomEntity.getBets().stream()
                             .filter(bet -> bet.getUser() != null && bet.getUser().getId().equals(user.getId()))
                             .map(BetEntity::getTeam)
                             .findFirst()
-                            .orElse("No Bet") : "No Bet";
-
+                            .orElse("No Bet")
+                            : "No Bet";
                     return UserMapper.toDTOWithoutBalance(user, betTeam);
-                })
-                .collect(Collectors.toList()));
+                }).collect(Collectors.toList()));
 
         // Mapear SportEventEntity a SportEventDTO
         if (roomEntity.getSportEvent() != null) {

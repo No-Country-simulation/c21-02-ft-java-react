@@ -24,7 +24,8 @@ public class RoomResponseDTO {
     private String betDescription;
     private Date expirationDate;
     private Date creationDate;
-    private List<UserDTORes> usersInRoom;
+    private List<UserDTOWithoutBalance> usersInRoom;
+    private SportEventDTO sportEvent;
 
 
 }

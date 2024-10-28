@@ -8,7 +8,7 @@ public record UserDTORes(Long id,
                          float balance,
                          String email,
                          String userEnum,
-
+                         String betTeam,
                          String profileImage) {
 
 

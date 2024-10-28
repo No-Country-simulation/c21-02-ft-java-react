@@ -193,38 +193,46 @@ public class RoomServiceImp implements RoomService {
     public RoomEntity addUserToRoom(Long roomId, UserEntity user, BetEnum betEnum) {
         RoomEntity room = getRoomById(roomId);
 
-        // Verificar si el usuario ya es parte de la sala
+        // Verify if the user is already in the room
         if (room.getUsersInRoom().stream().anyMatch(u -> u.getId().equals(user.getId()))) {
-            throw new RuntimeException("El usuario ya es parte de la sala.");
+            throw new RuntimeException("The user is already part of the room.");
         }
 
-        // Verificar si la sala está habilitada
+        // Verify if the room is enabled and has available space
         if (!room.isEnable()) {
-            throw new RuntimeException("La sala está cerrada para nuevas apuestas.");
+            throw new RuntimeException("The room is closed for new bets.");
         }
-
-        // Verificar si hay espacio disponible en la sala
         if (room.getUsersInRoom().size() >= room.getMaxUsers()) {
-            throw new RuntimeException("La sala ha alcanzado el número máximo de usuarios.");
+            throw new RuntimeException("The room has reached its maximum number of users.");
         }
 
-        // Añadir al usuario a la lista de usuarios de la sala
+        // Add user to room and deduct bet amount from their balance
         room.getUsersInRoom().add(user);
         user.setBalance(user.getBalance() - room.getBet());
         userRepository.save(user);
 
-        // Crear la apuesta y asignarla al usuario
+        // Create a new BetEntity for the user
         BetEntity bet = new BetEntity();
         bet.setUser(user);
         bet.setRoom(room);
-        bet.setBetType(betEnum);
-        bet.setAmount(room.getBet()); // La cantidad ya fue descontada al unirse
+        bet.setBetType(betEnum); // Set bet type
 
-        //room.getBets().add(bet);
+        // Assign the team based on the betEnum type
+        if (betEnum == BetEnum.TEAM1_WIN) {
+            bet.setTeam(room.getSportEvent().getTeam1());  // Associate with team1 of the event
+        } else if (betEnum == BetEnum.TEAM2_WIN) {
+            bet.setTeam(room.getSportEvent().getTeam2());  // Associate with team2 of the event
+        } else if (betEnum == BetEnum.DRAW) {
+            bet.setTeam(null);  // No team association for a draw
+        }
 
-        // Guardar los cambios en la sala y en las apuestas
-        roomRepository.save(room);
+        // Set the amount and save the bet
+        bet.setAmount(room.getBet());
         betRepository.save(bet);
+
+        // Add bet to room and save changes
+        room.getBets().add(bet);
+        roomRepository.save(room);
 
         return room;
     }

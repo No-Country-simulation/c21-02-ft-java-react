@@ -40,6 +40,7 @@ public class UserEntity implements UserDetails {
 
     @OneToMany(mappedBy = "roomOwner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
+    @ToString.Exclude // Evita la referencia circular
     private List<RoomEntity> listRooms;
 
 
@@ -72,6 +73,16 @@ public class UserEntity implements UserDetails {
     @Override
     public boolean isEnabled() {
         return UserDetails.super.isEnabled();
+    }
+
+    @Override
+    public String toString() {
+        return "UserEntity{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                // Excluir "listRooms" o cualquier otra relación que pueda causar una referencia circular
+                '}';
     }
 
 }

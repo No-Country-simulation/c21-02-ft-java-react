@@ -42,7 +42,8 @@ public class RoomEntity {
         @JoinColumn(name="room_owner_id",nullable = false)
         private UserEntity roomOwner;  // El creador de la sala
 
-        @ManyToMany(fetch = FetchType.EAGER)  // Cambia a EAGER para evitar LazyInitializationException
+        @ManyToMany(fetch = FetchType.EAGER)
+        @ToString.Exclude // Evita la referencia circular
         private List<UserEntity> usersInRoom = new ArrayList<>();
 
         private boolean privateRoom;  // Si la sala es privada o no
@@ -74,6 +75,17 @@ public class RoomEntity {
                 if (sportEvent != null) {
                         expirationDate = sportEvent.getEventDate();  // Expiración según la fecha del evento
                 }
+        }
+
+        @Override
+        public String toString() {
+                return "RoomEntity{" +
+                        "id=" + id +
+                        ", roomName='" + roomName + '\'' +
+                        ", enable=" + enable +
+                        ", bet=" + bet +
+                        // Excluir "usersInRoom" y otras relaciones problemáticas
+                        '}';
         }
 
         // TRAER EL SPORTEVENT A LA ENTIDAD ROOM

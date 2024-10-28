@@ -15,6 +15,11 @@ public class EntityMapper {
 
     // Método para convertir RoomEntity a RoomResponseDTO
     public static RoomResponseDTO toRoomResponseDTO(RoomEntity roomEntity) {
+
+        System.out.println("Room Owner ID: " + (roomEntity.getRoomOwner() != null ? roomEntity.getRoomOwner().getId() : "null"));
+        System.out.println("Users in Room Count: " + (roomEntity.getUsersInRoom() != null ? roomEntity.getUsersInRoom().size() : "null"));
+
+
         RoomResponseDTO dto = new RoomResponseDTO();
         dto.setId(roomEntity.getId());
         dto.setRoomName(roomEntity.getRoomName());

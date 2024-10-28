@@ -37,8 +37,10 @@ public class EntityMapper {
                         .map(user -> {
                             String betTeam = "No Bet";
                             if (roomEntity.getBets() != null) {
-                                betTeam = roomEntity.getBets().stream()
-                                        .filter(bet -> bet.getUser() != null && bet.getUser().getId().equals(user.getId()))
+                                betTeam = Optional.ofNullable(roomEntity.getBets())
+                                        .orElse(new ArrayList<>())
+                                        .stream()
+                                        .filter(bet -> bet.getUser() != null && bet.getUser().getId() != null && bet.getUser().getId().equals(user.getId()))
                                         .map(BetEntity::getTeam)
                                         .findFirst()
                                         .orElse("No Bet");

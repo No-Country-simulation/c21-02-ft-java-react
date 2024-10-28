@@ -31,11 +31,12 @@ public class RoomServiceImp implements RoomService {
         return roomRepository.save(room);
     }
 
-    @Override // Obtener una sala por su ID
+    @Override
     public RoomEntity getRoomById(Long id) {
-        return roomRepository.findById(id)
+        return roomRepository.findRoomByIdWithUsersAndBets(id)
                 .orElseThrow(() -> new RuntimeException("Sala no encontrada con ID: " + id));
     }
+
 
 
     @Override // Obtener todas las salas habilitadas

@@ -42,8 +42,8 @@ public class RoomEntity {
         @JoinColumn(name="room_owner_id",nullable = false)
         private UserEntity roomOwner;  // El creador de la sala
 
-        @ManyToMany
-        private List<UserEntity> usersInRoom = new ArrayList<>();  // Usuarios que se han unido a la sala
+        @ManyToMany(fetch = FetchType.EAGER)  // Cambia a EAGER para evitar LazyInitializationException
+        private List<UserEntity> usersInRoom = new ArrayList<>();
 
         private boolean privateRoom;  // Si la sala es privada o no
 
@@ -60,8 +60,8 @@ public class RoomEntity {
 
        //private float totalAmount;  // Cantidad total acumulada en apuestas dentro de la sala
 
-        @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
-        private List<BetEntity> bets = new ArrayList<>();  // Lista de todas las apuestas realizadas en la sala
+        @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, fetch = FetchType.EAGER)  // Cambia a EAGER para la lista de apuestas
+        private List<BetEntity> bets = new ArrayList<>();
 
         @ManyToOne
         @JoinColumn(name = "sport_event_id", nullable = false)

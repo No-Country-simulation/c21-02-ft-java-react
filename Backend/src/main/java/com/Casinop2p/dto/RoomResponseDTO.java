@@ -26,6 +26,6 @@ public class RoomResponseDTO {
     private Date creationDate;
     private List<UserDTOWithoutBalance> usersInRoom;
     private SportEventDTO sportEvent;
-
+    private boolean isPaidOut;
 
 }

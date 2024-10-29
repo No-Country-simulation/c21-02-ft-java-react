@@ -2,6 +2,7 @@ package com.Casinop2p.service.imp;
 
 import com.Casinop2p.entity.BetEntity;
 import com.Casinop2p.entity.RoomEntity;
+import com.Casinop2p.entity.SportEventEntity;
 import com.Casinop2p.entity.UserEntity;
 import com.Casinop2p.repository.BetRepository;
 import com.Casinop2p.repository.RoomRepository;
@@ -110,6 +111,12 @@ public class RoomServiceImp implements RoomService {
         // Cerrar la sala
         room.setResult(result.name());
         room.setEnable(false);
+
+        // Actualizar el resultado en el SportEventEntity asociado
+        SportEventEntity sportEvent = room.getSportEvent();
+        if (sportEvent != null) {
+            sportEvent.setResult(result.name());
+        }
 
         List<BetEntity> bets = room.getBets();
 

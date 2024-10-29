@@ -23,6 +23,7 @@ public class EntityMapper {
         dto.setBetDescription(roomEntity.getBetDescription());
         dto.setExpirationDate(roomEntity.getExpirationDate());
         dto.setCreationDate(roomEntity.getCreationDate());
+        dto.setPaidOut(roomEntity.isPaidOut());
 
         // Manejo seguro de usersInRoom y apuestas
         dto.setUsersInRoom(roomEntity.getUsersInRoom().stream()

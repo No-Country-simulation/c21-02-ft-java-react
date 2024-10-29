@@ -43,8 +43,8 @@ public class RoomEntity {
         private UserEntity roomOwner;  // El creador de la sala
 
         @ManyToMany(fetch = FetchType.EAGER)
-        @ToString.Exclude // Evita la referencia circular
-        private List<UserEntity> usersInRoom = new ArrayList<>();
+        @ToString.Exclude
+        private Set<UserEntity> usersInRoom = new HashSet<>();
 
         private boolean privateRoom;  // Si la sala es privada o no
 
@@ -61,8 +61,8 @@ public class RoomEntity {
 
        //private float totalAmount;  // Cantidad total acumulada en apuestas dentro de la sala
 
-        @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, fetch = FetchType.EAGER)  // Cambia a EAGER para la lista de apuestas
-        private List<BetEntity> bets = new ArrayList<>();
+        @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+        private Set<BetEntity> bets = new HashSet<>();
 
         @ManyToOne
         @JoinColumn(name = "sport_event_id", nullable = false)

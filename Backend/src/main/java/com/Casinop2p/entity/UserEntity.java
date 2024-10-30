@@ -2,6 +2,7 @@ package com.Casinop2p.entity;
 
 
 import com.Casinop2p.util.UserEnum;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -28,15 +29,20 @@ public class UserEntity implements UserDetails {
 
     private float balance;
 
+
+    private String profileImage;
+
     @Column(unique = true)
     private String email;
 
     @Enumerated(EnumType.STRING)
     private UserEnum userEnum;
 
-    //@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    //@JoinTable(name = "bet_list", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "room_id"))
-    //private Set<RoomEntity> betList = new HashSet<>();
+    @OneToMany(mappedBy = "roomOwner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<RoomEntity> listRooms;
+
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -67,4 +73,5 @@ public class UserEntity implements UserDetails {
     public boolean isEnabled() {
         return UserDetails.super.isEnabled();
     }
+
 }

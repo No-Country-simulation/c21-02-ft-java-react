@@ -5,12 +5,16 @@ import { setLoading } from "@/store/slices/pageSlice";
 
 import { UserLoginResponse, UserSessionPersistenceResponse } from "@/types/user";
 
-const loginURL = process.env.NEXT_PUBLIC_USER_LOGIN ?
-    process.env.NEXT_PUBLIC_USER_LOGIN : ""
-const registerURL = process.env.NEXT_PUBLIC_USER_ENDPOINT ?
-    process.env.NEXT_PUBLIC_USER_ENDPOINT : ""
-const getInfoWithTokenURL = process.env.NEXT_PUBLIC_USER_GET_INFO_WITH_TOKEN ?
-    process.env.NEXT_PUBLIC_USER_GET_INFO_WITH_TOKEN : ""
+
+const loginURL = process.env.NEXT_PUBLIC_USER_LOGIN
+  ? process.env.NEXT_PUBLIC_USER_LOGIN
+  : "";
+const registerURL = process.env.NEXT_PUBLIC_USER_ENDPOINT
+  ? process.env.NEXT_PUBLIC_USER_ENDPOINT
+  : "";
+const getInfoWithTokenURL = process.env.NEXT_PUBLIC_USER_GET_INFO_WITH_TOKEN
+  ? process.env.NEXT_PUBLIC_USER_GET_INFO_WITH_TOKEN
+  : "";
 
 export const userLogin = createAsyncThunk(
     'user/login',
@@ -38,16 +42,36 @@ export const userLogin = createAsyncThunk(
             thunkAPI.dispatch(setLoading(true));
         }
     }
+  }
 );
 
 export const userRegister = createAsyncThunk(
-    'user/register',
-    async ({
-        name,
-        email,
-        password,
-        balance,
-        userEnum }:
+  "user/register",
+  async ({
+    name,
+    email,
+    password,
+    balance,
+    userEnum,
+  }: {
+    name: string;
+    email: string;
+    password: string;
+    balance: number;
+    userEnum: "USER" | "ADMIN" | "INVITED";
+  }) => {
+    console.log({
+      name,
+      email,
+      password,
+      balance,
+      userEnum,
+    });
+    try {
+      const data = await fetchData<void>(
+        registerURL,
+        "An error has occurred when trying to sign up.",
+        "POST",
         {
             name: string,
             email: string,
@@ -81,7 +105,13 @@ export const userRegister = createAsyncThunk(
         } finally {
             thunkAPI.dispatch(setLoading(false));
         }
+      );
+      return console.log(data);
+    } catch (error) {
+      console.error(error); // Esto se pasará como payload a rejected
+      throw error;
     }
+  }
 );
 
 export const userSessionPersistence = createAsyncThunk(
@@ -110,4 +140,5 @@ export const userSessionPersistence = createAsyncThunk(
             thunkAPI.dispatch(setLoading(false));
         }
     }
+  }
 );

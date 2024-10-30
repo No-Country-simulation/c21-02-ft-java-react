@@ -29,6 +29,15 @@ public class BetEntity {
 
     private float amount;  // La cantidad de dinero apostada por el usuario
 
+    @Enumerated(EnumType.STRING)
+    private BetEnum betType;  // Tipo de apuesta (WIN, LOSS, DRAW)
+
+
+
+
+
+
+
 
 
 }

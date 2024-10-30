@@ -1,5 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchData } from "@/lib/utils";
+import { setNewBalance } from "@/store/slices/userSlice";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 const baseLobbyURL = process.env.NEXT_PUBLIC_LOBBIES_BASE ?
     process.env.NEXT_PUBLIC_LOBBIES_BASE : ""
@@ -44,15 +46,18 @@ export const getLobbyById = createAsyncThunk(
 
 export const createLobby = createAsyncThunk(
     'lobby/create',
-    async ({ roomName, bet, maxUsers, privateRoom, ownerBet, eventId, token }: { roomName: string, bet: "100" | "500" | "1000" | "2000" | "5000" | "10000", maxUsers: number, privateRoom: boolean, ownerBet: string, eventId: string, token: string }) => {
+    async ({ roomName, bet, maxUsers, privateRoom, ownerBet, eventId, token, router }: { roomName: string, bet: "100" | "500" | "1000" | "2000" | "5000" | "10000", maxUsers: number, privateRoom: boolean, ownerBet: string, eventId: string, token: string, router: AppRouterInstance }, thunkAPI) => {
         try {
             const data = await fetchData<any>(baseLobbyURL + '?eventId=' + eventId,
                 "An error has occurred while trying to create the lobby.",
                 "POST",
                 { roomName, bet: Number(bet), maxUsers, privateRoom, ownerBet },
                 token)
-
-            return console.log(data);
+            thunkAPI.dispatch(setNewBalance(Number(bet)))
+            router.push('/salas/' + data.id)
+            return {
+                id: data.id
+            }
         } catch (error) {
             console.error(error);
             throw error
@@ -71,6 +76,24 @@ export const getEvents = createAsyncThunk(
             return {
                 events: data
             }
+        } catch (error) {
+            console.error(error);
+            throw error
+        }
+    }
+);
+
+export const setBet = createAsyncThunk(
+    'lobby/create',
+    async ({ betEnum, roomId, token }: { betEnum: "TEAM1_WIN" | "TEAM2_WIN", roomId: number, token: string }) => {
+        try {
+            const data = await fetchData<any>(baseLobbyURL + '/' + roomId + '/join',
+                "An error has occurred while trying to set the bet.",
+                "POST",
+                { betEnum },
+                token)
+
+            return console.log(data);
         } catch (error) {
             console.error(error);
             throw error

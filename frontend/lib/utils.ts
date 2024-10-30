@@ -1,6 +1,6 @@
 import { HttpMethod } from "@/types/httpMethods";
 import { UserLogin, UserRegister, UserProfile } from "@/types/user";
-import { LobbyCreation } from "@/types/lobby";
+import { LobbyCreation, SetBet } from "@/types/lobby";
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 
@@ -12,7 +12,7 @@ export const fetchData = async <T>(
   url: string,
   errorMessage: string = 'An error has occurred',
   method: HttpMethod = 'GET',
-  body: UserLogin | UserRegister | UserProfile | LobbyCreation | null = null,
+  body: UserLogin | UserRegister | UserProfile | LobbyCreation | SetBet | null = null,
   token: string | null = null
 ): Promise<T> => {
   try {

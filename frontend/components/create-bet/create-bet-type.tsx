@@ -36,8 +36,8 @@ export default function CreateBetType() {
                     setStep(2);
                   }}
                 />
-                <p className="text-3xl">Disfruta lo mejor de las ligas</p>
-                <p className="text-6xl font-bold">EUROPEAS</p>
+                <p className="text-3xl">Disfruta lo mejor del</p>
+                <p className="text-6xl font-bold">FÚTBOL</p>
                 <p className="text-xl">
                   <span className="font-bold">¡Celebra cada gol </span>de tu
                   equipo favorito!

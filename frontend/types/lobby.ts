@@ -15,3 +15,7 @@ export interface SportEvent {
     team2: string,
     result: string | null
 }
+
+export interface SetBet {
+    betEnum: "TEAM1_WIN" | "TEAM2_WIN"
+}

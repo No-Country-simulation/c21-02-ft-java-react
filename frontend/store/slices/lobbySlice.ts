@@ -6,7 +6,7 @@ const lobbySlice = createSlice({
     initialState: {
         lobbies: [
             {
-                id: null,
+                id: 0,
                 roomName: "",
                 enable: false,
                 result: "",
@@ -49,7 +49,7 @@ const lobbySlice = createSlice({
             }
         ],
         lobby: {
-            id: null,
+            id: 0,
             roomName: null,
             enable: null,
             result: null,
@@ -82,6 +82,7 @@ const lobbySlice = createSlice({
                     email: null,
                     userEnum: null,
                     enabled: null,
+                    betTeam: null,
                     authorities: [
                         {
                             authority: null

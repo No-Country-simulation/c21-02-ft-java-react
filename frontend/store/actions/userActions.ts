@@ -1,6 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchData } from "@/lib/utils";
 
+import { setLoading } from "@/store/slices/pageSlice";
+
 import { UserLoginResponse, UserSessionPersistenceResponse } from "@/types/user";
 
 const loginURL = process.env.NEXT_PUBLIC_USER_LOGIN ?
@@ -12,7 +14,8 @@ const getInfoWithTokenURL = process.env.NEXT_PUBLIC_USER_GET_INFO_WITH_TOKEN ?
 
 export const userLogin = createAsyncThunk(
     'user/login',
-    async ({ email, password }: { email: string; password: string }) => {
+    async ({ email, password }: { email: string; password: string }, thunkAPI) => {
+        thunkAPI.dispatch(setLoading(false));
         try {
             const data = await fetchData<UserLoginResponse>(loginURL,
                 "An error has occurred when trying to log in.",
@@ -24,12 +27,15 @@ export const userLogin = createAsyncThunk(
                 email: data.email,
                 id: data.id,
                 image: data.profileImage,
+                balance: data.balance,
                 token: data.jwt,
                 role: data.role
             }
         } catch (error) {
             console.error(error);
             throw error
+        } finally {
+            thunkAPI.dispatch(setLoading(true));
         }
     }
 );
@@ -48,7 +54,7 @@ export const userRegister = createAsyncThunk(
             password: string,
             balance: number,
             userEnum: "USER" | "ADMIN" | "INVITED"
-        },) => {
+        }, thunkAPI) => {
         console.log({
             name,
             email,
@@ -56,6 +62,7 @@ export const userRegister = createAsyncThunk(
             balance,
             userEnum
         });
+        thunkAPI.dispatch(setLoading(true));
         try {
             const data = await fetchData<void>(registerURL,
                 "An error has occurred when trying to sign up.",
@@ -71,13 +78,16 @@ export const userRegister = createAsyncThunk(
         } catch (error) {
             console.error(error); // Esto se pasará como payload a rejected
             throw error
+        } finally {
+            thunkAPI.dispatch(setLoading(false));
         }
     }
 );
 
 export const userSessionPersistence = createAsyncThunk(
     'user/sessionPersistence',
-    async (token: string) => {
+    async (token: string, thunkAPI) => {
+        thunkAPI.dispatch(setLoading(true));
         try {
             const data = await fetchData<UserSessionPersistenceResponse>(getInfoWithTokenURL,
                 "An error has occurred when trying to fetch the information.",
@@ -89,12 +99,15 @@ export const userSessionPersistence = createAsyncThunk(
                 email: data.email,
                 name: data.name,
                 image: data.profileImage,
+                balance: data.balance,
                 role: data.role,
                 token: token
             }
         } catch (error) {
             console.error(error);
             throw error
+        } finally {
+            thunkAPI.dispatch(setLoading(false));
         }
     }
 );

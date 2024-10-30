@@ -29,6 +29,7 @@ import Link from 'next/link'
 export default function HeaderAuthenticated() {
 
     const user = useAppSelector(store => store.user)
+    const loading = useAppSelector(store => store.page.loading)
 
     const username: string = user.name
     const email: string = user.email
@@ -89,10 +90,10 @@ export default function HeaderAuthenticated() {
                             </div>
                         </div>
                     </Link>
-                    <div className="flex flex-row max-md:flex-wrap items-center justify-start md:gap-2 max-md:gap-4">
+                    <div className="flex flex-row max-md:flex-wrap items-center justify-start md:gap-2 max-md:gap-4 grow md:ml-32">
                         <>
                             <Button
-                                className="flex gap-2 w-full"
+                                className="flex gap-2 w-full md:justify-center"
                                 variant={(pageLocation === "/nueva-apuesta") ? "default" : "ghost"}
                                 onClick={() => {
                                     router.push("/nueva-apuesta")
@@ -100,11 +101,11 @@ export default function HeaderAuthenticated() {
                                 }}
                             >
                                 <PlusIcon />
-                                Nueva apuesta
+                                Crear sala
                             </Button>
 
                             <Button
-                                className="flex gap-2 w-full md:justify-start"
+                                className="flex gap-2 w-full md:justify-center"
                                 variant={(pageLocation === "/salas") ? "default" : "ghost"}
                                 onClick={() => {
                                     router.push("/salas")
@@ -112,11 +113,11 @@ export default function HeaderAuthenticated() {
                                 }}
                             >
                                 <Component1Icon />
-                                Apuestas online
+                                Salas activas
                             </Button>
 
                             <Button
-                                className="flex gap-2 w-full md:justify-start"
+                                className="flex gap-2 w-full md:justify-center"
                                 variant={(pageLocation === "/estadisticas") ? "default" : "ghost"}
                                 onClick={() => {
                                     router.push("/estadisticas")
@@ -129,7 +130,7 @@ export default function HeaderAuthenticated() {
                         </>
                     </div>
 
-                    <p>Balance: {user.balance}</p>
+                    <p className="mx-16">Balance: {user.balance}</p>
                     <div className="flex flex-col justify-center items-center gap-2 max-md:w-full">
                         <>
                             <DropdownMenu>

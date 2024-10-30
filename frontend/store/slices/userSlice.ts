@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { userLogin, userRegister, userSessionPersistence } from "../actions/userActions";
 
 const userSlice = createSlice({
@@ -13,12 +13,9 @@ const userSlice = createSlice({
         token: ""
     },
     reducers: {
-        login: (state, action) => {
-
+        setNewBalance: (state, action: PayloadAction<number>) => {
+            state.balance = state.balance - action.payload;
         },
-        register: (state, action) => {
-
-        }
     },
     extraReducers: (builder) => {
         builder
@@ -27,8 +24,9 @@ const userSlice = createSlice({
                 state.name = action.payload.name;
                 state.email = action.payload.email;
                 state.image = action.payload.image;
-                state.token = action.payload.token;
+                state.balance = action.payload.balance;
                 state.userEnum = action.payload.role;
+                state.token = action.payload.token;
             })
             .addCase(userRegister.fulfilled, () => {
                 return alert("Registro realizado con éxito.");
@@ -39,10 +37,11 @@ const userSlice = createSlice({
                 state.name = action.payload.name;
                 state.image = action.payload.image;
                 state.userEnum = action.payload.role;
+                state.balance = action.payload.balance;
                 state.token = action.payload.token;
             })
     }
 })
 
-export const { login, register } = userSlice.actions
+export const { setNewBalance } = userSlice.actions
 export default userSlice.reducer

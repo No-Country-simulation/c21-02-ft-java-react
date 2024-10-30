@@ -35,12 +35,16 @@ import {
 import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
 import { createLobby, getEvents } from "@/store/actions/lobbyActions";
 import { SportEvent } from "@/types/lobby";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   password: z
     .string()
     .min(8, {
       message: "La contraseña debe contener al menos 8 caracteres",
+    })
+    .regex(/^[A-Za-z0-9]*$/, {
+      message: "La contraseña solo puede contener caracteres alfanuméricos",
     })
     .optional(),
   bet: z.enum(["100", "500", "1000", "2000", "5000", "10000"]),
@@ -57,12 +61,15 @@ const formSchema = z.object({
 
 export default function BetBet() {
 
+  const router = useRouter();
+
   const [event, setEvent] = useState<SportEvent>();
   const [token, setToken] = useState<string>();
 
   const dispatch = useAppDispatch();
   const user = useAppSelector(store => store.user)
   const events = useAppSelector(store => store.lobby.events)
+  const currentDate = new Date()
 
   const { setStep, step, betSettings } = useContext(BetContext);
 
@@ -70,13 +77,15 @@ export default function BetBet() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       roomName: "",
-      password: "",
-      maxUsers: 4,
+      password: "12345678",
+      maxUsers: 1,
       privateRoom: false
     },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log(values);
+
     const roomName = values.roomName
     const bet = values.bet
     const maxUsers = values.maxUsers
@@ -91,7 +100,8 @@ export default function BetBet() {
       privateRoom,
       ownerBet,
       eventId,
-      token: token ? token : ""
+      token: token ? token : "",
+      router
     }))
   }
 
@@ -150,10 +160,37 @@ export default function BetBet() {
                     <FormItem hidden={betSettings.room === "public"}>
                       <FormLabel>Contraseña de la sala</FormLabel>
                       <FormControl>
-                        <Input {...field} />
+                        <Input pattern="[A-Za-z0-9]*" title="Solo se permiten letras y números" type="password" {...field} />
                       </FormControl>
                       <FormDescription>
                         Tendrás que compartir esta contraseña a tus amigos
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="maxUsers"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Número de jugadores máximo</FormLabel>
+                      <FormControl>
+                        <Input
+                          min={2}
+                          max={12}
+                          type="number"
+                          placeholder="Número de jugadores máximo"
+                          {...field}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            field.onChange(value ? parseInt(value, 10) : undefined);
+                          }}
+                        />
+                      </FormControl>
+                      <FormDescription>
+                        Establece un número máximo de jugadores (2 a 12 usuarios)
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
@@ -187,9 +224,11 @@ export default function BetBet() {
 
                         <SelectContent position="popper">
                           {events.map((event) => (
+                            // new Date(event.eventDate) < currentDate ?
                             <SelectItem key={event.id} value={event.id.toString()}>
                               {event.eventName} - {event.description}
                             </SelectItem>
+                            //: null
                           ))}
                         </SelectContent>
                       </SelectPrimitive.Root>

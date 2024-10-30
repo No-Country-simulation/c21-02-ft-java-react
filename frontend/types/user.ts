@@ -32,6 +32,7 @@ export interface UserLoginResponse {
     name: string,
     email: string,
     profileImage: string,
+    balance: number,
     jwt: string,
     role: string
 }
@@ -41,5 +42,6 @@ export interface UserSessionPersistenceResponse {
     email: string,
     name: string,
     profileImage: string,
+    balance: number,
     role: string
 }

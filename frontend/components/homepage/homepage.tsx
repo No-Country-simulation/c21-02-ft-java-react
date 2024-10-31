@@ -1,36 +1,47 @@
 "use client";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
-import React from "react";
-import { TableBets } from "../table-bets/table-bets";
+import React, { useEffect, useState } from "react";
 import { Fade, Slide, Zoom } from "react-awesome-reveal";
+import EventsCards from "@/components/EventsCards/EventsCards";
 
 interface HomepageProps extends React.HTMLAttributes<HTMLDivElement> {
   className?: string;
 }
 
 export default function Homepage({ className, ...rest }: HomepageProps) {
+
+  const [componentRendered, setComponentRendered] = useState<boolean>(false);
+
+  useEffect(() => {
+    setComponentRendered(true)
+  }, [])
+
   return (
     <>
       <div {...rest} className={cn(className, "mt-10")}>
-        <section className="min-h-dvh">
-          <Fade>
-            <Slide direction="down" triggerOnce>
-              <div className="text-center font-black text-5xl mb-3">
-                Super Apuestas
+        <section className="min-h-dvh flex flex-col">
+          <div>
+            <Fade>
+              <Slide direction="down" triggerOnce>
+                <div className="text-center font-black text-5xl mb-3">
+                  Super Apuestas
+                </div>
+              </Slide>
+            </Fade>
+            <Fade triggerOnce>
+              <div className="text-center max-w-[500px] mx-auto text-sm px-3">
+                Más de 400 Juegos Diferentes y una Gran Variedad de Deportes para
+                apuestas deportivas. Recibe tus depósitos en menos de 1 hora.
+                Apuesta en vivo. Retiros al Momento.
               </div>
-            </Slide>
-          </Fade>
-          <Fade triggerOnce>
-            <div className="text-center max-w-[500px] mx-auto text-sm px-3">
-              Más de 400 Juegos Diferentes y una Gran Variedad de Deportes para
-              apuestas deportivas. Recibe tus depósitos en menos de 1 hora.
-              Apuesta en vivo. Retiros al Momento.
-            </div>
-          </Fade>
-          <Fade triggerOnce>
-            <TableBets />
-          </Fade>
+            </Fade>
+          </div>
+          {
+            componentRendered ?
+              <EventsCards />
+              : null
+          }
         </section>
         <Fade triggerOnce>
           <section className="min-h-screen flex flex-col items-center justify-center bg-primary text-primary-foreground py-20">

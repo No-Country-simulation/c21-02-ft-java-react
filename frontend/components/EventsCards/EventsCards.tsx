@@ -10,6 +10,9 @@ import CardLoader from "@/components/CardLoader/CardLoader"
 
 const EventsCards = () => {
 
+    const provisionalUserToken = process.env.NEXT_PUBLIC_PROVISIONAL_USER_TOKEN ?
+        process.env.NEXT_PUBLIC_PROVISIONAL_USER_TOKEN : ""
+
     const dispatch = useAppDispatch();
     const events = useAppSelector(store => store.lobby.events)
     const user = useAppSelector(store => store.user)
@@ -23,10 +26,8 @@ const EventsCards = () => {
         const token = user.token ?
             user.token : localStorage.getItem('token') ?
                 localStorage.getItem('token') : null;
-        token ?
-            dispatch(getEvents(token)) :
-            alert("No estás autorizado.")
-    }, [dispatch, user.token])
+        if (provisionalUserToken) dispatch(getEvents(provisionalUserToken))
+    }, [dispatch, user.token, provisionalUserToken])
 
     useEffect(() => {
         if (!loadingEvents && !loadingUser) {

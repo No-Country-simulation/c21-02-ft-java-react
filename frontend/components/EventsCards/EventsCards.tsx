@@ -40,8 +40,8 @@ const EventsCards = () => {
                 isLoaded ?
                     <Slide direction="left" className="flex flex-col items-center my-8" triggerOnce>
                         <div className="flex flex-row justify-center max-md:flex-wrap gap-4 italic">
-                            <span className="text-6xl text-primary font-semibold">EVENTOS</span>
-                            <span className="text-6xl text-red-500 font-bold">DISPONIBLES</span>
+                            <span className="max-md:text-4xl text-6xl text-primary font-semibold">EVENTOS</span>
+                            <span className="max-md:text-4xl text-6xl text-red-500 font-bold">DISPONIBLES</span>
                         </div>
                         <div className="flex flex-col max-md:flex-wrap self-center gap-12 md:w-[80%] max-md:w-[95%]">
                             {(events[0].id !== 0) ?

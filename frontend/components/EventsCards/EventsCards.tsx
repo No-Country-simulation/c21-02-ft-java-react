@@ -26,8 +26,8 @@ const EventsCards = () => {
         const token = user.token ?
             user.token : localStorage.getItem('token') ?
                 localStorage.getItem('token') : null;
-        if (token) dispatch(getEvents(provisionalUserToken))
-    }, [dispatch, user.token])
+        if (provisionalUserToken) dispatch(getEvents(provisionalUserToken))
+    }, [dispatch, user.token, provisionalUserToken])
 
     useEffect(() => {
         if (!loadingEvents && !loadingUser) {

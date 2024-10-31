@@ -11,7 +11,7 @@ const userSlice = createSlice({
         balance: 0,
         userEnum: "",
         token: "",
-        loading: true
+        loading: false
     },
     reducers: {
         setNewBalance: (state, action: PayloadAction<number>) => {
@@ -44,6 +44,9 @@ const userSlice = createSlice({
             })
             .addCase(userSessionPersistence.pending, (state, action) => {
                 state.loading = true
+            })
+            .addCase(userSessionPersistence.rejected, (state, action) => {
+                state.loading = false
             })
     }
 })

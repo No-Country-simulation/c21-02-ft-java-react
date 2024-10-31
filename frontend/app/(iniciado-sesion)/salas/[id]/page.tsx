@@ -115,11 +115,11 @@ const Page = () => {
 
                     <div className='flex flex-col justify-center items-center gap-4'>
                         <h1 className='text-3xl'>Lista de jugadores</h1>
-                        {lobby.usersInRoom.length > 0 ? lobby.usersInRoom.map(userMapped =>
+                        {lobby.usersInRoom.length > 0 ? lobby.usersInRoom.map((userMapped, index) =>
                             <div key={userMapped.id} className='flex flex-col gap-4 border border-black dark:border-white p-4 w-[90%]'>
                                 <div
                                     className="flex flex-row justify-evenly items-center">
-                                    <Image
+                                    <img
                                         className='rounded-full'
                                         src={userMapped.profileImage}
                                         alt='Profile photo'
@@ -128,7 +128,7 @@ const Page = () => {
                                     />
                                     <p className={user.name === userMapped.name ? "text-green-500" : ""}>{userMapped.name}{user.name === userMapped.name ? " (Tú)" : null}</p>
                                 </div>
-                                <p className='text-center'>Apostó por: {lobby.usersInRoom.find(userChecked => userChecked.id === user.id)?.betTeam}</p>
+                                <p className='text-center'>Apostó por: {lobby.usersInRoom[index].betTeam}</p>
                             </div>
                         ) : <p>No hay jugadores en esta sala.</p>}
                     </div>

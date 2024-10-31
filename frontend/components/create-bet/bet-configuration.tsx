@@ -6,7 +6,6 @@ import { Fade, Slide } from "react-awesome-reveal";
 
 export default function BetConfiguration() {
   const { setBetSettings, setStep, step, betSettings } = useContext(BetContext);
-  console.log(step, betSettings);
 
   if (step !== 2) return null;
   return (

@@ -120,7 +120,8 @@ const lobbySlice = createSlice({
                 team2: "",
                 result: ""
             }
-        ]
+        ],
+        loading: true
     },
     reducers: {},
     extraReducers: (builder) => {
@@ -136,6 +137,10 @@ const lobbySlice = createSlice({
             })
             .addCase(getEvents.fulfilled, (state, action) => {
                 state.events = action.payload.events
+                state.loading = false
+            })
+            .addCase(getEvents.pending, (state, action) => {
+                state.loading = true
             })
     }
 })

@@ -85,15 +85,16 @@ export const getEvents = createAsyncThunk(
 
 export const setBet = createAsyncThunk(
     'lobby/create',
-    async ({ betEnum, roomId, token }: { betEnum: "TEAM1_WIN" | "TEAM2_WIN", roomId: number, token: string }) => {
+    async ({ betEnum, bet, roomId, token }: { betEnum: "TEAM1_WIN" | "TEAM2_WIN", bet: number, roomId: number, token: string }, thunkAPI) => {
         try {
-            const data = await fetchData<any>(baseLobbyURL + '/' + roomId + '/join',
+            await fetchData<any>(baseLobbyURL + '/' + roomId + '/join',
                 "An error has occurred while trying to set the bet.",
                 "POST",
                 { betEnum },
                 token)
-
-            return console.log(data);
+            thunkAPI.dispatch(setNewBalance(Number(bet)))
+            thunkAPI.dispatch(getLobbyById({ token, id: roomId.toString() }))
+            return
         } catch (error) {
             console.error(error);
             throw error

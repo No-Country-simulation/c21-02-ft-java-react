@@ -7,6 +7,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import {
     Dialog,
+    DialogClose,
     DialogContent,
     DialogDescription,
     DialogFooter,
@@ -48,9 +49,11 @@ const Page = () => {
     function handleSelectSubmit() {
         const betEnum = team
         const roomId = lobby.id
+        const bet = lobby.bet
 
         dispatch(setBet({
             betEnum,
+            bet,
             roomId,
             token: token ? token : ""
         }))
@@ -76,7 +79,7 @@ const Page = () => {
                         <p className='text-4xl'>Bote total: {lobby.bet * lobby.usersInRoom.length} créditos</p>
                     </div>
                     {
-                        !userHasBetted ?
+                        !userHasBetted && lobby ?
                             <Dialog>
                                 <DialogTrigger asChild>
                                     <Button variant="default">Colocar apuesta</Button>
@@ -89,16 +92,16 @@ const Page = () => {
                                         </DialogDescription>
                                     </DialogHeader>
                                     <div className="grid gap-4 py-4">
-                                        <div className="grid grid-cols-4 items-center gap-4">
-                                            <Select>
-                                                <SelectTrigger className='w-max'>
-                                                    <SelectValue placeholder="Selecciona un evento primero." />
+                                        <div className="flex flex-col gap-4">
+                                            <Select onValueChange={(value) => setTeam(value as "TEAM1_WIN" | "TEAM2_WIN")}>
+                                                <SelectTrigger className='w-full'>
+                                                    <SelectValue placeholder={lobby.sportEvent?.team1} />
                                                 </SelectTrigger>
                                                 {
                                                     lobby ?
                                                         <SelectContent className='w-full'>
-                                                            <SelectItem key={"TEAM1_WIN"} onClick={() => setTeam("TEAM1_WIN")} value="TEAM1_WIN">{lobby.sportEvent?.team1}</SelectItem>
-                                                            <SelectItem key={"TEAM2_WIN"} onClick={() => setTeam("TEAM2_WIN")} value="TEAM2_WIN">{lobby.sportEvent?.team2}</SelectItem>
+                                                            <SelectItem key={"TEAM1_WIN"} value="TEAM1_WIN">{lobby.sportEvent?.team1}</SelectItem>
+                                                            <SelectItem key={"TEAM2_WIN"} value="TEAM2_WIN">{lobby.sportEvent?.team2}</SelectItem>
                                                         </SelectContent>
                                                         : null
                                                 }
@@ -106,7 +109,9 @@ const Page = () => {
                                         </div>
                                     </div>
                                     <DialogFooter>
-                                        <Button onClick={() => handleSelectSubmit()} type="button">Confirmar</Button>
+                                        <DialogClose asChild>
+                                            <Button onClick={() => handleSelectSubmit()} type="button">Confirmar</Button>
+                                        </DialogClose>
                                     </DialogFooter>
                                 </DialogContent>
                             </Dialog>

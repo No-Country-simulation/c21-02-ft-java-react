@@ -1,13 +1,13 @@
 import { Fade, Slide } from "react-awesome-reveal";
 
-const Loader = () => {
+const Loader = ({ section }: { section: string }) => {
     return (
         <>
-            <Slide className="flex flex-col items-center my-8" direction="left" triggerOnce>
+            <Slide className="flex flex-col items-center my-8 w-full" direction="left" triggerOnce>
                 <div>
                     <Fade>
                         <div className="text-center font-black text-5xl">
-                            Cargando eventos...
+                            Cargando {section}...
                         </div>
                     </Fade>
                 </div>

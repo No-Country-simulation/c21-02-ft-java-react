@@ -72,7 +72,7 @@ const EventsCards = () => {
                                 ) : null}
                         </div>
                     </Slide>
-                    : <CardLoader />}
+                    : <CardLoader section="eventos" />}
         </>
     )
 };

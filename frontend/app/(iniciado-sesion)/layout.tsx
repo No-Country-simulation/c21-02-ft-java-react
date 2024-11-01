@@ -5,7 +5,7 @@ export default function Layout({
 }>) {
   return (
     <>
-      <div className="flex min-h-dvh max-h-dvh overflow-hidden">
+      <div className="flex min-h-dvh overflow-hidden">
         <div className="grow">{children}</div>
       </div>
     </>

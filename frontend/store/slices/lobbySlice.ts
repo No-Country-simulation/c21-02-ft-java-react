@@ -131,6 +131,10 @@ const lobbySlice = createSlice({
             })
             .addCase(getLobbies.fulfilled, (state, action) => {
                 state.lobbies = action.payload.lobbies
+                state.loading = false
+            })
+            .addCase(getLobbies.pending, (state, action) => {
+                state.loading = true
             })
             .addCase(getLobbyById.fulfilled, (state, action) => {
                 state.lobby = action.payload.data

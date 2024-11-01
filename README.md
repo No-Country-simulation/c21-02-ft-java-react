@@ -6,10 +6,13 @@ Simulacion c21-02-ft-java-react
 Consiste en creación de salas de apuestas públicas o privadas entre amigos, a deportes, casino o personalizado
 
 ## Frontend contiene
-Typescript
+- Typescript
 
 ## Backend contiene
-Java Spring Boot
+- Java Spring Boot
+- PostgreSQL
+- Docker
+- Swagger
 
 # Caso de Uso diagramado y Arquitectura
 

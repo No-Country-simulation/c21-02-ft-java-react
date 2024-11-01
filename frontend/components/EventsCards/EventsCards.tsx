@@ -6,7 +6,7 @@ import { getEvents } from "@/store/actions/lobbyActions";
 import { useEffect, useState } from "react";
 import { Slide } from "react-awesome-reveal";
 
-import CardLoader from "@/components/CardLoader/CardLoader"
+import CardLoader from "@/components/CardLoader/CardLoader";
 
 const EventsCards = () => {
 

@@ -41,13 +41,13 @@ const LobbiesCards = () => {
                     (lobby.id !== 0 && !lobby.privateRoom) ? (
                         <Slide key={`lobby-${lobby.id}`} direction="left" className="flex flex-col items-center" triggerOnce>
                             <div
-                                className="flex flex-row max-md:flex-wrap 
+                                className={`flex flex-row max-md:flex-wrap 
                                     max-md:text-sm justify-between items-center 
                                     md:p-4 
                                     min-h-[15vh] w-[95%]
-                                    bg-gradient-to-r from-green-950 via-blue-950 via-20% to-slate-950
+                                    bg-gradient-to-r ${lobby.enable ? 'from-green-950' : 'from-red-950'} via-blue-950 via-20% to-slate-950
                                     border border-neutral-700 rounded-md duration-300 
-                                    hover:shadow-lg hover:shadow-blue-800">
+                                    hover:shadow-lg hover:shadow-blue-800`}>
                                 <div className="min-w-[20%]">
                                     <p className="text-neutral-500">
                                         ID: {lobby.id}
@@ -57,7 +57,7 @@ const LobbiesCards = () => {
                                     </p>
                                 </div>
                                 <p className={lobby.enable ? "text-green-500 min-w-[20%]" : "text-red-500 min-w-[20%]"}>
-                                    Estado: {lobby.enable === true ? "Abierta" : "Cerrada"}
+                                    Estado: {lobby.enable === true ? "Abierta" : "Finalizada"}
                                 </p>
                                 <p>
                                     Cantidad requerida:
@@ -67,7 +67,7 @@ const LobbiesCards = () => {
                                 <p className={lobby.usersInRoom?.length === lobby.maxUsers ? "text-red-500" : ""}>
                                     {lobby.usersInRoom?.length} / {lobby.maxUsers} Usuarios unidos
                                 </p>
-                                <Button disabled={lobby.enable === false} onClick={() => router.push("/salas/" + lobby.id)} className="">Entrar</Button>
+                                <Button disabled={lobby.enable === false || lobby.usersInRoom?.length === lobby.maxUsers} onClick={() => router.push("/salas/" + lobby.id)} className="">Entrar</Button>
                             </div>
                         </Slide>
                     ) : (lobby.id !== 0) ? (
@@ -89,7 +89,8 @@ const LobbiesCards = () => {
                                     </p>
                                 </div>
                                 <p className={lobby.enable && lobby.privateRoom ? "text-orange-300 min-w-[20%]" : lobby.enable ? "text-green-500 min-w-[20%]" : "text-red-500 min-w-[20%]"}>
-                                    Estado: {lobby.enable === true ? "Abierta" : "Cerrada"} {lobby.privateRoom ? "(Se requiere contraseña)" : null}
+                                    Estado: {lobby.enable === true ? "Abierta" : "Finalizada"} {lobby.privateRoom ? "(Contraseña requerida)" : null}
+
                                 </p>
                                 <p>
                                     Cantidad requerida:
@@ -101,7 +102,7 @@ const LobbiesCards = () => {
                                 </p>
                                 <Dialog>
                                     <DialogTrigger asChild>
-                                        <Button variant="default" disabled={lobby.enable === false}>Entrar</Button>
+                                        <Button variant="default" disabled={lobby.enable === false || lobby.usersInRoom?.length === lobby.maxUsers}>Entrar</Button>
                                     </DialogTrigger>
                                     <DialogContent className="sm:max-w-[425px]">
                                         <DialogHeader>

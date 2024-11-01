@@ -130,7 +130,7 @@ export default function HeaderAuthenticated() {
                         </>
                     </div>
 
-                    <p className="mx-16">Balance: {user.balance}</p>
+                    <p className="mx-16">Balance: {user.balance} Créditos</p>
                     <div className="flex flex-col justify-center items-center gap-2 max-md:w-full">
                         <>
                             <DropdownMenu>

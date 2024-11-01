@@ -84,7 +84,6 @@ export default function BetBet() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
 
     const roomName = values.roomName
     const bet = values.bet
@@ -92,6 +91,8 @@ export default function BetBet() {
     const privateRoom = betSettings.room === "private"
     const ownerBet = values.ownerBet
     const eventId = values.eventId
+
+    if (Number(bet) > user.balance) return alert('No tienes suficientes créditos.')
 
     dispatch(createLobby({
       roomName,

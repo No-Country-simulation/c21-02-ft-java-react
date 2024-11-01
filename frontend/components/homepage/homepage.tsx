@@ -4,12 +4,15 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { Fade, Slide, Zoom } from "react-awesome-reveal";
 import EventsCards from "@/components/EventsCards/EventsCards";
+import { useRouter } from "next/navigation";
 
 interface HomepageProps extends React.HTMLAttributes<HTMLDivElement> {
   className?: string;
 }
 
 export default function Homepage({ className, ...rest }: HomepageProps) {
+
+  const router = useRouter();
 
   const [componentRendered, setComponentRendered] = useState<boolean>(false);
 
@@ -55,13 +58,14 @@ export default function Homepage({ className, ...rest }: HomepageProps) {
               <Slide direction="left" triggerOnce>
                 <div className="p-3">
                   <Image
+                    onClick={() => router.push('/nueva-apuesta')}
                     src={"/betcris-ligas_eu-img.png"}
                     alt=""
                     width={450}
                     height={450}
                     className="object-scale-down max-md:w-screen md:size-[500px] hover:-translate-y-10 animation duration-200 hover:cursor-pointer"
                   />
-                  <p className="md:text-3xl">Disfruta lo mejor de las ligas <span className="md:text-6xl font-bold">EUROPEAS</span></p>
+                  <p className="md:text-3xl">Disfruta lo mejor del <span className="md:text-6xl font-bold">FÚTBOL</span></p>
                   <p className="md:text-xl">
                     <span className="font-bold">¡Celebra cada gol </span>de tu
                     equipo favorito!
@@ -72,6 +76,7 @@ export default function Homepage({ className, ...rest }: HomepageProps) {
               <Slide direction="right" triggerOnce>
                 <div className="p-3">
                   <Image
+                    onClick={() => router.push('/nueva-apuesta')}
                     src={"/bectris-homebanner-img-des.png"}
                     alt=""
                     width={450}
@@ -80,11 +85,11 @@ export default function Homepage({ className, ...rest }: HomepageProps) {
                   />
 
                   <p className="md:text-3xl md:text-end">
-                    Juegos de mesa espeluznantes
-                    <span className="md:text-6xl font-bold md:text-end"> BLACKJACK</span>
+                    Juegos de azar
+                    <span className="md:text-6xl font-bold md:text-end"> COINFLIP</span>
                   </p>
                   <p className="md:text-xl md:text-end">
-                    <span className="font-bold">¿Te atreves a jugar? </span>
+                    <span className="font-bold">¿Te sientes con suerte? </span>
                   </p>
                 </div>
               </Slide>
@@ -122,13 +127,6 @@ export default function Homepage({ className, ...rest }: HomepageProps) {
 
         <Fade triggerOnce>
           <section className="max-md:flex-wrap min-h-screen flex items-center justify-center px-10 max-md:mb-8">
-            <Image
-              src={"/img-u-phone-credit-card.png"}
-              alt=""
-              width={500}
-              height={500}
-              className="object-scale-down"
-            />
             <Fade delay={500} triggerOnce>
               <div className="text-center">
                 <div className="text-primary font-black text-4xl mb-5">

@@ -7,6 +7,9 @@ Consiste en creación de salas de apuestas públicas o privadas entre amigos, a 
 
 ## Frontend contiene
 - Typescript
+- Next.js
+- Tailwind CSS
+- React
 
 ## Backend contiene
 - Java Spring Boot

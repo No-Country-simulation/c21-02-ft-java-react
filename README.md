@@ -39,6 +39,7 @@ Scrum no considera si un proyecto debe ser estrictamente atendido ni si debe ser
 - Santiago Perez Kay #backend
 - Elias Ladislao Pelizzer #QA
 - Sebastian Rios #backend
+- Martin Alba #TeamLead
 - Sebastian Di Giuseppe #PM
 
 *Edición y creación de este documento: Sebastián Di Giuseppe ([@scanevaro](https://github.com/scanevaro)). Para detalles sobre las lecciones aprendidas y artefáctos del proyecto u otros detalles, escribir a scanevaro87@gmail.com*

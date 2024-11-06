@@ -30,7 +30,7 @@ const userSlice = createSlice({
                 state.token = action.payload.token;
             })
             .addCase(userRegister.fulfilled, () => {
-                return alert("Registro realizado con éxito.");
+
             })
             .addCase(userSessionPersistence.fulfilled, (state, action) => {
                 state.id = action.payload.id;

@@ -18,6 +18,7 @@ import FooterSpecial from "@/components/footer/footer-special";
 
 import { useAppDispatch } from "@/hooks/hooks";
 import { userRegister } from "@/store/actions/userActions";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   name: z.string().min(3),
@@ -29,6 +30,8 @@ const formSchema = z.object({
 });
 
 export default function Page() {
+
+  const router = useRouter();
 
   const dispatch = useAppDispatch();
 
@@ -56,7 +59,8 @@ export default function Page() {
       email,
       password,
       balance,
-      userEnum
+      userEnum,
+      router
     }))
     else alert("Las contraseñas no coinciden.")
   }

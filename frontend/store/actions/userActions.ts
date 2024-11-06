@@ -4,6 +4,7 @@ import { fetchData } from "@/lib/utils";
 import { setLoading } from "@/store/slices/pageSlice";
 
 import { UserLoginResponse, UserSessionPersistenceResponse } from "@/types/user";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 const loginURL = process.env.NEXT_PUBLIC_USER_LOGIN ?
     process.env.NEXT_PUBLIC_USER_LOGIN : ""
@@ -32,7 +33,7 @@ export const userLogin = createAsyncThunk(
                 role: data.role
             }
         } catch (error) {
-            console.error(error);
+            alert("Credenciales incorrectas.")
             throw error
         } finally {
             thunkAPI.dispatch(setLoading(true));
@@ -47,21 +48,16 @@ export const userRegister = createAsyncThunk(
         email,
         password,
         balance,
-        userEnum }:
+        userEnum,
+        router }:
         {
             name: string,
             email: string,
             password: string,
             balance: number,
-            userEnum: "USER" | "ADMIN" | "INVITED"
+            userEnum: "USER" | "ADMIN" | "INVITED",
+            router: AppRouterInstance
         }, thunkAPI) => {
-        console.log({
-            name,
-            email,
-            password,
-            balance,
-            userEnum
-        });
         thunkAPI.dispatch(setLoading(true));
         try {
             const data = await fetchData<void>(registerURL,
@@ -74,9 +70,10 @@ export const userRegister = createAsyncThunk(
                     balance,
                     userEnum
                 })
-            return console.log(data);
+                router.push("/")
+            return alert("Registro realizado con éxito.")
         } catch (error) {
-            console.error(error); // Esto se pasará como payload a rejected
+            console.error(error);
             throw error
         } finally {
             thunkAPI.dispatch(setLoading(false));

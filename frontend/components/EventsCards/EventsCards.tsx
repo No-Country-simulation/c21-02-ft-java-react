@@ -45,7 +45,7 @@ const EventsCards = () => {
                             <span className="max-md:text-4xl text-6xl text-red-500 font-bold">DISPONIBLES</span>
                         </div>
                         <div className="flex flex-col max-md:flex-wrap self-center gap-12 md:w-[80%] max-md:w-[95%]">
-                            {(events[0].id !== 0) ?
+                            {(events[0]?.id !== 0) ?
                                 events.map(event => (
                                     <div className="flex flex-row max-md:flex-wrap 
                                     max-md:text-sm justify-between items-center 
